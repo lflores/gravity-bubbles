@@ -1,0 +1,1 @@
+![Version](http://img.shields.io/version/{%= version %}.png?color=green)

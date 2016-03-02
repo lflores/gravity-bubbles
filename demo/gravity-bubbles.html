@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<!-- BASED on http://jsfiddle.net/Y2zue/-->
+<!--http://www.stator-afm.com/tutorial/d3-js-mouse-events/-->
+<html>
+
+<head>
+    <title>Linear Gauge</title>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+    <script src="/vendors/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/vendors/bootstrap/css/bootstrap.min.css"></link>
+
+    <script src="./js/lineargauge.min.js"></script>
+    <link rel="stylesheet" href="css/linear-gauge.css"></link>
+    <style type="text/css">
+        body {
+            font-family: "Helvetica";
+            font-size: 10pt;
+        }
+
+    </style>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style type="text/css">
+        form {
+            display: inline-block;
+            vertical-align: top;
+            padding: 5px;
+            border: 3px #9a9a9a solid;
+            border-radius: 5px;
+            height: 50px;
+            margin: 2px 2px!important;
+        }
+        
+        form h5 {
+            display: inline-block;
+            vertical-align: top;
+        }
+        
+        form label {
+            display: inline-block;
+            vertical-align: top;
+            font-weight: bold;
+            /*margin: 2px;*/
+            padding: 2px;
+            border: 1px #b6b6b6 solid;
+            border-radius: 3px;
+        }
+        
+        form label.selected {
+            /*border:1px red dashed;*/
+            background-color: rgba(76, 255, 0, 0.46);
+        }
+        
+        form #gauge {
+            display: inline-block;
+        }
+        
+        form input {
+            display: inline!important;
+        }
+        
+        form .btn-group {
+            display: inline-block!important;
+            height: 16px!important;
+        }
+        
+        .tooltip {
+            position: absolute;
+            top: 100px;
+            left: 100px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            border: 2px solid #000;
+            /* background: #222222; */
+            background: #fff;
+            opacity: .9;
+            /* color: #eeeeee; */
+            color: black;
+            padding: 10px;
+            width: 300px;
+            font-size: 12px;
+            z-index: 10;
+        }
+        
+        .tooltip .title {
+            font-size: 13px;
+        }
+        
+        .tooltip .name {
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="container" class="container">
+        <header>
+            <h3>Tempos Commercial Hits Analysis (offline)</h3>
+            <form>
+                <h5>Size:</h5>
+                <label>
+                    <input type="radio" name="size" value="hits" checked> Hits
+                </label>
+                <label>
+                    <input type="radio" name="size" value="users"> Users
+                </label>
+
+            </form>
+            <form>
+                <h5>Color %:</h5>
+                <label>
+                    <input type="radio" name="color" value="hits_users"> Hits /Users
+                </label>
+                <label>
+                    <input type="radio" name="color" value="users" checked> Users
+                </label>
+                <div id="gauge"></div>
+            </form>
+            <form>
+                <h5>Group By:</h5>
+                <div id="view_selection" class="btn-group">
+                    <a href="#" id="all" class="btn active">All</a>
+                    <a href="#" id="module" class="btn">Module</a>
+                    <a href="#" id="country" class="btn">Country</a>
+                    <a href="#" id="hits_perc" class="btn">Color</a>
+                </div>
+            </form>
+            <form>
+                <h5>Resize:</h5>
+                <div id="size" class="btn-group">
+                    <!--<a href="#" id="mini" class="btn active">Mini</a>-->
+                    <a href="#" id="medium" class="btn active">Medium</a>
+                    <a href="#" id="max" class="btn">Wide</a>
+                </div>
+            </form>
+
+        </header>
+        <div id="main" role="main">
+
+            <div id="vis"></div>
+        </div>
+        <footer>
+            <p>A demonstration of animated bubble charts in D3.js</p>
+            <p><a href="http://vallandingham.me/bubble_charts_in_d3.html">Blog Post</a> | <a href="https://github.com/vlandham/gates_bubbles">Code</a> | <a href="http://www.washingtonpost.com/wp-srv/metro/data/gates-grants.html">Data</a> | <a href="http://projects.delimited.io/experiments/force-bubbles/radial.html">Automobile Force</a></p>
+
+        </footer>
+    </div>
+    <!--[if lt IE 7 ]>
+    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+    <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+  <![endif]-->
+
+</body>
+
+</html>
