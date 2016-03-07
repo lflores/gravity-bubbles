@@ -6,7 +6,7 @@ module.exports = function (grunt) {
 
         cfg: {
             filename: 'gravity-bubbles',
-            vanillaExportName: 'gravity-bubbles'
+            vanillaExportName: 'GravityBubbles'
         },
 
         dirs: {

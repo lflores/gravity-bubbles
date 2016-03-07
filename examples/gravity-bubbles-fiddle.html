@@ -14,7 +14,7 @@
     <script src="./js/lineargauge.min.js"></script>
     <link rel="stylesheet" href="css/linear-gauge.css"></link>
     <script src="../src/js/custom-tooltip.js"></script>
-    <script src="../src/js/gravity-bubbles.js"></script>
+    <script src="../dist/gravity-bubbles.js"></script>
     <link rel="stylesheet" href="css/gravity-bubbles.css"></link>
     <link rel="stylesheet" href="css/basic-styles.css"></link>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -30,6 +30,8 @@
 
                 chart = new GravityBubbles({
                     id: "vis",
+                    width: 350,
+                    height: 200,
                     sizeById: "size",
                     colorById: "perc",
                     data: {
@@ -50,7 +52,6 @@
                     perc(data);
                     chart.data(data.children);
                     loaded_data = data;
-                    nodes.push(data);
                 });
             });
 

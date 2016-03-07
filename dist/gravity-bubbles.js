@@ -4,14 +4,14 @@
  *
  * @license 
  * @author Leonardo Flores <flores.leonardo@gmail.com> (http://www.triadsoft.com.ar)
- * @version 0.0.5
+ * @version 0.9.5
  **/
 
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module unless amdModuleId is set
     define([], function () {
-      return (root['gravity-bubbles'] = factory());
+      return (root['GravityBubbles'] = factory());
     });
   } else if (typeof exports === 'object') {
     // Node. Does not work with strict CommonJS, but
@@ -19,7 +19,7 @@
     // like Node.
     module.exports = factory();
   } else {
-    root['gravity-bubbles'] = factory();
+    root['GravityBubbles'] = factory();
   }
 }(this, function () {
 
@@ -902,6 +902,6 @@
             }
         };
 
-return gravity-bubbles;
+return GravityBubbles;
 
 }));
