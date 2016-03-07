@@ -6,20 +6,26 @@
 
 
 ## Features
-This is a component that use [d3](http://d3js.org/) library and generate a JQuery UI widget, to control colors and thredsholds in a colored gradient background.
-Based on [Linear Gauge](http://docs.fusioncharts.com/flex/charts/) Flex components, such as Fusion Charts or [this](http://www.ardisialabs.com/flex-components/linearGauges), this component birth like a personal needs, and I decided to share it.
-Once initialized, you can drag thresholds and see changes of color gradients.
-Also, you can register an event change ("lineargaugechange") and send result to another component, such as graphic chart.
+This is a component that use [d3](http://d3js.org/) library and generate a bubble chart with centered gravity.
+
+Based on [Jim Vallandingham Blog Post](http://vallandingham.me/bubble_charts_in_d3.html), [Obama’s 2013 Budget Proposal](http://www.nytimes.com/interactive/2012/02/13/us/politics/2013-budget-proposal-graphic.html?_r=0) and [Automobile Force](http://projects.delimited.io/experiments/force-bubbles/radial.html), Gravity Bubbles it's a component that draw a collection of bubbles, and allow the user to compare data attributes by color ad size.
+
+###Some features
+* Tooltip templated configuration
+* Label templated configuration
+* Animated transitions
+* Size comparizons
+* Easy color schema changes
+* All items are visibles, including negatives and smallest data 
 
 Examples
 ###Default:
-![Linear Gauge Default](http://rawgit.com/lflores/linear-gauge/master/src/images/linear-gauge.png)
-###Wide:
-![Linear Gauge Wide](http://rawgit.com/lflores/linear-gauge/master/src/images/linear-gauge-wide.png)
-###High:
-![Linear Gauge High](http://rawgit.com/lflores/linear-gauge/master/src/images/linear-gauge-high.png)
-###Color & Points
-![Linear Gauge Colors&Point](http://rawgit.com/lflores/linear-gauge/master/src/images/linear-gauge-colors-points.png)
+![Gravity Bubbles Default Color Scheme(Budget proposal)](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-default.png)
+###Styles:
+![Gravity Bubbles Blue Scheme](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-blue.png)
+![Gravity Bubbles Green Scheme](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-green.png)
+![Gravity Bubbles Brown Scheme](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-brown.png)
+
 
 
 ## Get started
@@ -74,7 +80,7 @@ You can pass these options to the initialize function to set a custom look and f
 
 
 ## Callbacks
-When a threshold drag ends, a <strong>lineargaugechange</strong> is fired to comunicate that values are changed.
+When the user click on bubble, a <strong>click</strong> is fired to comunicate that values have been clicked. It can be used to do a drilldown
 <table>
     <tr>
         <th>Event</th>
@@ -82,14 +88,9 @@ When a threshold drag ends, a <strong>lineargaugechange</strong> is fired to com
         <th>Value</th>
     </tr>
     <tr>
-        <td><strong>lineargaugechange</strong></td>
-        <td>points</td>
-        <td>Return an array of changed thresholds</td>
-    </tr>
-  <tr>
-        <td><strong>lineargaugechange</strong></td>
-        <td>colors</td>
-        <td>Return an array of current colors</td>
+        <td><strong>click</strong></td>
+        <td>d: data clicked</td>
+        <td>Data</td>
     </tr>
 </table>
 
@@ -101,20 +102,27 @@ When a threshold drag ends, a <strong>lineargaugechange</strong> is fired to com
 $(function() {
     // instantiate the plugin
     
-    //Default Example
-    $("#gradient").linearGauge();
-    ...
-    // change width
-    $("#gradient").linearGauge("width",200);
-    ...
-    // change height
-    $("#gradient").linearGauge("width",200);
-    
-    // change points and colors
-    $("#gradient").linearGauge({
-        points: [0, 10, 50, 100],
-        colors: ["red", "orange", "green", "blue"]
-    });
+    chart = new GravityBubbles({
+                id: "vis",
+               sizeById: "size",
+                colorById: "perc",
+                data: {
+                    tooltip: function(d) {
+                        //Parameter d is clicked data
+                        //You can return a string template
+                        return "<b>Name:</b>{name}<br><b>Size:</b> {size}<br><b>Size of Total:</b> {perc}%";
+                    },
+                    label: function (d) {
+                        //Parameter d is clicked data
+                        //You can return a string template
+                        return "<b>Name:</b>{name}<br><b>Size:</b> {size}<br><b>Size of Total:</b> {perc}%";
+                    },
+
+                    onclick: function(d) {
+                        //Parameter d is clicked data
+                    }
+                }
+            });
 });
 ```
 
