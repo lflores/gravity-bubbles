@@ -1,0 +1,462 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>Gross Profit Sales Force</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style type="text/css">
+        form {
+            display: inline-block;
+            vertical-align: top;
+            padding: 5px;
+            border: 3px #9a9a9a solid;
+            border-radius: 5px;
+            height: 50px;
+            margin: 2px 2px!important;
+        }
+        
+        form h5 {
+            display: block;
+            vertical-align: top;
+        }
+        
+        form label {
+            display: inline-block;
+            vertical-align: top;
+            font-weight: bold;
+            /*margin: 2px;*/
+            padding: 2px;
+            border: 1px #b6b6b6 solid;
+            border-radius: 3px;
+        }
+        
+        form label.selected {
+            /*border:1px red dashed;*/
+            background-color: rgba(76, 255, 0, 0.46);
+        }
+        
+        form #gauge {
+            display: inline-block;
+        }
+        
+        form input {
+            display: inline!important;
+        }
+        
+        form .btn-group {
+            display: inline-block!important;
+            height: 16px!important;
+        }
+        
+        .tooltip {
+            position: absolute;
+            top: 100px;
+            left: 100px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            border: 2px solid #000;
+            /* background: #222222; */
+            background: #fff;
+            opacity: .9;
+            /* color: #eeeeee; */
+            color: black;
+            padding: 10px;
+            width: 300px;
+            font-size: 12px;
+            z-index: 10;
+        }
+        
+        .tooltip .title {
+            font-size: 13px;
+        }
+        
+        .tooltip .name {
+            font-weight: bold;
+        }
+
+    </style>
+    <!-- CSS concatenated and minified via ant build script-->
+    <!--<link rel="stylesheet" href="css/reset.css">-->
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link href="../../vendors/fontawesome/css/font-awesome.css" rel="stylesheet">
+    <!--<link rel="stylesheet" href="css/style.css">-->
+    <!-- end CSS-->
+
+    <!--    <script src="js/libs/modernizr-2.0.6.min.js"></script>-->
+</head>
+
+<body>
+
+    <div id="container" class="container">
+        <header>
+            <h3>Tempos Commercial Hits Analysis (offline)</h3>
+            <form>
+                <h5>Size:</h5>
+                <label>
+                    <input type="radio" name="size" value="hits" checked> Hits
+                </label>
+                <label>
+                    <input type="radio" name="size" value="users"> Users
+                </label>
+
+            </form>
+            <form>
+                <h5>Color %:</h5>
+                <label>
+                    <input type="radio" name="color" value="hits_users"> Hits /Users
+                </label>
+                <label>
+                    <input type="radio" name="color" value="users" checked> Users
+                </label>
+                <div id="gauge"></div>
+            </form>
+            <form>
+                <h5>Group By:</h5>
+                <div id="view_selection" class="btn-group">
+                    <a href="#" id="all" class="btn active">All</a>
+                    <a href="#" id="module" class="btn">Module</a>
+                    <a href="#" id="country" class="btn">Country</a>
+                    <a href="#" id="hits_perc" class="btn">Color</a>
+                </div>
+            </form>
+            <form>
+                <h5>Resize:</h5>
+                <div id="size" class="btn-group">
+                    <!--<a href="#" id="mini" class="btn active">Mini</a>-->
+                    <a href="#" id="medium" class="btn active">Medium</a>
+                    <a href="#" id="max" class="btn">Wide</a>
+                </div>
+            </form>
+            <form>
+                <h5>Mes:</h5>
+                <label class="selected">
+                    <input type="radio" name="month" value="ene_2015" checked> Ene 2015
+                </label>
+                <label>
+                    <input type="radio" name="month" value="feb_2015"> Feb 2015
+                </label>
+                <label>
+                    <input type="radio" name="month" value="mar_2015"> Mar 2015
+                </label>
+                <label>
+                    <input type="radio" name="month" value="abr_2015"> Apr 2015
+                </label>
+                <label>
+                    <input type="radio" name="month" value="may_2015"> May 2015
+                </label>
+                <label>
+                    <input type="radio" name="month" value="jun_2015"> Jun 2015
+                </label>
+                <label>
+                    <input type="radio" name="month" value="jul_2015"> Jul 2015
+                </label>
+                <label>
+                    <input type="radio" name="month" value="ago_2015"> Ago 2015
+                </label>
+                <label>
+                    <input type="radio" name="month" value="sep_2015"> Sep 2015
+                </label>
+                <!-- <label>
+                    <input type="radio" name="month" value="oct_2015">
+                    Oct 2015
+                </label>-->
+                <div id="date-time" class="btn-group">
+                    <!-- <a href="#" id="restart" class="btn"><i class="fa fa-fast-backward"></i></a>
+                    <a href="#" id="step-bk" class="btn"><i class="fa fa-step-backward"></i></a>-->
+                    <a href="#" id="play" class="btn"><i class="fa fa-play"></i></a>
+                    <!--<a href="#" id="step-fw" class="btn"><i class="fa fa-step-forward"></i></a>
+                    <a href="#" id="end" class="btn"><i class="fa fa-fast-forward"></i></a>-->
+                </div>
+            </form>
+        </header>
+        <div id="main" role="main">
+
+            <div id="vis"></div>
+        </div>
+        <footer>
+            <p>A demonstration of animated bubble charts in D3.js</p>
+            <p><a href="http://vallandingham.me/bubble_charts_in_d3.html">Blog Post</a> | <a href="https://github.com/vlandham/gates_bubbles">Code</a> | <a href="http://www.washingtonpost.com/wp-srv/metro/data/gates-grants.html">Data</a> | <a href="http://projects.delimited.io/experiments/force-bubbles/radial.html">Automobile Force</a></p>
+
+        </footer>
+    </div>
+    <script type="text/javascript" src="./js/libs/require.js"></script>
+    <script type="text/javascript">
+        require.config({
+            baseUrl: './',
+            paths: {
+                jquery: "js/libs/jquery-2.1.1.min",
+                jqueryui: "js/libs/jquery-ui-1.11.1.min",
+                d3: "js/libs/d3.v3",
+                lineargauge: "js/linear-gauge",
+                gravitybubbles: "js/gravity-bubbles",
+            },
+            map: {
+                '*': {
+                    css: './js/libs/css'
+                }
+            }
+        });
+
+    </script>
+    <script type="text/javascript">
+        require([
+            "jquery",
+            "d3",
+            "lineargauge",
+            "gravitybubbles"
+        ], function() {
+            var _colors = {
+                hits_users: {
+                    points: [0, 3, 10, 20, 30, 100],
+                    //colors: ["#7aa25c", "#beccae", "#d84b2a", "#d84b2a", "#3c4f2d"]
+                    //Originales
+                    colors: ["#d84b2a", "#beccae", "#7aa25c", "#7aa25c", "#3c4f2d", "#3c4f2d"]
+                        //Escala verdolaga
+                        //colors: ["#FFFFCC", "#C2E699", "#78C679", "#31A354", "#006837"]
+                        //Celestón
+                        //colors: ["#EFF3FF", "#BDD7E7", "#6BAED6", "#3182BD", "#08519C"]
+                        //marrones
+                        //colors:["#ffffd4","#fed98e","#fe9929","#d95f0e","#993404"]
+                        //Rojo -> Celeste
+                        //https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgSdk-BOrC9UjI3jcpS-mIkswkoMf9SSHGFttYh57ZOXvUodZWfg
+                        //colors: ["#B44B4B", "#B44B4B", "#669898", "#38C7C7", "#00FFFF"]
+                        //Rojo -> Celeste Flipped
+                        //colors: ["#00FFFF", "#38C7C7", , "#669898","#B44B4B", "#B44B4B"]
+                        //colors: ["#FD5A35", "#FCAF29", "#6CAF7F", "#008486", "#1B617A"]
+                },
+                users: {
+                    points: [0, 1, 5, 15, 100],
+                    colors: ["#d84b2a", "#beccae", "#7aa25c", "#7aa25c", "#3c4f2d", "#3c4f2d"]
+                        //colors: ["#7aa25c", "#beccae", "#d84b2a", "#d84b2a", "#3c4f2d"]
+                        //colors: ["#EFF3FF", "#BDD7E7", "#6BAED6", "#3182BD", "#08519C"]
+                }
+            }
+
+            var sizes = {
+                "mini": {
+                    "width": 200,
+                    "height": 200
+                },
+                "medium": {
+                    "width": 950,
+                    "height": 450
+                },
+                "max": {
+                    "width": 1200,
+                    "height": 1200
+                }
+            }
+
+            $("#gauge").linearGauge({
+                width: 215,
+                height: 35,
+                thresholds: true,
+                points: _colors.users.points,
+                colors: _colors.users.colors,
+                //colors: ["#d84b2a", "#beccae", "#7aa25c","#7aa25c"]
+            });
+
+            $(document).ready(function() {
+                $('#view_selection a').click(function() {
+                    var view_type = $(this).attr('id');
+                    $('#view_selection a').removeClass('active');
+                    $(this).toggleClass('active');
+                    //toggle_view(view_type);
+                    var id = null;
+                    switch (view_type) {
+                        case "all":
+                            break;
+                        case "module":
+                            id = "module";
+                            break;
+                        case "country":
+                            id = "country";
+                            break;
+                        default:
+                            id = "color"
+                            break;
+                    }
+                    //chart.resize()
+                    chart.groupById(id)
+                    return false;
+                });
+
+                $('#size a').click(function() {
+                    var size_type = $(this).attr('id');
+                    $('#size a').removeClass('active');
+                    $(this).toggleClass('active');
+                    //toggle_view(view_type);
+                    var id = null;
+                    switch (size_type) {
+                        case "mini":
+                        case "medium":
+                        case "max":
+                            $("#vis").css("width", sizes[size_type].width);
+                            $("#vis").css("height", sizes[size_type].height);
+                    }
+                    chart.resize();
+                    return false;
+                });
+
+                var chart = new GravityBubbles({
+                    id: "vis",
+                    lanes: 5,
+                    width: sizes.medium.width,
+                    height: sizes.medium.height,
+                    debug: false,
+                    sizeById: "ene_2015_hits",
+                    colorById: "ene_2015_hits_users",
+                    data: {
+                        tooltip: function(d) {
+                            var column = $("input[name='month']:checked").val();
+                            var colorBy = $("input[name='color']:checked").val();
+                            return "<b>{country}</b> <br><b>Module:</b> {module}<br><b>Hits:</b> {" + column + "_hits" + "}<br><b>Users:</b> {" + column + "_users" + "}<br><b>Hits/user:</b> {" + column + "_hits_users" + "}";
+                        },
+                        //label: function (d) {
+                        //    if (chart._config.colorById === "04.2015") {
+                        //        return "{name} - {description}\nPerc%: {04.2015}";
+                        //    } else {
+                        //        return "{name} - {description}\nGTN%: {gtn_brl}";
+                        //    }
+                        //},
+                        group: {
+                            label: function(d, _this) {
+                                if (_this._config.groupById === 'all') {
+                                    return "";
+                                }
+                                if (_this._config.groupById === 'color' && d.key != "more") {
+                                    return "<= " + d.key;
+                                }
+                                return d.key;
+                            }
+                        },
+                        onclick: function(d) {
+                            alert("Hola " + d[chart._config.colorById]);
+                        }
+                    }
+                });
+                chart.config({
+                    colors: _colors.users.colors,
+                    points: _colors.users.points
+                });
+
+                d3.selectAll("input[name='color']").on("change", function() {
+                    var month = $("input[name='month']:checked").val();
+                    var sizeBy = $("input[name='size']:checked").val();
+                    var colorBy = $("input[name='color']:checked").val();
+
+                    if (this.value === "hits_users") {
+                        chart.colorById(month + "_" + colorBy);
+                        chart.config({
+                            colors: _colors.hits_users.colors,
+                            points: _colors.hits_users.points
+                        })
+                        $("#gauge").linearGauge("points", _colors.hits_users.points);
+                        $("#gauge").linearGauge("colors", _colors.hits_users.colors);
+
+                    } else {
+                        chart.colorById(month + "_" + colorBy);
+                        chart.config({
+                            colors: _colors.users.colors,
+                            points: _colors.users.points
+                        })
+                        $("#gauge").linearGauge("points", _colors.users.points);
+                        $("#gauge").linearGauge("colors", _colors.users.colors);
+                    }
+                });
+
+                d3.selectAll("input[name='size']").on("change", function() {
+                    var month = $("input[name='month']:checked").val();
+                    chart.sizeById(month + "_" + this.value);
+                });
+
+                d3.selectAll("input[name='month']").on("change", function() {
+                    $("input[name='month']").parent().removeClass("selected");
+                    $(this).parent().addClass("selected");
+
+                    var sizeBy = $("input[name='size']:checked").val();
+                    var colorBy = $("input[name='color']:checked").val();
+
+                    chart.sizeById(this.value + "_hits");
+                    chart.colorById(this.value + "_" + colorBy);
+                });
+
+                d3.selectAll("#date-time > a.btn").on("click", function() {
+                    var btn = $(this).attr("id");
+                    switch (btn) {
+                        case "play":
+                            $(this).toggleClass("active");
+                            if ($(this).hasClass("active")) {
+                                selected = $("input[name='month']").index($("input[name='month']:checked"));
+                                selected++;
+                                selected = selected === $("input[name='month']").length ? 0 : selected;
+                                playInterval = setInterval(function() {
+                                    var _input = $("input[name='month']").get(selected++)
+                                    $(_input).click();
+                                    selected = selected === $("input[name='month']").length ? 0 : selected;
+                                }, 3000);
+                            } else {
+                                clearInterval(playInterval);
+                            }
+                            break;
+                    }
+                });
+
+                var playInterval;
+                var selected = 1;
+
+                $("#gauge").on("lineargaugechange", function(evt, data) {
+                    chart.colors(data.colors);
+                    chart.points(data.points);
+                })
+
+                d3.csv("data/Analysis-2015.csv", function(data) {
+                    var _data = parseData(data);
+                    chart.data(_data);
+                });
+            });
+        });
+
+        function parseData(data) {
+            var column = $("input[name='month']:checked").val() + "_hits";
+            var _data = []
+            data.forEach(function(d, i) {
+                if (!isNaN(Number(d[column])) && d.country != "all_country" && d.module != "all_module") {
+                    _data.push(d);
+                }
+            });
+            //$.each($("input[name='month']"), function (i, month) {
+            //    var month_id = $(month).val();
+            //    var max_hits = d3.max(_data, function (d) {
+            //        return Number(Number(d[month_id]));
+            //    })
+            //    var min_hits = d3.min(_data, function (d) {
+            //        return Number(Number(d[month_id]));
+            //    })
+            //    _data.forEach(function (d, i) {
+            //        d[month_id + "_perc"] = Number(d[month_id]) * 100 / max_hits;
+            //    })
+            //});
+            return _data;
+        }
+
+    </script>
+    <!--[if lt IE 7 ]>
+    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+    <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+  <![endif]-->
+
+</body>
+
+</html>

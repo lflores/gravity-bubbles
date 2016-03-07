@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<!-- BASED on http://jsfiddle.net/Y2zue/-->
+<!--http://www.stator-afm.com/tutorial/d3-js-mouse-events/-->
+<html>
+
+<head>
+    <title>GravityBubbles Example</title>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+    <script src="/vendors/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/vendors/bootstrap/css/bootstrap.min.css"></link>
+
+    <script src="./js/lineargauge.min.js"></script>
+    <link rel="stylesheet" href="css/linear-gauge.css"></link>
+    <script src="../src/js/custom-tooltip.js"></script>
+    <script src="../src/js/gravity-bubbles.js"></script>
+    <link rel="stylesheet" href="css/gravity-bubbles.css"></link>
+    <link rel="stylesheet" href="css/basic-styles.css"></link>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+
+<body>
+    <div id="container" class="container">
+        <header>
+            <h3>Gravity Bubbles Example - "Flare" number lines comparison</h3>
+            <p>This example shows Gravity Bubble interaction and color changes. Based on flare.json data example</p>
+            <form>
+                <h5>Data - Drillup:</h5>
+                <div id="view_selection" class="btn-group">
+                    <a href="#" id="up" class="btn"><i class="glyphicon glyphicon-arrow-left"></i></a>
+                </div>
+            </form>
+            <form>
+                <h5>Color Scheme:</h5>
+                <label>
+                    <input type="radio" name="color-scheme" value="default">Default
+                </label>
+                <label>
+                    <input type="radio" name="color-scheme" value="green">Green
+                </label>
+                <label>
+                    <input type="radio" name="color-scheme" value="blue" checked>Blue
+                </label>
+                <label>
+                    <input type="radio" name="color-scheme" value="brown">Brown
+                </label>
+                <label>
+                    <input type="radio" name="color-scheme" value="lightblue">Light blue
+                </label>
+                <div id="gauge"></div>
+            </form>
+
+            <form>
+                <h5>Resize:</h5>
+                <div id="size" class="btn-group">
+                    <a href="#" id="mini" class="btn">Mini</a>
+                    <a href="#" id="medium" class="btn active">Medium</a>
+                    <a href="#" id="max" class="btn">Large</a>
+                </div>
+            </form>
+            <ol class="breadcrumb">
+                <!--<li class="active"><a href="#">flare</a></li>-->
+            </ol>
+        </header>
+        <div id="main" role="main">
+            <div id="description">
+                <p>Based on common tree data "flare", and others common examples using <a href="http://www.d3js.org">D3js</a> library, this example shows bubbles grouped in center (force), like earth gravity, with distinct sizes and colors. The <b>size of bubbles</b> is the <b>size of each node</b>, and <b>color</b> is the <b>percentage of total</b> that cover this node. The size of bubbles is the size of each node, and color is the percentage of total that cover this node. If you <b>click in a bubble</b>, you can do a <b>drilldown</b> and dive into data tree</p>
+            </div>
+            <div id="vis"></div>
+        </div>
+        <footer>
+            <p>A demonstration of animated bubble charts in D3.js, based on next examples and ideas</p>
+            <p><a href="http://vallandingham.me/bubble_charts_in_d3.html" target="_blank">Jim Vallandingham Blog Post</a> | <a href="http://www.nytimes.com/interactive/2012/02/13/us/politics/2013-budget-proposal-graphic.html?_r=0" target="_blank">Obama’s 2013 Budget Proposal</a> | <a href="http://projects.delimited.io/experiments/force-bubbles/radial.html" target="_blank">Automobile Force</a></p>
+        </footer>
+    </div>
+
+    <script type="text/javascript">
+        var _colors = {
+            default: {
+                points: [0, 3, 7, 20, 50, 100],
+                colors: ["#D84B2A", "#EE9586", "#E4B7B2", "#BECCAE", "#9CAF84", "#7AA25C"]
+            },
+            green: {
+                points: [0, 3, 7, 20, 50, 100],
+                colors: ["#FFFFCC", "#C2E699", "#78C679", "#31A354", "#006837", "#006837"]
+            },
+            brown: {
+                points: [0, 3, 7, 20, 50, 100],
+                colors: ["#ffffd4", "#fed98e", "#fe9929", "#d95f0e", "#993404", "#993404"]
+            },
+            blue: {
+                points: [0, 3, 7, 20, 50, 100],
+                colors: ["#EFF3FF", "#BDD7E7", "#6BAED6", "#3182BD", "#08519C", "#08519C"]
+            },
+            lightblue: {
+                points: [0, 3, 7, 20, 50, 100],
+                colors: ["#B44B4B", "#B44B4B", "#669898", "#38C7C7", "#00FFFF", "#00FFFF"]
+            }
+        }
+
+        var sizes = {
+            "mini": {
+                "width": 300,
+                "height": 200
+            },
+            "medium": {
+                "width": 600,
+                "height": 300
+            },
+            "max": {
+                "width": 800,
+                "height": 400
+            }
+        }
+        var loaded_data;
+        var nodes = [];
+        var chart;
+
+        $(document).ready(function() {
+            $("#gauge").linearGauge({
+                width: 215,
+                height: 35,
+                thresholds: true,
+                points: _colors.blue.points,
+                colors: _colors.blue.colors,
+            });
+
+            $('input[name="color-scheme"]').change(function() {
+                $("#gauge").linearGauge({
+                    points: _colors[$(this).val()].points,
+                    colors: _colors[$(this).val()].colors
+                });
+                $("#gauge").linearGauge("colors", _colors[$(this).val()].colors);
+                $("#gauge").linearGauge("points", _colors[$(this).val()].points);
+                chart.config({
+                    colors: _colors[$(this).val()].colors,
+                    points: _colors[$(this).val()].points
+                })
+            });
+            $("#up").click(function() {
+                if (nodes.length > 1) {
+                    var node = nodes.splice(nodes.length - 1, 1);
+                    chart.data(nodes[nodes.length - 1].children);
+                }
+                //chart.data(loaded_data.children);
+            })
+            $('#size a').click(function() {
+                var size_type = $(this).attr('id');
+                $('#size a').removeClass('active');
+                $(this).toggleClass('active');
+                //toggle_view(view_type);
+                var id = null;
+                switch (size_type) {
+                    case "mini":
+                    case "medium":
+                    case "max":
+                        $("#vis").css("width", sizes[size_type].width);
+                        $("#vis").css("height", sizes[size_type].height);
+                }
+                chart.resize();
+                return false;
+            });
+
+            chart = new GravityBubbles({
+                id: "vis",
+                lanes: 5,
+                width: sizes.medium.width,
+                height: sizes.medium.height,
+                debug: false,
+                sizeById: "size",
+                colorById: "perc",
+                data: {
+                    tooltip: function(d) {
+                        return "<b>Name:</b>{name}<br><b>Size:</b> {size}<br><b>Size of Total:</b> {perc}%";
+                    },
+                    //label: function (d) {
+                    //    if (chart._config.colorById === "04.2015") {
+                    //        return "{name} - {description}\nPerc%: {04.2015}";
+                    //    } else {
+                    //        return "{name} - {description}\nGTN%: {gtn_brl}";
+                    //    }
+                    //},
+                    group: {
+                        label: function(d, _this) {
+                            if (_this._config.groupById === 'all') {
+                                return "";
+                            }
+                            if (_this._config.groupById === 'color' && d.key != "more") {
+                                return "<= " + d.key;
+                            }
+                            return d.key;
+                        }
+                    },
+                    onclick: function(d) {
+                        if (d.hasOwnProperty("children")) {
+                            chart.data(d.children);
+                            nodes.push(d);
+                            breadcrumb();
+                        }
+
+                    }
+                }
+            });
+
+
+            var color_scheme = $("input[name='color-scheme']").val();
+            chart.config({
+                colors: _colors.blue.colors,
+                points: _colors.blue.points
+            });
+
+            var playInterval;
+            var selected = 1;
+
+            $("#gauge").on("lineargaugechange", function(evt, data) {
+                chart.colors(data.colors);
+                chart.points(data.points);
+            })
+
+            d3.json("./flare.json", function(data) {
+                rollup(data);
+                totalLines = data.size;
+                perc(data);
+                //console.log(_data);
+                chart.data(data.children);
+                loaded_data = data;
+                nodes.push(data);
+                breadcrumb();
+            });
+        });
+
+        var totalLines;
+
+        function rollup(node) {
+            node['size'] = node['children'].reduce(function(result, item) {
+                return result + (item['children'] ? rollup(item) : item['size']);
+            }, 0);
+            return node['size'];
+        }
+
+
+        function perc(node) {
+            node['perc'] = node['children'].reduce(function(result, item) {
+                item['perc'] = (item['size'] / totalLines) * 100;
+                return result + (item['children'] ? perc(item) : (item['size'] / totalLines) * 100);
+            }, 0);
+            //node['perc'] = node['children'] ? node['perc'] : (node['size'] / totalLines) * 100;
+            return (node['size'] / totalLines) * 100;
+        }
+
+        $("ol.breadcrumb").on('click', 'li a', function(event) {
+            //alert("Click en: " + nodes[$(this).parent().index()].name);
+            nodes.splice($(this).parent().index() + 1, 5);
+            breadcrumb();
+            chart.data(nodes[nodes.length - 1].children);
+        });
+
+        function breadcrumb() {
+            $("ol.breadcrumb").children().remove();
+            $.each(window.nodes, function(i, node) {
+                var bread = $("<li><a href=\"#\">" + node.name + "</a></li>");
+                $("ol.breadcrumb").append(bread);
+                if (i == nodes.length - 1) {
+                    bread.html(node.name);
+                    bread.addClass("active");
+                }
+            });
+        }
+
+    </script>
+    <!--[if lt IE 7 ]>
+    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+    <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+  <![endif]-->
+
+</body>
+
+</html>
