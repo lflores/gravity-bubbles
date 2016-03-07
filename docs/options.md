@@ -1,6 +1,7 @@
 You can pass these options to the initialize function to set a custom look and feel for the plugin.
 
-<table>
+<strong>Under Construction, please see examples apart :)</strong>
+<!--<table>
     <tr>
         <th>Property (Type)</th>
         <th>Default</th>
@@ -35,4 +36,4 @@ You can pass these options to the initialize function to set a custom look and f
         <td>true</td>
         <td>Indicates if thresholds is shown</td>
     </tr>
-</table>
+</table>-->
