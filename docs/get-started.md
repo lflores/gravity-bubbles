@@ -1,6 +1,8 @@
-You can see an example in [jsfiddle](https://jsfiddle.net/leoflores/6cLpuL7j/3/) that explain some concepts of use, and show how to change some properties.
-To start using it, you must to download this proyect, and solve dependencies.
+If you can see it in action, go to [jsfiddle](https://jsfiddle.net/leoflores/6cLpuL7j/4/) that explain some concepts of use, and show how to change some properties.
+Currently I'm documenting the project, and please, [contact me](mailto:flores.leonardo@gmail.com) if you want to help or discovered some issue.
+To start using it, you must to download this proyect, and solve next dependencies.
+
 Dependencies:
 * jquery
-* jquery ui
 * d3 api
+* [linear-gauge](https://github.com/lflores/linear-gauge) (own proyect)
