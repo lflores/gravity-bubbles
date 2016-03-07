@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!-- BASED on http://jsfiddle.net/Y2zue/-->
+<!--http://www.stator-afm.com/tutorial/d3-js-mouse-events/-->
+<html>
+
+<head>
+    <title>GravityBubbles Example</title>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+    <script src="/vendors/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/vendors/bootstrap/css/bootstrap.min.css"></link>
+
+    <script src="./js/lineargauge.min.js"></script>
+    <link rel="stylesheet" href="css/linear-gauge.css"></link>
+    <script src="../src/js/custom-tooltip.js"></script>
+    <script src="../src/js/gravity-bubbles.js"></script>
+    <link rel="stylesheet" href="css/gravity-bubbles.css"></link>
+    <link rel="stylesheet" href="css/basic-styles.css"></link>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+
+<body>
+    <div id="container" class="container">
+        <div id="vis"></div>
+        <script type="text/javascript">
+            var loaded_data;
+            var chart;
+            $(document).ready(function() {
+
+                chart = new GravityBubbles({
+                    id: "vis",
+                    sizeById: "size",
+                    colorById: "perc",
+                    data: {
+                        tooltip: function(d) {
+                            return "<b>Name:</b>{name}<br><b>Size:</b> {size}<br><b>Size of Total:</b> {perc}%";
+                        }
+                    }
+                });
+
+                chart.config({
+                    colors: ["#FFFFCC", "#C2E699", "#78C679", "#31A354", "#006837", "#006837"],
+                    points: [0, 3, 7, 20, 50, 100]
+                });
+
+                d3.json("./flare.json", function(data) {
+                    rollup(data);
+                    totalLines = data.size;
+                    perc(data);
+                    chart.data(data.children);
+                    loaded_data = data;
+                    nodes.push(data);
+                });
+            });
+
+            var totalLines;
+
+            function rollup(node) {
+                node['size'] = node['children'].reduce(function(result, item) {
+                    return result + (item['children'] ? rollup(item) : item['size']);
+                }, 0);
+                return node['size'];
+            }
+
+            function perc(node) {
+                node['perc'] = node['children'].reduce(function(result, item) {
+                    item['perc'] = (item['size'] / totalLines) * 100;
+                    return result + (item['children'] ? perc(item) : (item['size'] / totalLines) * 100);
+                }, 0);
+                return (node['size'] / totalLines) * 100;
+            }
+
+        </script>
+</body>
+
+</html>
