@@ -26,12 +26,6 @@
             <h3>Gravity Bubbles Example - "Flare" number lines comparison</h3>
             <p>This example shows Gravity Bubble interaction and color changes. Based on flare.json data example</p>
             <form>
-                <h5>Data - Drillup:</h5>
-                <div id="view_selection" class="btn-group">
-                    <a href="#" id="up" class="btn"><i class="glyphicon glyphicon-arrow-left"></i></a>
-                </div>
-            </form>
-            <form>
                 <h5>Color Scheme:</h5>
                 <label>
                     <input type="radio" name="color-scheme" value="default">Default
@@ -65,7 +59,9 @@
         </header>
         <div id="main" role="main">
             <div id="description">
-                <p>Based on common tree data "flare", and others common examples using <a href="http://www.d3js.org">D3js</a> library, this example shows bubbles grouped in center (force), like earth gravity, with distinct sizes and colors. The <b>size of bubbles</b> is the <b>size of each node</b>, and <b>color</b> is the <b>percentage of total</b> that cover this node. The size of bubbles is the size of each node, and color is the percentage of total that cover this node. If you <b>click in a bubble</b>, you can do a <b>drilldown</b> and dive into data tree</p>
+                <p>Based on common tree data "flare", and using <a href="http://www.d3js.org">D3js</a> library, this example shows bubbles grouped in center (force), like earth gravity, with distinct sizes and colors.</p>
+                <p>The <b>size of bubbles</b> is the <b>size of each node</b>, and <b>color</b> is the <b>percentage of total</b> that cover this node. If you <b>click in a bubble</b>, you can do a <b>drilldown</b> and dive into data tree</p>
+                <p>Also, you have a breadcrumb to drill up data</p>
             </div>
             <div id="vis"></div>
         </div>
@@ -138,13 +134,7 @@
                     points: _colors[$(this).val()].points
                 })
             });
-            $("#up").click(function() {
-                if (nodes.length > 1) {
-                    var node = nodes.splice(nodes.length - 1, 1);
-                    chart.data(nodes[nodes.length - 1].children);
-                }
-                //chart.data(loaded_data.children);
-            })
+
             $('#size a').click(function() {
                 var size_type = $(this).attr('id');
                 $('#size a').removeClass('active');
