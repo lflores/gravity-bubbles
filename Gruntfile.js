@@ -5,8 +5,8 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
 
         cfg: {
-            filename: 'lineargauge',
-            vanillaExportName: 'lineargauge'
+            filename: 'gravity-bubbles',
+            vanillaExportName: 'gravity-bubbles'
         },
 
         dirs: {

@@ -1,5 +1,4 @@
     CustomTooltip = function (tooltipId, width) {
-        var tooltipId = tooltipId;
         if ($("#" + tooltipId).length === 0) {
             $("body").append("<div class='tooltip' id='" + tooltipId + "'></div>");
         }
@@ -47,5 +46,5 @@
             showTooltip: showTooltip,
             hideTooltip: hideTooltip,
             updatePosition: updatePosition
-        }
-    }
+        };
+    };
