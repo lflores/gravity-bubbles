@@ -36,7 +36,7 @@ To start using it, you must to download this proyect, and solve next dependencie
 Dependencies:
 * jquery
 * d3 api
-* [linear-gauge](https://github.com/lflores/linear-gauge) (only to test examples)
+* [linear-gauge](https://github.com/lflores/linear-gauge) (only for examples)
 
 
 
@@ -92,8 +92,8 @@ When the user click on bubble, a <strong>click</strong> is fired to comunicate t
     </tr>
     <tr>
         <td><strong>click</strong></td>
-        <td>d: data clicked</td>
-        <td>Data</td>
+        <td>d</td>
+        <td>Data Clicked</td>
     </tr>
 </table>
 

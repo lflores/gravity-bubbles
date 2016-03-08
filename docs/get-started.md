@@ -5,4 +5,4 @@ To start using it, you must to download this proyect, and solve next dependencie
 Dependencies:
 * jquery
 * d3 api
-* [linear-gauge](https://github.com/lflores/linear-gauge) (only to test examples)
+* [linear-gauge](https://github.com/lflores/linear-gauge) (only for examples)
