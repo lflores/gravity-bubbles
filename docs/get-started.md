@@ -3,7 +3,7 @@ Currently I'm documenting the project, and please, [contact me](mailto:flores.le
 To start using it, you must to download this proyect, and solve next dependencies.
 
 Dependencies:
-* jquery
-* d3 api
+* [jquery](http://jquery.com/download/)
+* [d3 api](https://github.com/mbostock/d3)
 * [linear-gauge](https://github.com/lflores/linear-gauge) (only for examples)
 * [jquery-ui](https://jqueryui.com/) (only for examples)
