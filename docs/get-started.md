@@ -6,3 +6,4 @@ Dependencies:
 * jquery
 * d3 api
 * [linear-gauge](https://github.com/lflores/linear-gauge) (only for examples)
+* [jquery-ui](https://jqueryui.com/) (only for examples)
