@@ -800,12 +800,14 @@
                 })
                 .attr("cx", function (d) {
                     //return that._config.width;
-                    return d.x;
+                    //return d.x;
+                    return that._config.width / 2;
                 })
                 .attr("cy", function (d) {
                     //return that._config.height;
                     //return that.color_layer(Number(d[that._config.colorById]));
-                    return d.y;
+                    //return d.y;
+                    return that._config.height / 2;
                 })
                 .on("mouseover", function (d, i) {
                     return that.show_details(d, i, that);
@@ -818,6 +820,7 @@
                     d3.select(this).classed("selected", function (d, i) {
                         return !d3.select(this).classed("selected");
                     });
+                    //d3.select(this).classed("drilldown", true);
                     that._config.data.onclick.call(that, d, i);
                 });
             //.on("drag", this.force.drag);
@@ -825,15 +828,17 @@
             this.circles
                 .transition()
                 .attr("cx", function (d) {
-                    return d.x;
+                    //return d.x;
+                    return that._config.width / 2;
                 })
                 .attr("cy", function (d) {
-                    return d.y;
+                    //return d.y;
+                    return that._config.height / 2;
                 });
 
             this.circles
                 .transition()
-                .duration(1000)
+                .duration(500)
                 .ease("ease-in-out")
                 .attr("r", function (d) {
                     return that._radius_by(d);
