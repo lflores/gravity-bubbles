@@ -19,7 +19,8 @@
 
     <script src="./js/lineargauge.min.js"></script>
     <link rel="stylesheet" href="css/linear-gauge.css"></link>
-    <script src="js/gravity-bubbles.min.js"></script>
+    <script src="../dist/gravity-bubbles.min.js"></script>
+<!--    <script src="../src/js/gravity-bubbles.js"></script>-->
     <link rel="stylesheet" href="css/gravity-bubbles.css"></link>
     <link rel="stylesheet" href="css/basic-styles.css"></link>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -33,13 +34,13 @@
             <form>
                 <h5>Color Scheme:</h5>
                 <label>
-                    <input type="radio" name="color-scheme" value="default">Default
+                    <input type="radio" name="color-scheme" value="default" checked>Default
                 </label>
                 <label>
                     <input type="radio" name="color-scheme" value="green">Green
                 </label>
                 <label>
-                    <input type="radio" name="color-scheme" value="blue" checked>Blue
+                    <input type="radio" name="color-scheme" value="greenred">Jim
                 </label>
                 <label>
                     <input type="radio" name="color-scheme" value="brown">Brown
@@ -53,9 +54,16 @@
             <form>
                 <h5>Resize:</h5>
                 <div id="size" class="btn-group">
-                    <a href="#" id="mini" class="btn">Mini</a>
-                    <a href="#" id="medium" class="btn active">Medium</a>
-                    <a href="#" id="max" class="btn">Large</a>
+                    <a href="#" id="mini" class="btn btn-sm">Mini</a>
+                    <a href="#" id="medium" class="btn btn-sm active">Medium</a>
+                    <a href="#" id="max" class="btn btn-sm">Large</a>
+                </div>
+            </form>
+            <form>
+                <h5>Group By:</h5>
+                <div id="group" class="btn-group">
+                    <a href="#" id="all" class="btn btn-sm active">All</a>
+                    <a href="#" id="color" class="btn btn-sm">Color</a>
                 </div>
             </form>
             <ol class="breadcrumb">
@@ -78,7 +86,7 @@
 
     <script type="text/javascript">
         var _colors = {
-            default: {
+            greenred: {
                 points: [0, 3, 7, 20, 50, 100],
                 colors: ["#D84B2A", "#EE9586", "#E4B7B2", "#BECCAE", "#9CAF84", "#7AA25C"]
             },
@@ -90,7 +98,7 @@
                 points: [0, 3, 7, 20, 50, 100],
                 colors: ["#ffffd4", "#fed98e", "#fe9929", "#d95f0e", "#993404", "#993404"]
             },
-            blue: {
+            default: {
                 points: [0, 3, 7, 20, 50, 100],
                 colors: ["#EFF3FF", "#BDD7E7", "#6BAED6", "#3182BD", "#08519C", "#08519C"]
             },
@@ -123,8 +131,8 @@
                 width: 215,
                 height: 35,
                 thresholds: true,
-                points: _colors.blue.points,
-                colors: _colors.blue.colors,
+                points: _colors.default.points,
+                colors: _colors.default.colors,
             });
 
             $('input[name="color-scheme"]').change(function() {
@@ -157,6 +165,24 @@
                 return false;
             });
 
+            $('#group a').click(function() {
+                var group_type = $(this).attr('id');
+                $('#group a').removeClass('active');
+                $(this).toggleClass('active');
+                //toggle_view(view_type);
+                var id = null;
+                switch (group_type) {
+                    case "all":
+                        chart.groupById("all");
+                        break;
+                    case "color":
+                        chart.groupById("color");
+                        break;
+                }
+                //chart.resize();
+                return false;
+            });
+
             chart = new GravityBubbles({
                 id: "vis",
                 lanes: 5,
@@ -169,32 +195,28 @@
                     tooltip: function(d) {
                         return "<b>Name:</b>{name}<br><b>Size:</b> {size}<br><b>Size of Total:</b> {perc}%";
                     },
-                    //label: function (d) {
-                    //    if (chart._config.colorById === "04.2015") {
-                    //        return "{name} - {description}\nPerc%: {04.2015}";
-                    //    } else {
-                    //        return "{name} - {description}\nGTN%: {gtn_brl}";
-                    //    }
-                    //},
-                    group: {
-                        label: function(d, _this) {
-                            if (_this._config.groupById === 'all') {
-                                return "";
-                            }
-                            if (_this._config.groupById === 'color' && d.key != "more") {
-                                return "<= " + d.key;
-                            }
-                            return d.key;
-                        }
+                    label: {
+                        template: "{name}"
                     },
-                    onclick: function(d) {
+                    onclick: function(d, circle) {
                         if (d.hasOwnProperty("children")) {
-                            chart.data(d.children);
-                            nodes.push(d);
-                            breadcrumb();
-                            $(this).addClass("drilldown");
+                            //d3.select(circle).classed("drilldown", true);
+                            d3.selectAll(".bubble:not(.selected)")
+                                .transition()
+                                .duration(100)
+                                .attr("r", 0);
+                            d3.select(circle)
+                                .transition()
+                                .duration(1000)
+                                .attr("fill-opacity", 0.1)
+                                .attr("r", chart._config.width)
+                                .each("end", function() {
+                                    d3.selectAll(".bubble").attr("r", 0).attr("fill-opacity", null);
+                                    chart.data(d.children);
+                                    nodes.push(d);
+                                    breadcrumb();
+                                });
                         }
-
                     }
                 }
             });
@@ -202,8 +224,8 @@
 
             var color_scheme = $("input[name='color-scheme']").val();
             chart.config({
-                colors: _colors.blue.colors,
-                points: _colors.blue.points
+                colors: _colors.default.colors,
+                points: _colors.default.points
             });
 
             var playInterval;

@@ -2,6 +2,9 @@
 Gravity Bubbles
 */
 
+body {
+    font-size: 10pt!important;
+}
 .map-container {
     /*border: 1px #716262 solid;*/
     /*position: absolute;*/
@@ -41,6 +44,10 @@ rect.group.multiple {
 }
 .legend-text {
     font-size: 0.6em;
+    stroke: #000;
+}
+.label {
+    font-size: 0.7em;
     stroke: #000;
 }
 .tooltip {
