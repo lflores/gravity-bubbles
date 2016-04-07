@@ -47,7 +47,7 @@ rect.group.multiple {
     stroke: #000;
 }
 .label {
-    font-size: 0.7em;
+/*    font-size: 0.8em;*/
     stroke: #000;
 }
 .tooltip {

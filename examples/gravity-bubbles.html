@@ -19,8 +19,8 @@
 
     <script src="./js/lineargauge.min.js"></script>
     <link rel="stylesheet" href="css/linear-gauge.css"></link>
-    <script src="../dist/gravity-bubbles.min.js"></script>
-<!--    <script src="../src/js/gravity-bubbles.js"></script>-->
+    <!--    <script src="../dist/gravity-bubbles.min.js"></script>-->
+    <script src="../src/js/gravity-bubbles.js"></script>
     <link rel="stylesheet" href="css/gravity-bubbles.css"></link>
     <link rel="stylesheet" href="css/basic-styles.css"></link>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -34,7 +34,7 @@
             <form>
                 <h5>Color Scheme:</h5>
                 <label>
-                    <input type="radio" name="color-scheme" value="default" checked>Default
+                    <input type="radio" name="color-scheme" value="blue" checked>Default
                 </label>
                 <label>
                     <input type="radio" name="color-scheme" value="green">Green
@@ -64,6 +64,8 @@
                 <div id="group" class="btn-group">
                     <a href="#" id="all" class="btn btn-sm active">All</a>
                     <a href="#" id="color" class="btn btn-sm">Color</a>
+                    <a href="#" id="category" class="btn btn-sm">Category</a>
+                    <a href="#" id="user" class="btn btn-sm">User</a>
                 </div>
             </form>
             <ol class="breadcrumb">
@@ -98,7 +100,7 @@
                 points: [0, 3, 7, 20, 50, 100],
                 colors: ["#ffffd4", "#fed98e", "#fe9929", "#d95f0e", "#993404", "#993404"]
             },
-            default: {
+            blue: {
                 points: [0, 3, 7, 20, 50, 100],
                 colors: ["#EFF3FF", "#BDD7E7", "#6BAED6", "#3182BD", "#08519C", "#08519C"]
             },
@@ -131,8 +133,8 @@
                 width: 215,
                 height: 35,
                 thresholds: true,
-                points: _colors.default.points,
-                colors: _colors.default.colors,
+                _points: _colors.blue.points,
+                _colors: _colors.blue.colors,
             });
 
             $('input[name="color-scheme"]').change(function() {
@@ -171,14 +173,18 @@
                 $(this).toggleClass('active');
                 //toggle_view(view_type);
                 var id = null;
-                switch (group_type) {
-                    case "all":
-                        chart.groupById("all");
-                        break;
-                    case "color":
-                        chart.groupById("color");
-                        break;
-                }
+                chart.groupById(group_type);
+                //                switch (group_type) {
+                //                    case "all":
+                //                        chart.groupById("all");
+                //                        break;
+                //                    case "color":
+                //                        chart.groupById("color");
+                //                        break;
+                //                    case "category":
+                //                        chart.groupById("category");
+                //                        break;
+                //                }
                 //chart.resize();
                 return false;
             });
@@ -196,7 +202,7 @@
                         return "<b>Name:</b>{name}<br><b>Size:</b> {size}<br><b>Size of Total:</b> {perc}%";
                     },
                     label: {
-                        template: "{name}"
+                        template: "{name}\n{perc}%"
                     },
                     onclick: function(d, circle) {
                         if (d.hasOwnProperty("children")) {
@@ -205,17 +211,24 @@
                                 .transition()
                                 .duration(100)
                                 .attr("r", 0);
-                            d3.select(circle)
+                            d3.select(circle).select("circle")
                                 .transition()
                                 .duration(1000)
                                 .attr("fill-opacity", 0.1)
                                 .attr("r", chart._config.width)
                                 .each("end", function() {
                                     d3.selectAll(".bubble").attr("r", 0).attr("fill-opacity", null);
+                                    //d3.selectAll(".label").attr("class", "label").attr("visibility", "visible");
+                                    //chart.data([]);
                                     chart.data(d.children);
                                     nodes.push(d);
                                     breadcrumb();
                                 });
+                            d3.select(circle).select(".label").attr("class", "label selected");
+                            d3.selectAll(".label:not(.selected)")
+                                .attr("visibility", "hidden");
+                            //.attr("transform", "scale(1,2)");
+
                         }
                     }
                 }
@@ -224,9 +237,11 @@
 
             var color_scheme = $("input[name='color-scheme']").val();
             chart.config({
-                colors: _colors.default.colors,
-                points: _colors.default.points
+                colors: _colors[color_scheme].colors,
+                points: _colors[color_scheme].points
             });
+            $("#gauge").linearGauge("points", _colors[color_scheme].points);
+            $("#gauge").linearGauge("colors", _colors[color_scheme].colors);
 
             var playInterval;
             var selected = 1;
@@ -244,6 +259,8 @@
                 rollup(data);
                 totalLines = data.size;
                 perc(data);
+                category(data);
+                user(data);
                 //console.log(_data);
                 chart.data(data.children);
                 loaded_data = data;
@@ -253,6 +270,8 @@
         });
 
         var totalLines;
+        var _users = ["triad", "memo", "terminator", "alien"];
+        var country = ["es", "ar", "br", "us", "uk"];
 
         function rollup(node) {
             node['size'] = node['children'].reduce(function(result, item) {
@@ -260,7 +279,6 @@
             }, 0);
             return node['size'];
         }
-
 
         function perc(node) {
             node['perc'] = node['children'].reduce(function(result, item) {
@@ -270,6 +288,27 @@
             //node['perc'] = node['children'] ? node['perc'] : (node['size'] / totalLines) * 100;
             return (node['size'] / totalLines) * 100;
         }
+        var _sizes = ["small", "medium", "large", "x-large"];
+        var _size_thresholds = d3.scale.threshold()
+            .domain([0, 10000, 100000, 1000000])
+            .range(_sizes);
+
+        function category(node) {
+            node['category'] = node['children'].reduce(function(result, item) {
+                item['category'] = _size_thresholds(node['size']);
+                return (item['children'] ? category(item) : _size_thresholds(node['size']));
+            }, 0);
+            return _size_thresholds(node['size']);
+        }
+
+        function user(node) {
+            node['user'] = node['children'].reduce(function(result, item) {
+                item['user'] = _users[Math.floor(Math.random() * _users.length)];
+                return (item['children'] ? user(item) : _users[Math.floor(Math.random() * _users.length)]);
+            }, 0);
+            return _users[Math.floor(Math.random() * _users.length)];
+        }
+
 
         $("ol.breadcrumb").on('click', 'li a', function(event) {
             //alert("Click en: " + nodes[$(this).parent().index()].name);

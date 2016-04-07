@@ -1,7 +1,6 @@
 You can pass these options to the initialize function to set a custom look and feel for the plugin.
 
-<strong>Under Construction, please see examples apart :)</strong>
-<!--<table>
+<table>
     <tr>
         <th>Property (Type)</th>
         <th>Default</th>
@@ -28,12 +27,28 @@ You can pass these options to the initialize function to set a custom look and f
         <td>They are the distinct colors that change on the thresholds</td>
     </tr>
      <tr>
-        <td><strong>minorTicks</strong></td>
-        <td>false</td>
-        <td>Indicates if minor scale is shown</td>
-    </tr><tr>
-        <td><strong>thresholds</strong></td>
-        <td>true</td>
-        <td>Indicates if thresholds is shown</td>
+        <td><strong>data</strong></td>
+        <td></td>
+        <td>This node is an object that receives parameter exclusive for data</td>
     </tr>
-</table>-->
+    <tr>
+        <td><strong>data\label</strong></td>
+        <td>none</td>
+        <td>It has two optional parameter, they are template and formatter</td>
+    </tr>
+    <tr>
+        <td><strong>data\tooltip</strong></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>data\sizeById</strong></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><strong>data\colorById</strong></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
