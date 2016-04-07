@@ -1,6 +1,6 @@
 {
     "name": "gravity-bubbles",
-    "description": "Animated bubbles chart with gravity",
+    "description": "This component, using d3js API, draw animated bubbles chart with gravity",
     "keywords": [
     "gravity",
     "chart",
@@ -10,16 +10,16 @@
         {
             "type": "MIT",
             "url": "http://www.opensource.org/licenses/mit-license.php"
-    },
+        },
         {
             "type": "GPL",
             "url": "http://www.opensource.org/licenses/gpl-license.php"
-    }
+        }
   ],
     "version": "0.9.5",
     "main": "dist/gravity-bubbles.js",
     "author": {
-        "name": "Leonardo Flores",
+        "name": "Triad",
         "email": "flores.leonardo@gmail.com",
         "url": "http://www.triadsoft.com.ar"
     },

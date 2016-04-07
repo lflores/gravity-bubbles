@@ -1,3 +1,22 @@
+/**
+This component based on d3js API draw a chart with floating bubbles, with gravity
+<ul>
+    <li>config is an object with properties to config chart
+    <ul>
+        <li>id: Id of DOM object that will filled</li>
+        <li>points: Array with thresholds of colors, Ej: [0, 3, 7, 20, 50, 100]</li>
+        <li>colors: Array with thresholds of colors, Ej: ["#EFF3FF", "#BDD7E7", "#6BAED6", "#3182BD", "#08519C", "#08519C"]</li>
+        <li>width: External width of chart</li>
+        <li>height: External height of chart</li>
+        <li>colorById: Id of property that will be used to render color. It must be in range of points</li> 
+        <li>sizeById: Id of property that will be used to render size of bubbles</li>
+        <li>groupById: Id of property that will be used to group bubbles."all" will draw a unique group with center in center of chart, "color" will group by range of colors, and another id must to be a property that can group data, such as, name, region, country, etc</li>
+        <
+    </ul>
+    </li>
+</ul>
+@author Triad(flores.leonardo@gmail.com)
+*/
 GravityBubbles = function (config) {
     this.margin = {
         top: 3,
@@ -16,9 +35,9 @@ GravityBubbles = function (config) {
         lanes: 3,
         points: [0, 3, 7, 20, 50, 100],
         colors: ["#EFF3FF", "#BDD7E7", "#6BAED6", "#3182BD", "#08519C", "#08519C"],
-        id: "treemap",
-        colorById: "gp_brl",
-        sizeById: "ns_brl",
+        id: "gravity-bubbles",
+        colorById: "perc",
+        sizeById: "size",
         showChild: false,
         groupById: "all",
         data: {
@@ -73,7 +92,7 @@ GravityBubbles.prototype.create = function () {
     this.svg.append("g").attr("id", "bubbles_layer");
     this.svg.append("g").attr("id", "legend_layer");
     this.svg.append("g").attr("id", "groups_title_layer");
-    this.svg.append("g").attr("id", "bubbles_label_layer");
+    //this.svg.append("g").attr("id", "bubbles_label_layer");
 
     this.center = {
         x: this._config.width / 2,
@@ -86,6 +105,8 @@ GravityBubbles.prototype.create = function () {
     this.nodes = [];
     this.force = null;
     this.circles = null;
+    this._data = [];
+    this._config.groups = [];
 
     this.fill_color = d3.scale.linear()
         .domain(this._config.points)
@@ -109,11 +130,14 @@ GravityBubbles.prototype.config = function (config) {
     }
 
     this._update_radius();
-
-    this.legend_scale = [
+    if (!this._data || this._data.length === 0) {
+        this.legend_scale = [];
+    } else {
+        this.legend_scale = [
                 this.min_amount,
                 this.min_amount + (this.max_amount - this.min_amount) / 2,
                 this.max_amount];
+    }
 
     this.center = {
         x: this._config.width / 2,
@@ -122,10 +146,16 @@ GravityBubbles.prototype.config = function (config) {
     this.refresh();
 };
 
+/**
+This metod is used to "follow" cursor when mouse move over bubbles
+*/
 GravityBubbles.prototype.update_details = function (data, i, event) {
     return this.tooltip.updatePosition(event);
 };
 
+/**
+Show details of bubble
+*/
 GravityBubbles.prototype.show_details = function (data, i, element) {
     var content = "";
     if (typeof element._config.data.tooltip === "string") {
@@ -355,7 +385,10 @@ GravityBubbles.prototype.data = function (data) {
     this._data = data;
     var that = this;
     if (!this._data || this._data.length === 0) {
+        this._data = [];
         this.nodes = [];
+        this.legend_scale = [];
+        this.refresh();
         return;
     }
 
@@ -410,7 +443,7 @@ GravityBubbles.prototype.data = function (data) {
             return function (e) {
                 if (_this.labels) {
                     _this.labels.each(function () {
-                        d3.select(this).call(_this._text_position, _this);
+                        d3.select(this).call(_this._label_position, _this);
                     });
                 }
                 return _this.circles.each(_this.move_towards_center(e.alpha))
@@ -426,7 +459,7 @@ GravityBubbles.prototype.data = function (data) {
         .on("end", (function (_this) {
             return function (d) {
                 if (_this._config.data.label) {
-                    _this._draw_labels();
+                    _this.labels.call(_this._label_position, _this);
                 }
             };
         })(this));
@@ -437,8 +470,19 @@ GravityBubbles.prototype.data = function (data) {
 GravityBubbles.prototype.move_towards_center = function (alpha) {
     return (function (_this) {
         return function (d) {
+            var target;
+            //var target = _this._get_group(group === 'all' ? 'all' : _this._color_ranges(d[_this._config.colorById]));
             var group = typeof _this._config.groupById === 'undefined' || _this._config.groupById === 'all' ? "all" : _this._config.groupById;
-            var target = _this._get_group(group === 'all' ? 'all' : _this._color_ranges(d[_this._config.colorById]));
+            switch (group) {
+                case 'all':
+                    target = _this._get_group("all");
+                    break;
+                case 'color':
+                    target = _this._get_group(_this._color_ranges(d[_this._config.colorById]));
+                    break;
+                default:
+                    target = _this._get_group(d[_this._config.groupById]);
+            }
             if (target) {
                 d.x = d.x + (target.cx - d.x) * (_this.damper + 0.02) * alpha * 1.1;
                 d.y = d.y + (target.cy - d.y) * (_this.damper + 0.02) * alpha * 1.1;
@@ -474,8 +518,6 @@ GravityBubbles.prototype.create_nodes = function () {
     this.nodes = [];
     this._data.forEach((function (_this) {
         return function (d) {
-            //d.x = Math.random() * _this._config.width;
-            //d.y = Math.random() * _this._config.height;
             return _this.nodes.push(d);
         };
     })(this));
@@ -485,7 +527,7 @@ GravityBubbles.prototype.create_nodes = function () {
 };
 
 /**
-Metodo encargado de dibujar los grupos de las burbujas
+This method draw a frame for each group
 */
 GravityBubbles.prototype._draw_groups = function () {
     var groups_layer = this.svg.selectAll("#groups_layer");
@@ -593,61 +635,88 @@ GravityBubbles.prototype._draw_group_position = function (d, _this) {
         });
 };
 
-/**
- * Metodo encargado de dibujar los labels en caso que estén habilitados
- */
-GravityBubbles.prototype._draw_labels = function () {
-    if (typeof this._config.data.label === 'undefined') {
-        return;
+GravityBubbles.prototype._label_text = function (d, _this) {
+    if (_this._config.data && _this._config.data.label && _this._config.data.label.template) {
+        return _this._data_replace(d, _this._config.data.label.template, _this._config.data.label.formatter);
     }
-    var labels_layer = this.svg.selectAll("#bubbles_label_layer");
-    this.labels = labels_layer.selectAll(".label").data(this.nodes);
-    var _this = this;
-    this.labels.enter()
-        .append("text")
-        .attr("class", "label")
-        .call(this._draw_text, _this);
-
-    this.labels
-        .call(this._draw_text, _this);
-
-    this.labels
-        .exit().remove();
-
+    return "none";
 };
 
 GravityBubbles.prototype._draw_text = function (text, that) {
     text
-        .text(function (_this) {
-            return function (d) {
-                if (_this._config.data && _this._config.data.label && _this._config.data.label.template) {
-                    return _this._data_replace(d, _this._config.data.label.template, _this._config.data.label.formatter);
+        .text(null);
+
+    text.each(function (d) {
+        var _text = that._label_text(d, that);
+
+        var text = d3.select(this),
+            lines = _text.split(/\n+/).reverse(),
+            line = [],
+            lineNumber = 0,
+            lineHeight = 1.1, // ems
+            x = text.attr("x"),
+            y = text.attr("y"),
+            dy = d.dy - 4,
+            data = text.data(0);
+
+        while (line = lines.pop()) {
+            tspan = text
+                .append("tspan")
+                .attr("x", 0)
+                .attr("y", y)
+                .attr("dy", lineHeight + "em")
+                .text(line);
+
+            var loop = 0;
+            while (tspan.node().getComputedTextLength() > d.dx && loop++ < 5) {
+                var _textSpan = tspan.text();
+                _splited = _textSpan.split("-");
+                if (_splited.length === 1) {
+                    _splited = _text.split(" ");
                 }
-                return "X";
-            };
-        }(that))
-        .call(that._text_position, that);
+                //Agrego el primer resultado
+                tspan.text(_splited[0].trim());
+                if (_splited.length > 1) {
+                    tspan = text
+                        .append("tspan")
+                        .attr("x", 0)
+                        .attr("y", y)
+                        .attr("dy", lineHeight + "em")
+                        .text(_splited[1].trim());
+                }
+            }
+        }
+        //Cuando tiene varias lineas, las alinea centradas
+        var _width = this.getBBox().width;
+        var nodes = Array.prototype.slice.call(this.childNodes, 0);
+        nodes
+            .forEach(function (node) {
+                var _span_width = node.getComputedTextLength();
+                var x = _width - _span_width;
+                d3.select(node).attr("x", x > 0 ? x / 2 : 0);
+                console.log(_span_width - _width);
+            });
+
+    }).call(that._label_position, that);
 };
 
-GravityBubbles.prototype._text_position = function (text, that) {
+GravityBubbles.prototype._label_position = function (text, that) {
     text
     //.transition()
     //.duration(10)
-        .attr("x", function (_this) {
+        .attr("transform", function (d) {
+            var box = this.getBBox();
+            if (!d.x || !d.y) {
+                return "translate(0,0)";
+            }
+
+            return "translate(" + (d.x - (box.width / 2)) + "," + (d.y - (box.height / 2)) + ")";
+        })
+        .attr("visibility", function (_this) {
             return function (d) {
                 var box = this.getBBox();
-                return !d.x ? -box.width : d.x - (box.width / 2);
-            };
-        }(that))
-        .attr("y", function (_this) {
-            return function (d) {
-                var box = this.getBBox();
-                return !d.y ? -box.height : d.y;
-            };
-        }(that)).attr("visibility", function (_this) {
-            return function (d) {
-                var box = this.getBBox();
-                if (box.width > 0 && box.height > 0 && box.width <= _this._radius_by(d) && box.height < _this._radius_by(d)) {
+                var _radius = _this._radius_by(d);
+                if (box.width > 0 && box.height > 0 && box.width <= _radius && box.height < _radius) {
                     return "visible";
                 }
                 return "hidden";
@@ -670,13 +739,10 @@ Toma todas las actualizaciones y las refleja en el grafico
 */
 GravityBubbles.prototype.refresh = function () {
     //Acciones de refresh
-    if (!this._data || this._data.length === 0)
-        return;
-
     var _that = this;
     if (this._config.groupById === "all") {
-        var _radio = this._calculate_boundary(this._data);
-        var _max = (this._config.height / 2) * this._config.maxRadius / _radio;
+        var _radio = this._data.length > 0 ? this._calculate_boundary(this._data) : 0.1;
+        var _max = _radio > 0 ? (this._config.height / 2) * this._config.maxRadius / _radio : 0.1;
         this._config.maxRadius = _max * 0.8;
     } else {
         this._config.maxRadius = 25;
@@ -686,16 +752,16 @@ GravityBubbles.prototype.refresh = function () {
     this._draw_circles();
     this._draw_centers();
     this._draw_legends();
-    this._draw_labels();
+    //this._draw_labels();
 };
 
 GravityBubbles.prototype._draw_centers = function () {
     if (!this._config.debug) {
         return;
     }
-    var centers = this.svg.selectAll(".centros").data(this._config.groups);
+    var centers = this.svg.selectAll(".centers").data(this._config.groups);
     centers.enter().append("circle")
-        .attr("class", "centros")
+        .attr("class", "centers")
         .attr("r", function (d) {
             return 5;
         })
@@ -727,9 +793,6 @@ GravityBubbles.prototype._center = function () {
 Dibuja el panel de leyenda
 */
 GravityBubbles.prototype._draw_legends = function () {
-    if (!this._data || this._data.length === 0) {
-        return;
-    }
     var legend_layer = this.svg.selectAll("#legend_layer");
     this.legends = legend_layer.selectAll(".legend-circle").data(this.legend_scale);
 
@@ -738,17 +801,26 @@ GravityBubbles.prototype._draw_legends = function () {
         .attr("class", "legend-circle")
         .attr("r", (function (_this) {
             return function (d) {
+                if (!_this.legend_scale || _this.legend_scale.length === 0) {
+                    return 0;
+                }
                 return _this.radius_scale(d);
             };
         })(this))
         .attr("cx", (function (_this) {
             return function (d) {
+                if (!_this.legend_scale || _this.legend_scale.length === 0) {
+                    return 0;
+                }
                 //Tomo el ancho del mas grande
                 return _this._config.width - _this.radius_scale(_this.legend_scale[2]) - _this.margin.right;
             };
         })(this))
         .attr("cy", (function (_this) {
             return function (d) {
+                if (!_this.legend_scale || _this.legend_scale.length === 0) {
+                    return 0;
+                }
                 //Tomo el alto y le resto el radio para obtener el centro
                 return _this._config.height - _this.radius_scale(d) - _this.margin.bottom;
             };
@@ -759,17 +831,26 @@ GravityBubbles.prototype._draw_legends = function () {
         .duration(1000)
         .attr("r", (function (_this) {
             return function (d) {
+                if (!_this.legend_scale || _this.legend_scale.length === 0) {
+                    return 0;
+                }
                 return _this.radius_scale(d);
             };
         })(this))
         .attr("cx", (function (_this) {
             return function (d) {
+                if (!_this.legend_scale || _this.legend_scale.length === 0) {
+                    return 0;
+                }
                 //Tomo el ancho del mas grande
                 return _this._config.width - _this.radius_scale(_this.legend_scale[2]) - _this.margin.right;
             };
         })(this))
         .attr("cy", (function (_this) {
             return function (d) {
+                if (!_this.legend_scale || _this.legend_scale.length === 0) {
+                    return 0;
+                }
                 //Tomo el alto y le resto el diametro para obtener el centro
                 return _this._config.height - _this.radius_scale(d) - _this.margin.bottom;
             };
@@ -787,6 +868,7 @@ GravityBubbles.prototype._draw_legends = function () {
     this.legends_texts
         .call(this._legend_text, this)
         .call(this._legend_text_position, this);
+    this.legends_texts.exit().remove();
 };
 
 /**
@@ -818,72 +900,89 @@ GravityBubbles.prototype._legend_text_position = function (text, _this) {
 
 GravityBubbles.prototype._draw_circles = function () {
     var bubbles_layer = this.svg.select("#bubbles_layer");
-    this.circles = bubbles_layer.selectAll(".bubble").data(this.nodes);
-    var that = this;
 
-    this.circles.enter()
+    this.bubbles = bubbles_layer.selectAll("g").data(this.nodes);
+
+    var _this = this;
+
+    this.bubbles.enter()
+        .append("g")
+        .on("mouseover", function (d, i) {
+            //alert("Hola");
+            return _this.show_details(d, i, _this);
+        })
+        .on("mouseout", function (d, i) {
+            return _this.hide_details(d, i, _this);
+        })
+        .on("click", function (d, i) {
+            _this.hide_details(d, i, _this);
+            d3.select(this).classed("selected", function (d, i) {
+                return !d3.select(this).classed("selected");
+            });
+            _this._config.data.onclick.call(_this, d, this, i);
+        })
         .append("circle")
         .attr("class", "bubble")
         .attr("stroke", function (d) {
-            return d3.rgb(that._fill_color_by(d)).darker();
+            return d3.rgb(_this._fill_color_by(d)).darker();
         })
         .attr("stroke-width", 1)
         .attr("fill", function (d) {
-            return that._fill_color_by(d);
+            return _this._fill_color_by(d);
         })
         .attr("r", function (d) {
             return 0;
         })
         .attr("cx", function (d) {
-            return that._config.width / 2;
+            return _this._config.width / 2;
         })
         .attr("cy", function (d) {
-            return that._config.height / 2;
+            return _this._config.height / 2;
         })
         .on("mouseover", function (d, i) {
-            return that.show_details(d, i, that);
+            //return _this.show_details(d, i, _this);
         })
         .on("mouseout", function (d, i) {
-            return that.hide_details(d, i, that);
+            //return _this.hide_details(d, i, _this);
         })
         .on("click", function (d, i) {
-            that.hide_details(d, i, that);
-            d3.select(this).classed("selected", function (d, i) {
-                return !d3.select(this).classed("selected");
-            });
-            //d3.select(this).classed("drilldown", true);
-            that._config.data.onclick.call(that, d, this, i);
-        });
-    //.on("drag", this.force.drag);
-
-    this.circles
-        .transition()
-        .attr("cx", function (d) {
-            //return d.x;
-            return that._config.width / 2;
+            //_this.hide_details(d, i, _this);
+            //d3.select(this).classed("selected", function (d, i) {
+            //    return !d3.select(this).classed("selected");
+            //});
+            //_this._config.data.onclick.call(_this, d, this, i);
         })
-        .attr("cy", function (d) {
-            //return d.y;
-            return that._config.height / 2;
-        });
+        .select(function () {
+            return this.parentNode;
+        })
+        .append("text")
+        .attr("class", "label")
+        .call(_this._draw_text, this);
 
+    this.circles = bubbles_layer.selectAll(".bubble").data(this.nodes);
     this.circles
         .transition()
         .duration(500)
         .ease("ease-in-out")
         .attr("r", function (d) {
-            return that._radius_by(d);
+            return _this._radius_by(d);
         })
         .attr("stroke", function (d) {
-            return d3.rgb(that._fill_color_by(d)).darker();
+            return d3.rgb(_this._fill_color_by(d)).darker();
         })
         .attr("fill", function (d) {
-            return that._fill_color_by(d);
+            return _this._fill_color_by(d);
         }).text(function (d) {
             return d.weight;
         });
-
     this.circles.exit().remove();
+
+    this.labels = bubbles_layer.selectAll(".label").data(this.nodes);
+    this.labels
+        .call(_this._draw_text, _this);
+    this.labels.exit().remove();
+
+    this.bubbles.exit().remove();
 };
 
 GravityBubbles.prototype._update_colors = function () {
