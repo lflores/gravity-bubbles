@@ -8,7 +8,6 @@
 ## Features
 This is a visual component that draw a chart with centered gravity based on [d3](http://d3js.org/) API library.
 
-<<<<<<< HEAD
 Based on [Jim Vallandingham Blog Post](http://vallandingham.me/bubble_charts_in_d3.html), [Obama’s 2013 Budget Proposal](http://www.nytimes.com/interactive/2012/02/13/us/politics/2013-budget-proposal-graphic.html?_r=0) and [Automobile Force](http://projects.delimited.io/experiments/force-bubbles/radial.html), Gravity Bubbles it's a component that draw a collection of bubbles, and allow the user to compare data attributes by color and size. 
 
 The main characteristic is the "gravity" to center, and hence its name. 
@@ -17,13 +16,6 @@ Also the component include 3 views:
 * "all" view with unique center in center of chart
 * "color" view, that are bubbles grouped by color fences, as vertical bands.
 * A free group that is a name of property of data that can be used to group data, (such as country, category, contact id, etc).
-=======
-Based on [Jim Vallandingham Blog Post](http://vallandingham.me/bubble_charts_in_d3.html), [Obama’s 2013 Budget Proposal](http://www.nytimes.com/interactive/2012/02/13/us/politics/2013-budget-proposal-graphic.html?_r=0) and [Automobile Force](http://projects.delimited.io/experiments/force-bubbles/radial.html), Gravity Bubbles it's a component that draw a collection of bubbles, and allow the user to compare data attributes by color and size. The main characteristic is the "gravity" to center, and hence its name.
-Also the component include 3 views:
-* "all" view with unique center in center of chart
-* "color" view, that are bubbles grouped by color fences, as vertical bands.
-* A free group that is a name of field of data that can be used to group data, (such as country, category, contact id, etc). 
->>>>>>> cada6c9b9d50eb4230b2d120423192b474c58d0e
 
 ###Some features
 * Tooltip templated configuration
@@ -45,7 +37,7 @@ Examples
 ###Live Example
 ![Gravity Bubbles Example](http://www.triadsoft.com.ar/examples/gravity-bubbles/)
 ###Fiddle Example
-![Gravity jsfiddle](http://jsfiddle.net/6cLpuL7j/8/)
+![Gravity with label](http://jsfiddle.net/6cLpuL7j/8/)
 
 ###Colors Examples:
 ![Gravity Bubbles Blue Scheme](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-blue.png)
