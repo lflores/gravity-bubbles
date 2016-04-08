@@ -29,7 +29,7 @@ Examples
 ##Live Example
 ![Gravity Bubbles Example](http://www.triadsoft.com.ar/examples/gravity-bubbles/)
 ##Fiddle Example
-![Gravity jsfiddle](http://jsfiddle.net/6cLpuL7j/8/)
+![Gravity with label](http://jsfiddle.net/6cLpuL7j/8/)
 
 ##Colors Examples:
 ![Gravity Bubbles Blue Scheme](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-blue.png)
