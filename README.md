@@ -35,7 +35,7 @@ Examples
 ###Grouping by category:
 ![Gravity Bubbles Category groups](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-group-category.png)
 ###Live Example
-[Gravity Bubbles Example](http://www.triadsoft.com.ar/examples/gravity-bubbles/)
+[Gravity Bubbles Example](http://www.triadsoft.com.ar/examples/gravity-bubbles.html)
 ###Fiddle Example
 [Gravity with label](http://jsfiddle.net/6cLpuL7j/9/)
 
