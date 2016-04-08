@@ -639,7 +639,7 @@ GravityBubbles.prototype._label_text = function (d, _this) {
     if (_this._config.data && _this._config.data.label && _this._config.data.label.template) {
         return _this._data_replace(d, _this._config.data.label.template, _this._config.data.label.formatter);
     }
-    return "none";
+    return null;
 };
 
 GravityBubbles.prototype._draw_text = function (text, that) {
@@ -648,7 +648,9 @@ GravityBubbles.prototype._draw_text = function (text, that) {
 
     text.each(function (d) {
         var _text = that._label_text(d, that);
-
+        if (!_text) {
+            return;
+        }
         var text = d3.select(this),
             lines = _text.split(/\n+/).reverse(),
             line = [],
