@@ -1,0 +1,116 @@
+<html>
+<head>
+<title>martian demo</title>
+
+<link rel="stylesheet" type="text/css" href="../css/basic-styles.css">
+<link rel="stylesheet" type="text/css" href="../flare/css/flare.css">
+
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+<link rel="stylesheet" type="text/css" href="css/headwinds-base.css">
+
+
+
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+<script src="https://www.headwinds.net/lab/codepen/gravity-bubbles/js/gravity-bubbles.min.js"></script>
+<script src="js/lib/underscore/underscore-min.jsp.js"></script>
+<script src="js/lib/snap/snap.svg-min.js"></script>
+<script src="js/lib/greensock/TweenMax.min.js"></script>
+
+<!-- breadcrumb start -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<!-- breadcrumb end -->
+
+<link rel="stylesheet" type="text/css" href="css/martian.css">
+<script src="js/martian.js"></script>
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+</head>
+<body>
+<div class="mars-wrapper">
+        <header>
+					<div class="container" id="dragonContainer" style="position: relative; opacity: 0.2">
+					</div>
+					<div class="container">
+							<h1>Gravity Bubbles</h1>
+						<h2>In the year 2030, we face a new form of global conscription. Since we've ruined our planet, NATO has ordered the remaining population to board the fleet of <a href="http://www.spaceflightinsider.com/organizations/space-exploration-technologies/spacex-ambitious-plans-dragon/" target="_blank" style="color:darkred">Dragon</a> class drop ships headed for that distant red rock in the sky which we'll have to now call home. Many are seeking asylum status in Southeast Asia to avoid ruining another planet.</h2>
+							<div class="header-category">   
+								<h3>Color Scheme:</h3>
+								<div class="header-category-radios">
+										<div class="header-category-radio">
+											<input class="control control--radio" type="radio" name="color-scheme" value="blue" checked>
+										<label>Terraform</label>
+									</div>
+								 <div class="header-category-radio">
+										<input class="control control--radio" type="radio" name="color-scheme" value="greenred">
+									 <label>Dragon</label>
+									</div>
+								</div>
+						</div>
+
+							<div class="header-category">
+									<h3>Resolution:</h3>
+									<div class="header-category-radios">
+									<div id="size" class="btn-group"> 
+										<div class="header-category-radio">
+											<input type="radio" name="resolution" value="mini" checked>
+											<label>Mobile</label>
+										</div>
+										<div class="header-category-radio">
+											<input type="radio" name="resolution" value="max" checked>
+											<label>Desktop</label>
+										</div>
+									</div>
+									</div>
+							</div>    
+
+							<div class="header-category">  
+									<h3>Group By:</h3>	
+									<div class="header-category-radios">
+										<div class="header-category-radio">
+												<input type="radio" name="groupby" value="all" checked>
+												<label>All</label>
+										</div>
+										<div class="header-category-radio">
+												<input type="radio" name="groupby" value="color">
+												<label>Size</label>
+										</div>
+										<div class="header-category-radio">
+											<input type="radio" name="groupby" value="channel">
+											<label>Channel</label>
+										</div>
+								</div>
+						</div>
+					</div>
+					<div class="container">
+						<ol class="breadcrumb" style="color: #000"></ol>
+					</div>
+        </header>
+
+        <div class="row row__svg">
+            <div id="vis"></div>
+        </div>
+				<hr class="rover" />
+				<div class="row">
+					<div>
+                <p>Based on common tree data "flare", and using <a href="http://www.d3js.org" target="_blank" style="color:darkred">D3js</a> library, this example shows bubbles grouped in center (force), like earth gravity, with distinct sizes and colors. </p> 
+						<p>The data is obviously future garbage. It has been hand massaged and forced into this shape so that we can analyze these four distinct channels and would thus alter service to them accordingly.</p>
+                <p>The <b>size of bubbles</b> is the <b>size of each node</b>, and <b>color</b> is the <b>percentage of total</b> that cover this node. If you <b>click in a bubble</b>, you can do a <b>drilldown</b> and dive into data tree</p>
+                <p>Also, you have a breadcrumb to drill up data.</p>
+            </div>	
+				</div>
+				<hr class="rover" />
+				<div class="hillContainer" id="settlementContainer">
+				</div>
+        <div class="footer">
+					<p>Please visit the original code base for this demo on its <a href="https://github.com/lflores/gravity-bubbles" target="_blank" style="color:darkred">github</a> developed by Leonardo Flores.</p>
+            <p>This is a demonstration of animated bubble charts in D3.js, based on next examples and ideas</p>
+            <p><a href="http://vallandingham.me/bubble_charts_in_d3.html" target="_blank" style="color:darkred">Jim Vallandingham Blog Post</a> | <a href="http://www.nytimes.com/interactive/2012/02/13/us/politics/2013-budget-proposal-graphic.html?_r=0" target="_blank" style="color:darkred">The 2013 Obama Budget Proposal</a> | <a href="http://projects.delimited.io/experiments/force-bubbles/radial.html" target="_blank" style="color:darkred">Automobile Force</a></p>
+			
+        </div>
+ </div>
+ </body>
+ </html>

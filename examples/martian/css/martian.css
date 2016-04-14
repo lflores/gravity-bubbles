@@ -1,0 +1,605 @@
+@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Enriqueta:400,700);
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500,700,900,100);
+body {
+  font-family: Helvetica, Arial, sans-serif;
+  width: 90%;
+  height: 2000px;
+  margin: 0px;
+  padding: 10px;
+}
+
+.header-category {
+  display: inline-block;
+  width: 200px;
+  height: auto;
+  margin: 10px;
+  background: #e8f4f8;
+  padding: 10px;
+  border-radius: 4px;
+}
+.header-category label {
+  font-family: "Roboto", serif;
+  font-size: 14px;
+  color: #666;
+  font-weight: normal;
+}
+
+.header-category-radios {
+  display: block;
+  margin: 0px;
+  padding: 0px;
+  margin-left: 15px;
+  font-weight: 700;
+}
+
+h1 {
+  font-family: "Enriqueta", serif;
+  margin-left: 10px;
+  margin: 0px;
+  padding: 0px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+h2 {
+  font-family: "Enriqueta", serif;
+  margin-left: 10px;
+  margin: 0px;
+  padding: 0px;
+  font-size: 18px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+h3 {
+  font-family: "Enriqueta", serif;
+  margin: 0px;
+  padding: 10px;
+  padding-top: 5px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+h4 {
+  font-family: "Enriqueta", serif;
+  margin: 0px;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+h2.articleTitle {
+  font-family: "Roboto", serif;
+}
+
+.hud {
+  display: block;
+  background-color: #e8f4f8;
+  padding: 5px;
+  border-radius: 4px;
+  margin: 0px;
+}
+.hud .about {
+  display: inline-block;
+  width: 300px;
+}
+
+.cart {
+  display: inline-block;
+  background-color: white;
+  padding: 5px;
+  border-radius: 4px;
+  margin: 0px;
+  margin-left: 50px;
+  vertical-align: top;
+}
+
+.shop {
+  display: inline-block;
+  width: 300px;
+  vertical-align: top;
+}
+
+.remaining {
+  font-size: 12px;
+}
+
+:focus {
+  outline: none;
+}
+
+ul {
+  list-style-type: none;
+  margin: 10px;
+  padding: 0px;
+}
+
+.mainContainer {
+  display: block;
+  position: relative;
+  margin: 0px;
+  padding: 0px;
+  width: 90%;
+  height: auto;
+  /*border: 8px solid #ddd;*/
+}
+
+.moon {
+  display: block;
+  position: relative;
+  margin: 0px;
+  padding: 0px;
+  width: 600px;
+  height: 250px;
+}
+
+.fillContainer {
+  display: block;
+  position: relative;
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  height: 100%;
+}
+
+.nav {
+  margin: 0px;
+  padding: 0px;
+  height: 20px;
+}
+
+.btn {
+  border: none;
+  border-radius: 4px;
+  font-size: 1em;
+  color: #000;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 5px;
+  pointer-events: all;
+  cursor: pointer;
+}
+
+.btn--small {
+  font-size: 0.6em;
+  color: #000;
+  padding: 5px;
+}
+
+.btn--gold {
+  font-size: 0.6em;
+  color: #000;
+  background-color: gold;
+  padding: 5px;
+}
+
+.btn--lightblue {
+  background-color: lightblue;
+}
+
+.btn--primary {
+  font-size: 1em;
+  color: #000;
+  border: none;
+  background-color: lightgrey;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 0em;
+  border-bottom-left-radius: 0em;
+  border-bottom: 3px solid #c6c6c6;
+}
+
+.btn--primary-outline {
+  font-size: 1em;
+  background-color: gold;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 0em;
+  border-bottom-left-radius: 0em;
+  border-bottom: 3px solid #e6c200;
+}
+
+#links {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  height: 50px;
+  font-size: 13px;
+  font-family: tahoma;
+  color: lightblue;
+}
+
+#links a {
+  text-decoration: none;
+  font-size: 2.3em;
+  color: lightblue;
+}
+
+#twitter {
+  position: absolute;
+  bottom: 15px;
+  right: 20px;
+}
+
+#pens {
+  position: absolute;
+  bottom: 15px;
+  left: 20px;
+}
+
+hr.single {
+  padding: 0;
+  border: none;
+  margin-top: 15px;
+  border-top: thin dashed #ddd;
+  color: #ddd;
+  text-align: center;
+}
+
+hr.double {
+  padding: 0;
+  border: none;
+  margin-top: 15px;
+  border-top: medium double #ddd;
+  color: #ddd;
+  text-align: center;
+}
+
+hr.double:after {
+  content: "§";
+  display: inline-block;
+  position: relative;
+  top: -0.7em;
+  font-size: 1em;
+  padding: 0 0.25em;
+  background: white;
+}
+
+.message {
+  display: block;
+  margin: 0px;
+  padding: 0px;
+}
+
+.message--red {
+  color: darkred;
+}
+
+.link--red {
+  color: #red !important;
+}
+
+.link--red:visited {
+  color: #red !important;
+}
+
+.grandtotal {
+  font-size: 1.5em;
+  color: green;
+  background-color: #eee;
+  padding: 5px;
+  margin: 0px;
+  border-radius: 4px;
+}
+
+circle.deathstarEye {
+  fill: #2a2a2a;
+}
+
+circle.deathstarBody {
+  fill: black;
+}
+
+.about {
+  display: block;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 4px;
+  background-color: #eee;
+  color: #666;
+}
+
+.footer {
+  display: block;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 4px;
+  background-color: #eee;
+  color: #666;
+}
+
+body {
+  display: block;
+  position: relative;
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  height: auto;
+}
+
+.mars-wrapper {
+  display: block;
+  position: relative;
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  height: 100%;
+  background: #ffebd7;
+  /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(#f0c0a0, #ffebd7);
+  /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#f0c0a0, #ffebd7);
+  /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#f0c0a0, #ffebd7);
+  /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#f0c0a0, #ffebd7);
+  /* Standard syntax */
+}
+
+header {
+  display: block;
+  position: relative;
+  margin: 0px;
+  padding: 20px;
+  padding-top: 60px;
+}
+header .header--dragon {
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  margin: 0px;
+  padding: 0px;
+  height: 400px;
+  width: 100%;
+  background: transparent;
+}
+header .header--text {
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  margin: 0px;
+  padding: 0px;
+  height: 500px;
+  width: 100%;
+  background: transparent;
+}
+header h1 {
+  font-size: 35px;
+  margin-bottom: 20px;
+  color: #720000;
+}
+header h2 {
+  font-family: "Roboto", serif;
+  font-weight: normal;
+  font-size: 18px;
+  margin-left: 25px;
+  margin-bottom: 20px;
+  color: #5d3c2b;
+}
+header .header-category {
+  background: #f0c0a0;
+  width: auto;
+}
+header .header-category h3 {
+  margin-left: 10px;
+  color: #5d3c2b;
+}
+header .header-category .header-category-radio {
+  display: inline-block;
+  position: relative;
+  border: 1px dotted #ffebd7;
+  border-radius: 4px;
+  margin: 5px;
+  margin-right: 25px;
+  padding: 5px;
+}
+header .header-category .header-category-radio label {
+  display: inline-block;
+  position: relative;
+  top: 4px;
+  left: 0px;
+  vertical-align: middle;
+  font-size: 16px;
+  color: #5d3c2b;
+  font-family: "Roboto", serif;
+}
+header input[type="radio"] {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  opacity: 0.8;
+  vertical-align: top;
+}
+
+li {
+  font-color: #5d3c2b;
+  font-family: "Roboto", serif;
+}
+
+#vis {
+  margin-left: 0px;
+  display: inline-block;
+  border: none;
+  border-radius: 0px;
+}
+
+p {
+  max-width: 700px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+svg {
+  border: none;
+}
+
+.dragon {
+  width: 300px;
+  height: 150px;
+}
+
+.settlement {
+  width: 200px;
+  height: 50px;
+}
+
+.gravity {
+  width: 800px;
+  height: 400px;
+}
+
+text.label {
+  font-size: 20px;
+  font-family: "Roboto", serif;
+  text-transform: uppercase;
+  color: #5d3c2b;
+}
+
+.group-text {
+  font-size: 20px;
+  font-family: "Enriqueta", serif;
+  fill: #a3694b;
+  stroke: #5d3c2b;
+  opacity: 0.8;
+}
+
+.legend-text {
+  font-size: 10px;
+  font-family: "Roboto", serif;
+  fill: #a3694b;
+  stroke: #5d3c2b;
+  opacity: 0.8;
+}
+
+rect.group.multiple {
+  stroke: none;
+}
+
+hr.rover {
+  padding: 0;
+  border: none;
+  margin-top: 15px;
+  border-top: thin double #f0c0a0;
+  color: #ddd;
+  text-align: center;
+}
+
+hr.rover:after {
+  content: "[ | ]";
+  display: inline-block;
+  position: relative;
+  top: -0.7em;
+  font-size: 1em;
+  color: #f0c0a0;
+  padding: 0 0.25em;
+  background: transparent;
+}
+
+.row {
+  display: block;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 4px;
+  background-color: transparent;
+  color: #666;
+}
+
+.row__svg {
+  text-align: center;
+}
+
+.hillContainer {
+  display: block;
+  position: relative;
+  margin: 0px;
+  padding: 0px;
+  height: 50px;
+  width: 100%;
+  background: transparent;
+  overflow: hidden;
+  overflow-x: hidden;
+}
+
+.footer {
+  display: block;
+  padding: 10px;
+  margin: 0px;
+  width: 100%;
+  height: 100%;
+  background: #b98468;
+  /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(#c9a08b, #b98468);
+  /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#c9a08b, #b98468);
+  /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#c9a08b, #b98468);
+  /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#c9a08b, #b98468);
+  /* Standard syntax */
+  color: #000;
+  border-radius: 0px;
+}
+
+.link--red {
+  color: darkred !important;
+}
+
+.link--red:visited {
+  color: darkred !important;
+}
+
+.breadcrumb {
+  background: transparent;
+  border-bottom: 2px dashed #f0c0a0;
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-family: "Roboto", serif;
+  color: #5d3c2b;
+  margin-left: 0px;
+  padding: 10px;
+  width: 95%;
+}
+.breadcrumb li {
+  color: #5d3c2b;
+  font-family: "Roboto", serif;
+  text-transform: capitalize;
+}
+.breadcrumb .active {
+  color: #5d3c2b;
+  font-family: "Roboto", serif;
+  text-transform: capitalize;
+}
+
+.tooltip {
+  position: absolute;
+  top: 100px;
+  left: 100px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  border: none;
+  border-top: 4px solid #f0c0a0;
+  border-bottom: 4px solid #f0c0a0;
+  /* background: #222222; */
+  background: #ffebd7;
+  opacity: 1 !important;
+  /* color: #eeeeee; */
+  color: #666;
+  padding: 10px;
+  width: 300px;
+  font-size: 16px;
+  z-index: 10;
+}
+
+.tooltip .title {
+  font-size: 13px;
+}
+
+.tooltip .name {
+  font-weight: bold;
+}
