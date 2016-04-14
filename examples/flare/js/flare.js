@@ -21,7 +21,7 @@ $(document).ready(function () {
             points: [0, 3, 7, 20, 50, 100],
             colors: ["#B44B4B", "#B44B4B", "#669898", "#38C7C7", "#00FFFF", "#00FFFF"]
         }
-    }
+    };
 
     var sizes = {
         "mini": {
@@ -36,7 +36,7 @@ $(document).ready(function () {
             "width": 800,
             "height": 400
         }
-    }
+    };
     var loaded_data;
     var nodes = [];
     var chart;
@@ -47,7 +47,7 @@ $(document).ready(function () {
             height: 35,
             thresholds: true,
             _points: _colors.blue.points,
-            _colors: _colors.blue.colors,
+            _colors: _colors.blue.colors
         });
 
         $('input[name="color-scheme"]').change(function () {
