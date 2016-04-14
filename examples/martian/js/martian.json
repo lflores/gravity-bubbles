@@ -1,0 +1,246 @@
+{
+ "name": "Questions",
+ "channel": 1,
+ "children": [
+  {
+   "name": "Towel",
+   "channel": 1,
+   "children": [
+    {
+     "name": "call centers",
+     "children": [
+      {"name": "Bangalore", "size": 500, "channel": 1},
+      {"name": "Manila", "size": 500, "channel": 1},
+      {"name": "Guatemala", "size": 500, "channel": 1 },
+      {"name": "Austin", "size": 500, "channel": 1 }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Alien",
+   "channel": 2,
+   "children": [
+    {"name": "Bangalore", "size": 10000, "channel": 2 },
+    {"name": "Guatemala", "size": 10000, "channel": 2 }
+   ]
+  },
+  {
+   "name": "Machine",
+   "channel": 3,
+   "children": [
+    {
+     "name": "call centers",
+     "children": [
+      {"name": "Bangalore", "size": 10000, "channel": 3 },
+      {"name": "Manila", "size": 10000, "channel": 3 },
+      {"name": "Guatemala", "size": 10000, "channel": 3 },
+      {"name": "Austin", "size": 0, "channel": 3 }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Human",
+   "channel": 4,
+   "children": [
+    {"name": "Bangalore", "size": 1000, "channel": 4 },
+    {"name": "Manila", "size": 1000, "channel": 4 },
+    {"name": "Guatemala", "size": 1000, "channel": 4 },
+    {"name": "Austin", "size": 1000, "channel": 4 }
+   ]
+  },
+  {
+   "name": "Towel",
+   "channel": 1,
+   "children": [
+    {
+     "name": "call centers",
+     "children": [
+      {"name": "Bangalore", "size": 2000, "channel": 1},
+      {"name": "Manila", "size": 1000, "channel": 1},
+      {"name": "Guatemala", "size": 1000, "channel": 1 },
+      {"name": "Austin", "size": 1000, "channel": 1 }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Alien",
+   "channel": 2,
+   "children": [
+    {"name": "Bangalore", "size": 4000, "channel": 2 },
+    {"name": "Guatemala", "size": 20000, "channel": 2 }
+   ]
+  },
+  {
+   "name": "Machine",
+   "channel": 3,
+   "children": [
+    {
+     "name": "call centers",
+     "children": [
+      {"name": "Bangalore", "size": 1000, "channel": 3 },
+      {"name": "Manila", "size": 1000, "channel": 3 },
+      {"name": "Guatemala", "size": 1000, "channel": 3 },
+      {"name": "Austin", "size": 4000, "channel": 3 }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Human",
+   "channel": 4,
+   "children": [
+    {"name": "Bangalore", "size": 10000, "channel": 4 },
+    {"name": "Manila", "size": 10000, "channel": 4 },
+    {"name": "Guatemala", "size": 10000, "channel": 4 },
+    {"name": "Austin", "size": 1000, "channel": 4 }
+   ]
+  },
+  {
+   "name": "Towel",
+   "channel": 1,
+   "children": [
+    {
+     "name": "call centers",
+     "children": [
+      {"name": "Bangalore", "size": 10000, "channel": 1},
+      {"name": "Manila", "size": 10000, "channel": 1},
+      {"name": "Guatemala", "size": 10000, "channel": 1 },
+      {"name": "Austin", "size": 20000, "channel": 1 }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Alien",
+   "channel": 2,
+   "children": [
+    {"name": "Bangalore", "size": 4000, "channel": 2 },
+    {"name": "Guatemala", "size": 25000, "channel": 2 }
+   ]
+  },
+  {
+   "name": "Machine",
+   "channel": 3,
+   "children": [
+    {
+     "name": "call centers",
+     "children": [
+      {"name": "Bangalore", "size": 0, "channel": 3 },
+      {"name": "Manila", "size": 0, "channel": 3 },
+      {"name": "Guatemala", "size": 5000, "channel": 3 },
+      {"name": "Austin", "size": 2000, "channel": 3 }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Human",
+   "channel": 4,
+   "children": [
+    {"name": "Bangalore", "size": 2000, "channel": 4 },
+    {"name": "Manila", "size": 12000, "channel": 4 },
+    {"name": "Guatemala", "size": 23000, "channel": 4 },
+    {"name": "Austin", "size": 15000, "channel": 4 }
+   ]
+  },
+  {
+   "name": "Towel",
+   "channel": 1,
+   "children": [
+    {
+     "name": "call centers",
+     "children": [
+      {"name": "Bangalore", "size": 10000, "channel": 1},
+      {"name": "Manila", "size": 100, "channel": 1},
+      {"name": "Guatemala", "size": 6000, "channel": 1 },
+      {"name": "Austin", "size": 10000, "channel": 1 }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Alien",
+   "channel": 2,
+   "children": [
+    {"name": "Bangalore", "size": 40000, "channel": 2 },
+    {"name": "Guatemala", "size": 20000, "channel": 2 }
+   ]
+  },
+  {
+   "name": "Machine",
+   "channel": 3,
+   "children": [
+    {
+     "name": "call centers",
+     "children": [
+      {"name": "Bangalore", "size": 0, "channel": 3 },
+      {"name": "Manila", "size": 0, "channel": 3 },
+      {"name": "Guatemala", "size": 3440, "channel": 3 },
+      {"name": "Austin", "size": 2300, "channel": 3 }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Human",
+   "channel": 4,
+   "children": [
+    {"name": "Bangalore", "size": 15000, "channel": 4 },
+    {"name": "Manila", "size": 2000, "channel": 4 },
+    {"name": "Guatemala", "size": 3000, "channel": 4 },
+    {"name": "Austin", "size": 5000, "channel": 4 }
+   ]
+  },
+  {
+   "name": "Towel",
+   "channel": 1,
+   "children": [
+    {
+     "name": "call centers",
+     "children": [
+      {"name": "Bangalore", "size": 5000, "channel": 1},
+      {"name": "Manila", "size": 1000, "channel": 1},
+      {"name": "Guatemala", "size": 5000, "channel": 1 },
+      {"name": "Austin", "size": 2000, "channel": 1 }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Alien",
+   "channel": 2,
+   "children": [
+    {"name": "Bangalore", "size": 30000, "channel": 2 },
+    {"name": "Guatemala", "size": 20000, "channel": 2 }
+   ]
+  },
+  {
+   "name": "Machine",
+   "channel": 3,
+   "children": [
+    {
+     "name": "call centers",
+     "children": [
+      {"name": "Bangalore", "size": 0, "channel": 3 },
+      {"name": "Manila", "size": 25000, "channel": 3 },
+      {"name": "Guatemala", "size": 25000, "channel": 3 },
+      {"name": "Austin", "size": 25000, "channel": 3 }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Human",
+   "channel": 4,
+   "children": [
+    {"name": "Bangalore", "size": 25000, "channel": 4 },
+    {"name": "Manila", "size": 25000, "channel": 4 },
+    {"name": "Guatemala", "size": 25000, "channel": 4 },
+    {"name": "Austin", "size": 25000, "channel": 4 }
+   ]
+  }
+ ]
+}
