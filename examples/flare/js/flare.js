@@ -114,7 +114,7 @@ $(document).ready(function () {
                 tooltip: function (d) {
                     return "<b>Name:</b>{name}<br><b>Size:</b> {size}<br><b>Size of Total:</b> {perc}%";
                 },
-                _label: {
+                label: {
                     template: "{name}\n{perc}%"
                 },
                 onclick: function (d, circle) {
