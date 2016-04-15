@@ -1,0 +1,85 @@
+{
+    "name": "flare",
+    "children": [
+        {
+            "name": "analytics",
+            "children": [],
+            "size": 48716,
+            "perc": 5.095128377028622,
+            "category": "medium",
+            "user": "memo"
+  },
+        {
+            "name": "animate",
+            "children": [],
+            "size": 100024,
+            "perc": 10.461349880612344,
+            "category": "x-large",
+            "user": "memo"
+  },
+        {
+            "name": "data",
+            "children": [],
+            "size": 30284,
+            "perc": 3.1673550326368094,
+            "category": "large",
+            "user": "terminator"
+  },
+        {
+            "name": "display",
+            "children": [],
+            "size": 24254,
+            "perc": 2.5366869951648785,
+            "category": "large",
+            "user": "terminator"
+  },
+        {
+            "name": "flex",
+            "children": [],
+            "size": 4116,
+            "perc": 0.4304858444833281,
+            "category": "medium",
+            "user": "terminator"
+  },
+        {
+            "name": "physics",
+            "children": [],
+            "size": 29934,
+            "perc": 3.1307490934800635,
+            "category": "large",
+            "user": "memo"
+  },
+        {
+            "name": "query",
+            "children": [],
+            "size": 89721,
+            "perc": 9.383775620235346,
+            "category": "large",
+            "user": "terminator"
+  },
+        {
+            "name": "scale",
+            "children": [],
+            "size": 31294,
+            "perc": 3.272989314203418,
+            "category": "large",
+            "user": "memo"
+  },
+        {
+            "name": "util",
+            "children": [],
+            "size": 165157,
+            "perc": 17.273505980887514,
+            "category": "x-large",
+            "user": "alien"
+  },
+        {
+            "name": "vis",
+            "children": [],
+            "size": 432629,
+            "perc": 45.24797386126768,
+            "category": "x-large",
+            "user": "terminator"
+  }
+]
+}
