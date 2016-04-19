@@ -127,13 +127,13 @@ You can pass these options to the initialize function to set a custom look and f
 <tr>
         <th>Selector</th>
         <th>Description</th>
-        <th>Status</th>
+        <th>Is in use?</th>
         <th>Observations</th>
     </tr>
     <tr>
         <td>.gravity-container</td>
         <td>It's just to old styles asociated with this chart</td>
-        <td>In use?</td>
+        <td>Yes</td>
         <td>Change it to add borders, background, and so on</td>
     </tr>
     <tr>
