@@ -34,21 +34,21 @@ You can pass these options to the initialize function to set a custom look and f
     <tr>
         <td><strong>data\label</strong></td>
         <td>none</td>
-        <td>It has two optional parameter, they are template and formatter</td>
+        <td>It has three optional parameter, they are template,formatter and autofit</td>
     </tr>
     <tr>
         <td><strong>data\tooltip</strong></td>
-        <td></td>
-        <td></td>
+        <td>none</td>
+        <td>It has two optional parameter, they are template and formatter</td>
     </tr>
     <tr>
         <td><strong>data\sizeById</strong></td>
-        <td></td>
-        <td></td>
+        <td>size</td>
+        <td>Indicates property to be used to radius of bubble</td>
     </tr>
     <tr>
         <td><strong>data\colorById</strong></td>
-        <td></td>
-        <td></td>
+        <td>perc</td>
+        <td>Indicates property to be used to colorize bubbles</td>
     </tr>
 </table>

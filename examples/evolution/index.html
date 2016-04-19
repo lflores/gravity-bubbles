@@ -19,12 +19,15 @@
 
     <!--    <script src="../js/lineargauge.min.js"></script>-->
     <link rel="stylesheet" href="../css/linear-gauge.css"></link>
+    <script src="https://rawgit.com/lflores/gravity-bubbles/master/dist/gravity-bubbles.min.js"></script>
     <!--    <script src="../../dist/gravity-bubbles.min.js"></script>-->
-    <script src="../../src/js/gravity-bubbles.js"></script>
-    <link rel="stylesheet" href="css/evolution.css"></link>
+<!--    <script src="../../src/js/gravity-bubbles.js"></script>-->
+    <!--    <script src="../../src/js/gravity-bubbles-bak.js"></script>-->
+    <!--    <script src="../../src/js/custom-tooltip.js"></script>-->
+    <link rel="stylesheet" href="../css/gravity-bubbles.css"></link>
     <link rel="stylesheet" href="../css/basic-styles.css"></link>
+    <link rel="stylesheet" href="css/evolution.css"></link>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-
 </head>
 
 <body>
@@ -56,24 +59,28 @@
             <form>
                 <h5>Group By:</h5>
                 <div id="group" class="btn-group">
-                    <a href="#" id="all" class="btn btn-sm active">All</a>
+                    <a href="#" id="all" class="btn btn-sm">All</a>
                     <a href="#" id="color" class="btn btn-sm">Color</a>
-                    <a href="#" id="category" class="btn btn-sm">Category</a>
+                    <a href="#" id="category" class="btn btn-sm active">Category</a>
                     <a href="#" id="user" class="btn btn-sm">User</a>
+                </div>
+                <h5>Autofit:</h5>
+                <div id="autofit" class="btn-group">
+                    <a href="#" id="autofit" class="btn btn-sm active">Auto</a>
+                    <a href="#" id="fixed" class="btn btn-sm">Fixed</a>
                 </div>
             </form>
         </header>
         <div id="main" role="main">
             <div id="description">
-                <p>Based on common tree data "flare", and using <a href="http://www.d3js.org">D3js</a> library, this example shows bubbles grouped in center (force), like earth gravity, with distinct sizes and colors.</p>
-                <p>The <b>size of bubbles</b> is the <b>size of each node</b>, and <b>color</b> is the <b>percentage of total</b> that cover this node. If you <b>click in a bubble</b>, you can do a <b>drilldown</b> and dive into data tree</p>
-                <p>Also, you have a breadcrumb to drill up data</p>
+                <p>Based on <a href="http://www.d3js.org">D3js</a> library, this example shows the evolution of bubbles through time, loading data in asynchronous form, under demand. Or you can push play to automate the action.</p>
+                <p>The <b>size of bubbles</b> is the <b>size of each node</b>, and <b>color</b> is the <b>percentage of total</b> that cover this node.</p>
             </div>
             <div id="vis"></div>
         </div>
         <footer>
-            <p>A demonstration of animated bubble charts in D3.js, based on next examples and ideas</p>
-            <p><a href="http://vallandingham.me/bubble_charts_in_d3.html" target="_blank">Jim Vallandingham Blog Post</a> | <a href="http://www.nytimes.com/interactive/2012/02/13/us/politics/2013-budget-proposal-graphic.html?_r=0" target="_blank">Obama’s 2013 Budget Proposal</a> | <a href="http://projects.delimited.io/experiments/force-bubbles/radial.html" target="_blank">Automobile Force</a></p>
+            <p>A demonstration of animated bubble charts in D3.js, based on feedback of</p>
+            <p><a href="https://github.com/headwinds" target="_blank">headwinds</a></p>
         </footer>
     </div>
 

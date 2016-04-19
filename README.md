@@ -2,7 +2,7 @@
 
 > This component, using d3js API, draw animated bubbles chart with gravity
 
-![Version](http://img.shields.io/version/0.9.5.png?color=green)
+![Version](http://img.shields.io/version/1.0.1.png?color=green)
 
 
 ## Features
@@ -35,9 +35,9 @@ Examples
 ###Grouping by category:
 ![Gravity Bubbles Category groups](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-group-category.png)
 ###Live Example
-[Gravity Bubbles Example](http://www.triadsoft.com.ar/examples/gravity-bubbles.html)
+[Gravity Bubbles Example](http://www.triadsoft.com.ar/examples/gravity-bubbles/)
 ###Fiddle Example
-[Gravity with label](http://jsfiddle.net/6cLpuL7j/9/)
+[Gravity with label](http://jsfiddle.net/6cLpuL7j/8/)
 
 ###Colors Examples:
 ![Gravity Bubbles Blue Scheme](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-blue.png)
@@ -48,7 +48,7 @@ Examples
 
 ## Get started
 ### Get started
-If you want to see it in action, go to [jsfiddle](https://jsfiddle.net/leoflores/6cLpuL7j/9/) that explain some concepts of use, and show how to change some properties. Or if you want to see a more complex use, please go to [gravity-bubbles](http://www.triadsoft.com.ar/examples/gravity-bubbles.html)
+If you want to see it in action, go to [jsfiddle](https://jsfiddle.net/leoflores/6cLpuL7j/6/) that explain some concepts of use, and show how to change some properties. Or if you want to see a more complex use, please go to [gravity-bubbles](http://www.triadsoft.com.ar/examples/gravity-bubbles.html)
 Currently I'm documenting the project, and please, [contact me](mailto:flores.leonardo@gmail.com) if you want to help or discovered some issue.
 To start using it, you must to download this proyect, and solve next dependencies.
 
@@ -97,22 +97,22 @@ You can pass these options to the initialize function to set a custom look and f
     <tr>
         <td><strong>data\label</strong></td>
         <td>none</td>
-        <td>It has two optional parameter, they are template and formatter</td>
+        <td>It has three optional parameter, they are template,formatter and autofit</td>
     </tr>
     <tr>
         <td><strong>data\tooltip</strong></td>
-        <td></td>
-        <td></td>
+        <td>none</td>
+        <td>It has two optional parameter, they are template and formatter</td>
     </tr>
     <tr>
         <td><strong>data\sizeById</strong></td>
-        <td></td>
-        <td></td>
+        <td>size</td>
+        <td>Indicates property to be used to radius of bubble</td>
     </tr>
     <tr>
         <td><strong>data\colorById</strong></td>
-        <td></td>
-        <td></td>
+        <td>perc</td>
+        <td>Indicates property to be used to colorize bubbles</td>
     </tr>
 </table>
 
@@ -178,4 +178,4 @@ Support for Internet Explorer 9.
 
 
 ## Copyright
-Copyright (c) 2016 Triad, contributors. Released under the MIT, GPL licenses
+Copyright (c) 2016 Triad, contributors. Released under the  license

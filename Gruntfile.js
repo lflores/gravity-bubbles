@@ -1,5 +1,6 @@
+var module, require;
 module.exports = function (grunt) {
-
+    'use strict';
     grunt.initConfig({
 
         pkg: grunt.file.readJSON('package.json'),
@@ -15,7 +16,7 @@ module.exports = function (grunt) {
             dest: 'dist',
             docs: 'docs',
             test: 'test',
-            demo: 'demo'
+            demo: 'examples'
         },
 
         clean: {
@@ -34,7 +35,7 @@ module.exports = function (grunt) {
             },
             jquery: {
                 src: [
-					'<%= dirs.src %>/js/<%= cfg.filename %>.js',
+					'<%= dirs.src %>/js/<%= cfg.filename %>.js'
 				],
                 dest: '<%= dirs.tmp %>/jquery.<%= cfg.filename %>.js'
             },
@@ -62,7 +63,7 @@ module.exports = function (grunt) {
             },
             files: {
                 src: [
-					'<%= dirs.dest %>/<%= cfg.filename %>.js',
+					'<%= dirs.dest %>/<%= cfg.filename %>.js'
 					//'<%= dirs.dest %>/jquery.<%= cfg.filename %>.js',
 					//'<%= dirs.dest %>/angular.<%= cfg.filename %>.js'
 				]
@@ -76,9 +77,9 @@ module.exports = function (grunt) {
                     preserveComments: 'some'
                 },
                 files: {
-                    'dist/<%= cfg.filename %>.min.js': ['dist/<%= cfg.filename %>.js'],
-                    //'dist/jquery.<%= cfg.filename %>.min.js': ['dist/jquery.<%= cfg.filename %>.js'],
-                    //'dist/angular.<%= cfg.filename %>.min.js': ['dist/angular.<%= cfg.filename %>.js']
+                    'dist/<%= cfg.filename %>.min.js': ['dist/<%= cfg.filename %>.js']
+                        //'dist/jquery.<%= cfg.filename %>.min.js': ['dist/jquery.<%= cfg.filename %>.js'],
+                        //'dist/angular.<%= cfg.filename %>.min.js': ['dist/angular.<%= cfg.filename %>.js']
                 }
             }
         },
@@ -132,7 +133,7 @@ module.exports = function (grunt) {
         less: {
             demo: {
                 files: {
-                    '<%= dirs.demo %>/style.css': ['<%= dirs.demo %>/style.less']
+                    '<%= dirs.demo %>/css/gravity-bubbles.css': ['<%= dirs.src %>/css/gravity-bubbles.css']
                 }
             }
         },
@@ -168,9 +169,7 @@ module.exports = function (grunt) {
 
         exec: {
             'meteor-init': {
-                command: [
-          'type meteor >/dev/null 2>&1 || { curl https://install.meteor.com/ | sh; }'
-        ].join(';')
+                command: ['type meteor >/dev/null 2>&1 || { curl https://install.meteor.com/ | sh; }'].join(';')
             },
             'meteor-publish': {
                 command: 'meteor publish'
@@ -191,7 +190,7 @@ module.exports = function (grunt) {
 		'usebanner',
 		'uglify',
 		//'clean:tmp',
-		'readme'
+		'readme', 'less'
 	]);
 
     grunt.registerTask('test', ['karma:unit']);

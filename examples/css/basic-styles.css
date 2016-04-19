@@ -1,7 +1,8 @@
 body {
-    font-family: "Helvetica";
-    font-size: 10pt;
+    font-family: "Verdana";
+    font-size: 8pt;
 }
+
 form {
     display: inline-block;
     vertical-align: top;
@@ -11,10 +12,12 @@ form {
     height: 50px;
     margin: 2px 2px!important;
 }
+
 form h5 {
     display: inline-block;
     vertical-align: top;
 }
+
 form label {
     display: inline-block;
     vertical-align: top;
@@ -23,21 +26,31 @@ form label {
     padding: 2px;
     border: 1px #b6b6b6 solid;
     border-radius: 3px;
+    transition: all 0.5s easy-in-out;
 }
+
+form label.active {
+    background-color: #EFF3FF;
+}
+
 form label.selected {
     /*border:1px red dashed;*/
     background-color: rgba(76, 255, 0, 0.46);
 }
+
 form #gauge {
     display: inline-block;
 }
+
 form input {
     display: inline!important;
 }
+
 form .btn-group {
     display: inline-block!important;
     height: 16px!important;
 }
+
 .tooltip {
     position: absolute;
     top: 100px;
@@ -55,12 +68,15 @@ form .btn-group {
     font-size: 12px;
     z-index: 10;
 }
+
 .tooltip .title {
     font-size: 13px;
 }
+
 .tooltip .name {
     font-weight: bold;
 }
+
 #description {
     border: 1px #ccc solid;
     float: left;
@@ -69,12 +85,14 @@ form .btn-group {
     width: 220px;
     border-radius: 5px;
 }
+
 #vis {
     margin-left: 5px;
     display: inline-block;
     border: 1px #ccc solid;
     border-radius: 10px;
 }
+
 footer {
     float: left;
     position: absolute;
