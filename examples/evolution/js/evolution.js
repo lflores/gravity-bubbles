@@ -16,7 +16,7 @@ $(document).ready(function () {
                 return "<b>Name:</b>{name}<br>{category}<br><b>Size:</b> {size}<br><b>Size of Total:</b> {perc}%";
             },
             label: {
-                template: "{name}",
+                template: "{name}\n{perc}%\n{category}",
                 autofit: true
             }
         }
