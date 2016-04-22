@@ -34,9 +34,11 @@ Examples
 ![Gravity Bubbles Color groups](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-group-color.png)
 ###Grouping by category:
 ![Gravity Bubbles Category groups](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-group-category.png)
-###Live Example
-[Gravity Bubbles Example](http://www.triadsoft.com.ar/examples/gravity-bubbles/)
-###Fiddle Example
+###Flare Example
+[Gravity Bubbles Example](http://lflores.github.com/flare/)
+###Evolution Example
+[Gravity Evolution Timeline Example](http://lflores.github.com/evolution/)
+###Evolution Example
 [Gravity with label](http://jsfiddle.net/6cLpuL7j/8/)
 
 ###Colors Examples:
