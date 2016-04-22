@@ -39,7 +39,7 @@ Examples
 ###Evolution Example
 [Gravity Evolution Timeline Example](http://lflores.github.com/evolution/)
 ###Evolution Example
-[Gravity with label](http://jsfiddle.net/6cLpuL7j/8/)
+[Gravity with label](http://jsfiddle.net/6cLpuL7j/)
 
 ###Colors Examples:
 ![Gravity Bubbles Blue Scheme](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-blue.png)
