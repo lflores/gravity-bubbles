@@ -17,29 +17,32 @@ Also the component include 3 views:
 * "color" view, that are bubbles grouped by color fences, as vertical bands.
 * A free group that is a name of property of data that can be used to group data, (such as country, category, contact id, etc).
 
-###Some features
+##Some features
 * Tooltip templated configuration
 * Label templated configuration
 * Animated transitions
 * Size comparizons
 * Group data capability
 * Easy color schema changes
-* Resizable data legend
-* All items are visibles, including negatives and smallest data 
+* Adaptable data legend
+* All items are visibles, including negatives and smallest data
 
-Examples
+##Examples
 ###Default:
 ![Gravity Bubbles ungruped](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-default.png)
 ###Grouping by color:
 ![Gravity Bubbles Color groups](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-group-color.png)
 ###Grouping by category:
 ![Gravity Bubbles Category groups](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-group-category.png)
-###Flare Example
-[Gravity Bubbles Example](http://lflores.github.com/flare/)
-###Evolution Example
-[Gravity Evolution Timeline Example](http://lflores.github.com/evolution/)
-###Evolution Example
-[Gravity with label](http://jsfiddle.net/6cLpuL7j/)
+
+###[Flare Example](http://lflores.github.com/flare/)
+Based on common tree data "flare", and using D3js library, this example shows bubbles grouped in center (force), like earth gravity, with distinct sizes and colors.
+
+###[Evolution Example](http://lflores.github.com/evolution/)
+Based on D3js library, this example shows the evolution of bubbles through time, loading data in asynchronous form, under demand. Or you can push play to automate the action.
+
+###[Gravity Label](http://jsfiddle.net/6cLpuL7j/)
+This fiddle example shows how to configure the component for adaptable label to enabled space
 
 ###Colors Examples:
 ![Gravity Bubbles Blue Scheme](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-blue.png)
