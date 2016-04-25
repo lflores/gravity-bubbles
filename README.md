@@ -150,7 +150,7 @@ You can pass these options to the initialize function to set a custom look and f
     </tr>
     <tr>
         <td>.gravity-container</td>
-        <td>It's just to old styles asociated with this chart</td>
+        <td>It's just to hold styles asociated with this chart</td>
         <td>Yes</td>
         <td>Change it to add borders, background, and so on</td>
     </tr>
