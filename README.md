@@ -55,10 +55,8 @@ Based on D3js library, this example shows the evolution of bubbles through time,
 This fiddle example shows how to configure the component for adaptable label to enabled space
 
 ####Colors Examples:
-![Gravity Bubbles Blue Scheme](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-blue.png)
-![Gravity Bubbles Green Scheme](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-green.png)
-![Gravity Bubbles Brown Scheme](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-brown.png)
-
+Easy to change bubble colors
+![Gravity Bubbles Color Changes](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-color-change.gif)
 
 
 ## Get started
