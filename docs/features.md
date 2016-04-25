@@ -4,6 +4,8 @@ Based on [Jim Vallandingham Blog Post](http://vallandingham.me/bubble_charts_in_
 
 The main characteristic is the "gravity" to center, and hence its name. 
 
+![Gravity Bubbles Grouping](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-grouping.gif)
+
 Also the component include 3 views:
 * "all" view with unique center in center of chart
 * "color" view, that are bubbles grouped by color fences, as vertical bands.
@@ -16,22 +18,5 @@ Also the component include 3 views:
 * Size comparizons
 * Group data capability
 * Easy color schema changes
-* Resizable data legend
-* All items are visibles, including negatives and smallest data 
-
-Examples
-##Default:
-![Gravity Bubbles ungruped](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-default.png)
-##Grouping by color:
-![Gravity Bubbles Color groups](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-group-color.png)
-##Grouping by category:
-![Gravity Bubbles Category groups](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-group-category.png)
-##Live Example
-[Gravity Bubbles Example](http://www.triadsoft.com.ar/examples/gravity-bubbles/)
-##Fiddle Example
-[Gravity with label](http://jsfiddle.net/6cLpuL7j/8/)
-
-##Colors Examples:
-![Gravity Bubbles Blue Scheme](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-blue.png)
-![Gravity Bubbles Green Scheme](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-green.png)
-![Gravity Bubbles Brown Scheme](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-brown.png)
+* Adaptable data legend
+* All items are visibles, including negatives and smallest data

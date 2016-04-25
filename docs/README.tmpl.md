@@ -7,6 +7,9 @@
 ## Features
 {%= _.doc("features.md") %}
 
+##Examples
+{%= _.doc("examples.md") %}
+
 ## Get started
 {%= _.doc("get-started.md") %}
 
