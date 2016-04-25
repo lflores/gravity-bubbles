@@ -54,8 +54,9 @@ Based on D3js library, this example shows the evolution of bubbles through time,
 ####[Gravity Label](http://jsfiddle.net/6cLpuL7j/)
 This fiddle example shows how to configure the component for adaptable label to enabled space
 
-####Colors Examples:
-Easy to change bubble colors
+####Colors Changes:
+It's easy to change bubble colors
+
 ![Gravity Bubbles Color Changes](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-color-change.gif)
 
 
