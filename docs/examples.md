@@ -1,4 +1,3 @@
-##Examples
 ###Default:
 ![Gravity Bubbles ungruped](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-default.png)
 ###Grouping by color:

@@ -30,8 +30,7 @@ Also the component include 3 views:
 * All items are visibles, including negatives and smallest data
 
 
-##Examples
-###Examples
+## Examples
 ####Default:
 ![Gravity Bubbles ungruped](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-default.png)
 ####Grouping by color:
@@ -67,8 +66,7 @@ It's easy to change bubble colors
 
 
 ## Get started
-### Get started
-If you want to see it in action, go to [jsfiddle](https://jsfiddle.net/leoflores/6cLpuL7j/6/) that explain some concepts of use, and show how to change some properties. Or if you want to see a more complex use, please go to [gravity-bubbles](http://www.triadsoft.com.ar/examples/gravity-bubbles.html)
+If you want to see it in action, go to [jsfiddle](https://jsfiddle.net/leoflores/6cLpuL7j/6/) that explain some concepts of use, and show how to change some properties. Or if you want to see a more complex use, please go to [gravity-bubbles](http://lflores.github.com/flare)
 Currently I'm documenting the project, and please, [contact me](mailto:flores.leonardo@gmail.com) if you want to help or discovered some issue.
 To start using it, you must to download this proyect, and solve next dependencies.
 
