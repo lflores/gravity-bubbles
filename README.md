@@ -54,7 +54,7 @@ Based on D3js library, this example shows the evolution of bubbles through time,
 ####[Martian Example](http://lflores.github.com/martian/)(Thanks to [headwins](https://github.com/headwinds))
 In the year 2030, we face a new form of global conscription. Since we've ruined our planet, NATO has ordered the remaining population to board the fleet of Dragon class drop ships headed for that distant red rock in the sky which we'll have to now call home. Many are seeking asylum status in Southeast Asia to avoid ruining another planet.
 
-![Martian Example](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-timeline.gif)
+![Martian Example](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-martian.gif)
 
 
 ####[Gravity Label](http://jsfiddle.net/6cLpuL7j/)
