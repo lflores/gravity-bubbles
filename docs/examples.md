@@ -8,11 +8,14 @@
 
 ###[Flare Example](http://lflores.github.com/flare/)
 Based on common tree data "flare", and using D3js library, this example shows bubbles grouped in center (force), like earth gravity, with distinct sizes and colors.
+
 [Please show me](http://lflores.github.com/flare/)
 
 ###[Evolution Example](http://lflores.github.com/evolution/)
 Based on D3js library, this example shows the evolution of bubbles through time, loading data in asynchronous form, under demand. Or you can push play to automate the action.
-![Gravity Bubbles Evolution](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-evolution.gif)
+
+![Gravity Bubbles Evolution](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-timeline.gif)
+
 [I want to see it...](http://lflores.github.com/evolution/)
 
 ###[Gravity Label](http://jsfiddle.net/6cLpuL7j/)
