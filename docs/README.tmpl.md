@@ -26,4 +26,8 @@
 {%= _.doc("browser-support.md") %}
 
 ## Copyright
-{%= copyright %} {%= license %}
+{%= copyright %} {%= license %} 
+
+Special Thanks to contributors:
+* [headwinds](http://github.com/headwinds)
+* [vlandham](http://github.com/vlandham)
