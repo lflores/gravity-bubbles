@@ -120,13 +120,8 @@ module.exports = function (grunt) {
         },
 
         karma: {
-            unit: {
-                configFile: 'karma.conf.coffee'
-            },
-            ci: {
-                configFile: 'karma.conf.coffee',
-                singleRun: true,
-                browsers: ['PhantomJS']
+			unit: {
+                configFile: 'karma.conf.js'
             }
         },
 
