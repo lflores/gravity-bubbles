@@ -41,6 +41,7 @@ Also the component include 3 views:
 ####[Flare Example](http://lflores.github.com/flare/)
 Based on common tree data "flare", and using D3js library, this example shows bubbles grouped in center (force), like earth gravity, with distinct sizes and colors.
 
+![Gravity Bubbles Flare Example](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-flare.gif)
 [Please show me](http://lflores.github.com/flare/)
 
 ####[Evolution Example](http://lflores.github.com/evolution/)
@@ -60,14 +61,14 @@ In the year 2030, we face a new form of global conscription. Since we've ruined 
 This fiddle example shows how to configure the component for adaptable label to enabled space
 
 ####Colors Changes:
-It's easy to change bubble colors
+It's easy to change bubble colors, setting points and colors arrays.
 
 ![Gravity Bubbles Color Changes](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-color-change.gif)
 
 
 ## Get started
 If you want to see it in action, go to [jsfiddle](https://jsfiddle.net/leoflores/6cLpuL7j/6/) that explain some concepts of use, and show how to change some properties. Or if you want to see a more complex use, please go to [gravity-bubbles](http://lflores.github.com/flare)
-Currently I'm documenting the project, and please, [contact me](mailto:flores.leonardo@gmail.com) if you want to help or discovered some issue.
+Currently I'm documenting the project, and please, [contact me](https://github.com/lflores/gravity-bubbles/issues) if you want to help or discovered some issue.
 To start using it, you must to download this proyect, and solve next dependencies.
 
 Dependencies:
@@ -291,4 +292,8 @@ Support for Internet Explorer 9.
 
 
 ## Copyright
-Copyright (c) 2016 Triad, contributors. Released under the  license
+Copyright (c) 2016 triad, contributors. Released under the GPL-3.0 license 
+
+Special Thanks to contributors:
+* [headwinds](http://github.com/headwinds)
+* [vlandham](http://github.com/vlandham)
