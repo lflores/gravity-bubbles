@@ -39,7 +39,7 @@ Also the component include 3 views:
 ![Gravity Bubbles Category groups](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-group-category.png)
 
 ####[Flare Example](http://lflores.github.com/flare/)
-Based on common tree data "flare", and using D3js library, this example shows bubbles grouped in center (force), like earth gravity, with distinct sizes and colors.
+Based on common tree data "flare", and using D3js library, this example shows bubbles grouped in center (force), like earth gravity, with distinct sizes and colors, you can dive into data hierarchy.
 
 ![Gravity Bubbles Flare Example](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-flare.gif)
 [Please show me](http://lflores.github.com/flare/)
