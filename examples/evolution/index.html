@@ -16,16 +16,18 @@
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap-slider.min.js"></script>
 
     <!--    <script src="../js/lineargauge.min.js"></script>-->
     <link rel="stylesheet" href="../css/linear-gauge.css"></link>
     <script src="https://rawgit.com/lflores/gravity-bubbles/master/dist/gravity-bubbles.min.js"></script>
     <!--    <script src="../../dist/gravity-bubbles.min.js"></script>-->
-<!--    <script src="../../src/js/gravity-bubbles.js"></script>-->
+    <!--    <script src="../../src/js/gravity-bubbles.js"></script>-->
     <!--    <script src="../../src/js/gravity-bubbles-bak.js"></script>-->
     <!--    <script src="../../src/js/custom-tooltip.js"></script>-->
     <link rel="stylesheet" href="../css/gravity-bubbles.css"></link>
     <link rel="stylesheet" href="../css/basic-styles.css"></link>
+    <link rel="stylesheet" href="../css/bootstrap-slider.min.css"></link>
     <link rel="stylesheet" href="css/evolution.css"></link>
     <meta name="viewport" content="width=device-width,initial-scale=1">
 </head>
@@ -37,6 +39,8 @@
             <p>This example shows evolution or changes of data through time</p>
             <form name="timeline-form">
                 <h5>Timeline:</h5>
+                <input id="timeline" class="slider" data-slider-min="201501" data-slider-max="201505" data-slider-step="1" data-slider-value="201501" style="width: 240px;" data-slider-orientation="horizontal" data-slider-selection="after" data-slider->
+                <!--
                 <label class="active">
                     <input type="radio" name="timeline" value="201501" checked>Ene-2015
                 </label>
@@ -52,7 +56,8 @@
                 <label>
                     <input type="radio" name="timeline" value="201505">May-2015
                 </label>
-                <button name="play-button" type="button" data-toggle="button" class="btn btn-default" aria-label="Left Align">
+-->
+                <button name="play-button" type="button" data-toggle="button" class="btn btn-default btn-xs" aria-label="Left Align">
                     <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
                 </button>
             </form>
@@ -85,10 +90,6 @@
     </div>
 
     <script type="text/javascript" src="js/evolution.js"></script>
-    <!--[if lt IE 7 ]>
-    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
-    <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
-  <![endif]-->
 </body>
 
 </html>

@@ -1,6 +1,15 @@
 var chart;
 var delay_play = 3000;
+var months = ["Ene", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
 $(document).ready(function () {
+    $(".slider").bootstrapSlider({
+        formatter: function (d) {
+            return months[Number(d - 201500) - 1] + " " + Math.floor(d / 100);
+        },
+        tooltip: "show",
+        ticks_labels: ["Ene 15", "Feb 15", "Mar 15", "Apr 15", "May 15"]
+    });
+
     var month;
     chart = new GravityBubbles({
         id: "vis",
@@ -23,17 +32,12 @@ $(document).ready(function () {
     });
 
     //Month for first time
-    month = $("input[name='timeline']").val();
-    load(month);
+    load($("#timeline").bootstrapSlider("getValue"));
     group = $("#group a.active").attr("id");
     chart.groupById(group);
 
-    //When month changes reload data for month
-    $('input[name="timeline"]').change(function () {
-        var month = $(this).val();
-        $("form[name=timeline-form] > label").removeClass("active");
-        $(this).parent().addClass("active");
-        load(month);
+    $("#timeline").on("change", function (event) {
+        load(event.value.newValue);
     });
 
     $('#group a').click(function () {
@@ -58,9 +62,11 @@ $(document).ready(function () {
 
     $('button[name="play-button"]').click(function () {
         if ($(this).hasClass("active")) {
+            $(this).find("span").removeClass("glyphicon-pause");
             stop();
             return;
         }
+        $(this).find("span").addClass("glyphicon-pause");
         play();
     });
 });
@@ -99,11 +105,14 @@ function rollup(node) {
 
 
 function play() {
+    var min = Number($("#timeline").bootstrapSlider("getAttribute", "min"));
+    var max = Number($("#timeline").bootstrapSlider("getAttribute", "max"));
     interval = setInterval(function () {
-        var index = $("input[name='timeline']").index($("input[name='timeline']:checked"));
+        var index = Number($("#timeline").bootstrapSlider("getValue"));
         index++;
-        index = index % $("input[name='timeline']").length;
-        $("input[name='timeline']").get(index).click();
+        index = index > max ? min : index;
+        $("#timeline").bootstrapSlider("setValue", index);
+        load(index);
     }, delay_play);
 }
 
