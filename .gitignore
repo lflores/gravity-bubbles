@@ -1,0 +1,5 @@
+# installed libs
+node_modules/**
+
+#temporary files
+tmp/*
