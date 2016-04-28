@@ -2,8 +2,8 @@
  * gravity-bubbles
  * This component, using d3js API, draw animated bubbles chart with gravity
  *
- * @license GPL-3.0 (https://opensource.org/licenses/GPL-3.0)
- * @author Triad <flores.leonardo@gmail.com> (http://www.triadsoft.com.ar)
+ * @license 
+ * @author triad <flores.leonardo@gmail.com> (http://github.com/lflores)
  * @version 1.0.1
  **/
 

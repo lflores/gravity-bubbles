@@ -128,7 +128,8 @@ module.exports = function (grunt) {
         less: {
             demo: {
                 files: {
-                    '<%= dirs.demo %>/css/gravity-bubbles.css': ['<%= dirs.src %>/css/gravity-bubbles.css']
+                    '<%= dirs.demo %>/css/gravity-bubbles.css': ['<%= dirs.src %>/css/gravity-bubbles.css'],
+					'<%= dirs.dest %>/css/gravity-bubbles.css': ['<%= dirs.src %>/css/gravity-bubbles.css']
                 }
             }
         },
