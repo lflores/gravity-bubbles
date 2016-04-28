@@ -23,6 +23,7 @@
   }
 }(this, function () {
 
+"use stricts"
 /**
 This component based on d3js API draw a chart with floating bubbles, with gravity
 <ul>
@@ -52,8 +53,8 @@ GravityBubbles = function (config) {
     this.firstTime = false;
     var _defaults = {
         sticky: false,
-        height: 600,
-        width: 350,
+        _height: 200,
+        _width: 200,
         minRadius: 5,
         maxRadius: 40,
         debug: false,
@@ -68,12 +69,12 @@ GravityBubbles = function (config) {
         groupById: "all",
         data: {
             tooltip: {
-                template: "<b>{name} - {description}</b><br><b>GP %:</b>{gp_brl} <br><b>GTN %:</b> {gtn_brl}<br><b>NS:</b> {ns_brl}",
+                template: "<b>{name}</b>",
                 formatter: d3.format(",.2f")
             },
             group: {
                 label: function (d, _this) {
-                    if (_this._config.groupById == 'all') {
+                    if (_this._config.groupById === 'all') {
                         return "";
                     } else if (_this._config.groupById === "color") {
                         if (d.key === 'more') {
@@ -96,16 +97,21 @@ GravityBubbles = function (config) {
             }
         }
     };
-    this._config = $.extend(true, _defaults, config);
+    this._config = this.extend(true, _defaults, config);
     this.tooltip = CustomTooltip("bubble_tooltip", 240);
     this.create();
 };
 
 GravityBubbles.prototype.create = function () {
     var that = this;
-
-    this.container = d3.select("#" + this._config.id);
+    if (this._config.container) {
+        this.container = d3.select(this._config.container);
+    } else {
+        this.container = d3.select("#" + this._config.id);
+    }
     this.container.style("overflow", "hidden");
+    this._config.width = typeof this._config.width === 'undefined' ? this.container[0][0].clientWidth : this._config.width;
+    this._config.height = typeof this._config.height === 'undefined' ? this.container[0][0].clientHeight : this._config.height;
 
     this.svg = this.container.append("svg")
         .attr("class", "gravity-container")
@@ -145,7 +151,7 @@ GravityBubbles.prototype.create = function () {
 };
 
 GravityBubbles.prototype.config = function (config) {
-    this._config = $.extend(true, this._config, config);
+    this._config = this.extend(true, this._config, config);
     this._update_colors();
 
     this.svg
@@ -225,7 +231,7 @@ GravityBubbles.prototype._data_replace = function (d, template, formatter) {
     }
     var matched = template.match(/{([\w\.\_\/]+)}/g);
     if (matched) {
-        $.each(matched, function (i, match) {
+        matched.forEach(function (match, i) {
             var property = /{([\w\.\_\/]+)}/g.exec(match);
             var _value = "";
             //Toda propiedad que no sea id, description, verifica si es un numero.
@@ -1118,21 +1124,45 @@ GravityBubbles.prototype.resize = function () {
     }
 };
 
+/**
+Jquery replacement , to avoid use it..
+*/
+GravityBubbles.prototype.extend = function (out) {
+    out = out || {};
+
+    for (var i = 1; i < arguments.length; i++) {
+        var obj = arguments[i];
+
+        if (!obj)
+            continue;
+
+        for (var key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                if (typeof obj[key] === 'object')
+                    out[key] = deepExtend(out[key], obj[key]);
+                else
+                    out[key] = obj[key];
+            }
+        }
+    }
+    return out;
+};
+
 CustomTooltip = function (tooltipId, width) {
-    if ($("#" + tooltipId).length === 0) {
+    var element = document.querySelector("#" + tooltipId);
+    if (element.length === 0) {
         $("body").append("<div class='tooltip' id='" + tooltipId + "'></div>");
     }
 
     if (width) {
-        $("#" + tooltipId).css("width", width);
+        getComputedStyle(element).css("width", width);
     }
 
     hideTooltip();
 
     function showTooltip(content, event) {
-        $("#" + tooltipId).html(content);
+        element.innerHTML = content;
         $("#" + tooltipId).show();
-
         updatePosition(event);
     }
 

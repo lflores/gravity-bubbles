@@ -13,7 +13,8 @@ describe("GravityBubbles tests", function () {
         var $child = $("<div id=\"" + id + "\"></div>");
         $child.css("height", 300);
         $child.css("width", 600);
-        $child.css("border", "1px red dashed");
+        $child.css("border", "1px gray solid");
+		$child.css("border-radius", "5px");
         $("body").append($child);
         return $child[0];
     }

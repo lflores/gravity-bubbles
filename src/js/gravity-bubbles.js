@@ -27,8 +27,8 @@ GravityBubbles = function (config) {
     this.firstTime = false;
     var _defaults = {
         sticky: false,
-        height: 600,
-        width: 350,
+        _height: 600,
+        _width: 350,
         minRadius: 5,
         maxRadius: 40,
         debug: false,
@@ -43,7 +43,7 @@ GravityBubbles = function (config) {
         groupById: "all",
         data: {
             tooltip: {
-                template: "<b>{name} - {description}</b><br><b>GP %:</b>{gp_brl} <br><b>GTN %:</b> {gtn_brl}<br><b>NS:</b> {ns_brl}",
+                template: "<b>{name}</b>",
                 formatter: d3.format(",.2f")
             },
             group: {
@@ -78,9 +78,14 @@ GravityBubbles = function (config) {
 
 GravityBubbles.prototype.create = function () {
     var that = this;
-
-    this.container = d3.select("#" + this._config.id);
+    if (this._config.container) {
+        this.container = d3.select(this._config.container);
+    } else {
+        this.container = d3.select("#" + this._config.id);
+    }
     this.container.style("overflow", "hidden");
+    this._config.width = typeof this._config.width === 'undefined' ? this.container[0][0].clientWidth : this._config.width;
+    this._config.height = typeof this._config.height === 'undefined' ? this.container[0][0].clientHeight : this._config.height;
 
     this.svg = this.container.append("svg")
         .attr("class", "gravity-container")
@@ -1095,7 +1100,7 @@ GravityBubbles.prototype.resize = function () {
 
 CustomTooltip = function (tooltipId, width) {
     if ($("#" + tooltipId).length === 0) {
-        $("body").append("<div class='tooltip' id='" + tooltipId + "'></div>");
+        $("body").append("<div class=\"gravity-tooltip\" id=\"" + tooltipId + "\"></div>");
     }
 
     if (width) {
