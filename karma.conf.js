@@ -15,7 +15,7 @@ module.exports = function(config) {
 				served: true,
 				included: false
 			 },
-			 './examples/css/basic-styles.css',
+			'./examples/css/basic-styles.css',
 			'./examples/css/gravity-bubbles.css',
 			'./tests/libs/*.js',
 			'./src/js/gravity-bubbles.js',
