@@ -17,6 +17,11 @@ Gravity Bubbles
     stroke-width: 3px;
 }
 
+.gravity-container .selected >.bubble {
+    stroke: #0c314e;
+    stroke-width: 3px;
+}
+
 .gravity-container .bubble.drilldown {
     transform: scale(1.5);
 }
@@ -74,6 +79,11 @@ Gravity Bubbles
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
+}
+
+.gravity-container text.label tspan.head {
+    stroke: #1f1f1f;
+    font-size: 1.1em;
 }
 
 .gravity-tooltip {

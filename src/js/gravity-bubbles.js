@@ -30,7 +30,7 @@ GravityBubbles = function (config) {
         _height: 600,
         _width: 350,
         minRadius: 5,
-        maxRadius: 40,
+        maxRadius: 20,
         debug: false,
         //cuando calcula los grupos es la cantidad maxima de columnas
         lanes: 4,
@@ -346,7 +346,7 @@ GravityBubbles.prototype._calculate_groups = function () {
     var width = this._config.width * 0.9 / numCols;
     var height = this._config.height / Math.ceil(this._config.groups.length / numCols) - 2;
 
-    this._config.maxRadius = width - 3;
+    this._config.maxRadius = width * 0.2;
     this.radius_scale.range([this._config.minRadius, this._config.maxRadius]);
 
 
@@ -653,7 +653,8 @@ GravityBubbles.prototype._draw_text = function (text, that) {
             return;
         }
         var text = d3.select(this),
-            lines = _text.split(/\n+/).reverse(),
+            //lines = _text.split(/\n+/).reverse(),
+            lines = _text.splitMultiple().reverse(),
             line = [],
             lineNumber = 0,
             lineHeight = 1.1, // ems
@@ -668,26 +669,29 @@ GravityBubbles.prototype._draw_text = function (text, that) {
                 .attr("x", 0)
                 .attr("y", y)
                 .attr("dy", lineHeight + "em")
+                .classed("head", function (d) {
+                    return lineNumber === 0;
+                })
                 .text(line);
-
-            var loop = 0;
-            while (tspan.node().getComputedTextLength() > d.dx && loop++ < 5) {
-                var _textSpan = tspan.text();
-                _splited = _textSpan.split("-");
-                if (_splited.length === 1) {
-                    _splited = _text.split(" ");
-                }
-                //Agrego el primer resultado
-                tspan.text(_splited[0].trim());
-                if (_splited.length > 1) {
-                    tspan = text
-                        .append("tspan")
-                        .attr("x", 0)
-                        .attr("y", y)
-                        .attr("dy", lineHeight + "em")
-                        .text(_splited[1].trim());
-                }
-            }
+            lineNumber++;
+            //            var loop = 0;
+            //            while (tspan.node().getComputedTextLength() > d.dx && loop++ < 5) {
+            //                var _textSpan = tspan.text();
+            //                _splited = _textSpan.split("-");
+            //                if (_splited.length === 1) {
+            //                    _splited = _text.split(" ");
+            //                }
+            //                //Agrego el primer resultado
+            //                tspan.text(_splited[0].trim());
+            //                if (_splited.length > 1) {
+            //                    tspan = text
+            //                        .append("tspan")
+            //                        .attr("x", 0)
+            //                        .attr("y", y)
+            //                        .attr("dy", lineHeight + "em")
+            //                        .text(_splited[1].trim());
+            //                }
+            //            }
         }
         //Cuando tiene varias lineas, las alinea centradas
         var _width = this.getBBox().width;
@@ -765,6 +769,9 @@ GravityBubbles.prototype.refresh = function () {
     } else {
         this._config.maxRadius = 65;
     }
+    this._config.width = typeof this._config.width === 'undefined' ? this.container[0][0].clientWidth : this._config.width;
+    this._config.height = typeof this._config.height === 'undefined' ? this.container[0][0].clientHeight : this._config.height;
+
     this._draw_groups();
     this._update_radius();
     this._draw_circles();
@@ -1096,55 +1103,4 @@ GravityBubbles.prototype.resize = function () {
         this._calculate_groups();
         this.refresh();
     }
-};
-
-CustomTooltip = function (tooltipId, width) {
-    if ($("#" + tooltipId).length === 0) {
-        $("body").append("<div class=\"gravity-tooltip\" id=\"" + tooltipId + "\"></div>");
-    }
-
-    if (width) {
-        $("#" + tooltipId).css("width", width);
-    }
-
-    hideTooltip();
-
-    function showTooltip(content, event) {
-        $("#" + tooltipId).html(content);
-        $("#" + tooltipId).show();
-
-        updatePosition(event);
-    }
-
-    function hideTooltip() {
-        $("#" + tooltipId).hide();
-    }
-
-    function updatePosition(event) {
-        var ttid = "#" + tooltipId;
-        var xOffset = 20;
-        var yOffset = 10;
-
-        var ttw = $(ttid).width();
-        var tth = $(ttid).height();
-        var wscrY = $(window).scrollTop();
-        var wscrX = $(window).scrollLeft();
-        var curX = (document.all) ? event.clientX + wscrX : event.pageX;
-        var curY = (document.all) ? event.clientY + wscrY : event.pageY;
-        var ttleft = ((curX - wscrX + xOffset * 2 + ttw) > $(window).width()) ? curX - ttw - xOffset * 2 : curX + xOffset;
-        if (ttleft < wscrX + xOffset) {
-            ttleft = wscrX + xOffset;
-        }
-        var tttop = ((curY - wscrY + yOffset * 2 + tth) > $(window).height()) ? curY - tth - yOffset * 2 : curY + yOffset;
-        if (tttop < wscrY + yOffset) {
-            tttop = curY + yOffset;
-        }
-        $(ttid).css('top', tttop + 'px').css('left', ttleft + 'px');
-    }
-
-    return {
-        showTooltip: showTooltip,
-        hideTooltip: hideTooltip,
-        updatePosition: updatePosition
-    };
 };

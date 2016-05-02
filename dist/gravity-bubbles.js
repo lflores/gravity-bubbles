@@ -23,7 +23,109 @@
   }
 }(this, function () {
 
-"use stricts"
+/**
+jQuery extends replacemement
+*/
+Object.prototype.extends = function (out) {
+    out = out || {};
+
+    for (var i = 0; i < arguments.length; i++) {
+        var obj = arguments[i];
+        if (!obj) {
+            continue;
+        }
+
+        for (var key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                if (typeof obj[key] === 'object' && typeof this[key] != 'undefined')
+                    this[key].extends(obj[key]);
+                else
+                    this[key] = obj[key];
+            }
+        }
+    }
+    return this;
+};
+
+/**
+Text cutter, using char sequence
+*/
+String.prototype.splitMultiple = function (chars) {
+    if (typeof chars === 'undefined') {
+        chars = "\n-";
+    }
+    var _chars = chars.split("");
+    var _lines = this.split(_chars[0]);
+    _chars.splice(0, 1);
+    if (_chars.length === 0) {
+        return _lines.map(function (elem) {
+            return elem.trim();
+        });
+    }
+    var _newlines = [];
+    for (var i = 0; i < _lines.length; i++) {
+        var _line = _lines[i].splitMultiple(_chars.join(""));
+        if (_line.length > 1) {
+            _newlines = _newlines.concat(_line);
+        } else {
+            _newlines.push(_line[0]);
+        }
+    }
+    return _newlines;
+};
+
+CustomTooltip = function (tooltipId, width) {
+    if ($("#" + tooltipId).length === 0) {
+        $("body").append("<div class=\"gravity-tooltip\" id=\"" + tooltipId + "\"></div>");
+    }
+
+    if (width) {
+        $("#" + tooltipId).css("width", width);
+    }
+
+    hideTooltip();
+
+    function showTooltip(content, event) {
+        var parsed = content.splitMultiple();
+        $("#" + tooltipId).html(parsed.join("<br>"));
+        $("#" + tooltipId).show();
+
+        updatePosition(event);
+    }
+
+    function hideTooltip() {
+        $("#" + tooltipId).hide();
+    }
+
+    function updatePosition(event) {
+        var ttid = "#" + tooltipId;
+        var xOffset = 20;
+        var yOffset = 10;
+
+        var ttw = $(ttid).width();
+        var tth = $(ttid).height();
+        var wscrY = $(window).scrollTop();
+        var wscrX = $(window).scrollLeft();
+        var curX = (document.all) ? event.clientX + wscrX : event.pageX;
+        var curY = (document.all) ? event.clientY + wscrY : event.pageY;
+        var ttleft = ((curX - wscrX + xOffset * 2 + ttw) > $(window).width()) ? curX - ttw - xOffset * 2 : curX + xOffset;
+        if (ttleft < wscrX + xOffset) {
+            ttleft = wscrX + xOffset;
+        }
+        var tttop = ((curY - wscrY + yOffset * 2 + tth) > $(window).height()) ? curY - tth - yOffset * 2 : curY + yOffset;
+        if (tttop < wscrY + yOffset) {
+            tttop = curY + yOffset;
+        }
+        $(ttid).css('top', tttop + 'px').css('left', ttleft + 'px');
+    }
+
+    return {
+        showTooltip: showTooltip,
+        hideTooltip: hideTooltip,
+        updatePosition: updatePosition
+    };
+};
+
 /**
 This component based on d3js API draw a chart with floating bubbles, with gravity
 <ul>
@@ -53,10 +155,10 @@ GravityBubbles = function (config) {
     this.firstTime = false;
     var _defaults = {
         sticky: false,
-        _height: 200,
-        _width: 200,
+        _height: 600,
+        _width: 350,
         minRadius: 5,
-        maxRadius: 40,
+        maxRadius: 20,
         debug: false,
         //cuando calcula los grupos es la cantidad maxima de columnas
         lanes: 4,
@@ -74,7 +176,7 @@ GravityBubbles = function (config) {
             },
             group: {
                 label: function (d, _this) {
-                    if (_this._config.groupById === 'all') {
+                    if (_this._config.groupById == 'all') {
                         return "";
                     } else if (_this._config.groupById === "color") {
                         if (d.key === 'more') {
@@ -97,7 +199,7 @@ GravityBubbles = function (config) {
             }
         }
     };
-    this._config = this.extend(true, _defaults, config);
+    this._config = $.extend(true, _defaults, config);
     this.tooltip = CustomTooltip("bubble_tooltip", 240);
     this.create();
 };
@@ -151,7 +253,7 @@ GravityBubbles.prototype.create = function () {
 };
 
 GravityBubbles.prototype.config = function (config) {
-    this._config = this.extend(true, this._config, config);
+    this._config = $.extend(true, this._config, config);
     this._update_colors();
 
     this.svg
@@ -231,7 +333,7 @@ GravityBubbles.prototype._data_replace = function (d, template, formatter) {
     }
     var matched = template.match(/{([\w\.\_\/]+)}/g);
     if (matched) {
-        matched.forEach(function (match, i) {
+        $.each(matched, function (i, match) {
             var property = /{([\w\.\_\/]+)}/g.exec(match);
             var _value = "";
             //Toda propiedad que no sea id, description, verifica si es un numero.
@@ -372,7 +474,7 @@ GravityBubbles.prototype._calculate_groups = function () {
     var width = this._config.width * 0.9 / numCols;
     var height = this._config.height / Math.ceil(this._config.groups.length / numCols) - 2;
 
-    this._config.maxRadius = width - 3;
+    this._config.maxRadius = width * 0.2;
     this.radius_scale.range([this._config.minRadius, this._config.maxRadius]);
 
 
@@ -679,7 +781,8 @@ GravityBubbles.prototype._draw_text = function (text, that) {
             return;
         }
         var text = d3.select(this),
-            lines = _text.split(/\n+/).reverse(),
+            //lines = _text.split(/\n+/).reverse(),
+            lines = _text.splitMultiple().reverse(),
             line = [],
             lineNumber = 0,
             lineHeight = 1.1, // ems
@@ -694,26 +797,29 @@ GravityBubbles.prototype._draw_text = function (text, that) {
                 .attr("x", 0)
                 .attr("y", y)
                 .attr("dy", lineHeight + "em")
+                .classed("head", function (d) {
+                    return lineNumber === 0;
+                })
                 .text(line);
-
-            var loop = 0;
-            while (tspan.node().getComputedTextLength() > d.dx && loop++ < 5) {
-                var _textSpan = tspan.text();
-                _splited = _textSpan.split("-");
-                if (_splited.length === 1) {
-                    _splited = _text.split(" ");
-                }
-                //Agrego el primer resultado
-                tspan.text(_splited[0].trim());
-                if (_splited.length > 1) {
-                    tspan = text
-                        .append("tspan")
-                        .attr("x", 0)
-                        .attr("y", y)
-                        .attr("dy", lineHeight + "em")
-                        .text(_splited[1].trim());
-                }
-            }
+            lineNumber++;
+            //            var loop = 0;
+            //            while (tspan.node().getComputedTextLength() > d.dx && loop++ < 5) {
+            //                var _textSpan = tspan.text();
+            //                _splited = _textSpan.split("-");
+            //                if (_splited.length === 1) {
+            //                    _splited = _text.split(" ");
+            //                }
+            //                //Agrego el primer resultado
+            //                tspan.text(_splited[0].trim());
+            //                if (_splited.length > 1) {
+            //                    tspan = text
+            //                        .append("tspan")
+            //                        .attr("x", 0)
+            //                        .attr("y", y)
+            //                        .attr("dy", lineHeight + "em")
+            //                        .text(_splited[1].trim());
+            //                }
+            //            }
         }
         //Cuando tiene varias lineas, las alinea centradas
         var _width = this.getBBox().width;
@@ -791,6 +897,9 @@ GravityBubbles.prototype.refresh = function () {
     } else {
         this._config.maxRadius = 65;
     }
+    this._config.width = typeof this._config.width === 'undefined' ? this.container[0][0].clientWidth : this._config.width;
+    this._config.height = typeof this._config.height === 'undefined' ? this.container[0][0].clientHeight : this._config.height;
+
     this._draw_groups();
     this._update_radius();
     this._draw_circles();
@@ -1122,81 +1231,6 @@ GravityBubbles.prototype.resize = function () {
         this._calculate_groups();
         this.refresh();
     }
-};
-
-/**
-Jquery replacement , to avoid use it..
-*/
-GravityBubbles.prototype.extend = function (out) {
-    out = out || {};
-
-    for (var i = 1; i < arguments.length; i++) {
-        var obj = arguments[i];
-
-        if (!obj)
-            continue;
-
-        for (var key in obj) {
-            if (obj.hasOwnProperty(key)) {
-                if (typeof obj[key] === 'object')
-                    out[key] = deepExtend(out[key], obj[key]);
-                else
-                    out[key] = obj[key];
-            }
-        }
-    }
-    return out;
-};
-
-CustomTooltip = function (tooltipId, width) {
-    var element = document.querySelector("#" + tooltipId);
-    if (element.length === 0) {
-        $("body").append("<div class='tooltip' id='" + tooltipId + "'></div>");
-    }
-
-    if (width) {
-        getComputedStyle(element).css("width", width);
-    }
-
-    hideTooltip();
-
-    function showTooltip(content, event) {
-        element.innerHTML = content;
-        $("#" + tooltipId).show();
-        updatePosition(event);
-    }
-
-    function hideTooltip() {
-        $("#" + tooltipId).hide();
-    }
-
-    function updatePosition(event) {
-        var ttid = "#" + tooltipId;
-        var xOffset = 20;
-        var yOffset = 10;
-
-        var ttw = $(ttid).width();
-        var tth = $(ttid).height();
-        var wscrY = $(window).scrollTop();
-        var wscrX = $(window).scrollLeft();
-        var curX = (document.all) ? event.clientX + wscrX : event.pageX;
-        var curY = (document.all) ? event.clientY + wscrY : event.pageY;
-        var ttleft = ((curX - wscrX + xOffset * 2 + ttw) > $(window).width()) ? curX - ttw - xOffset * 2 : curX + xOffset;
-        if (ttleft < wscrX + xOffset) {
-            ttleft = wscrX + xOffset;
-        }
-        var tttop = ((curY - wscrY + yOffset * 2 + tth) > $(window).height()) ? curY - tth - yOffset * 2 : curY + yOffset;
-        if (tttop < wscrY + yOffset) {
-            tttop = curY + yOffset;
-        }
-        $(ttid).css('top', tttop + 'px').css('left', ttleft + 'px');
-    }
-
-    return {
-        showTooltip: showTooltip,
-        hideTooltip: hideTooltip,
-        updatePosition: updatePosition
-    };
 };
 
 return GravityBubbles;

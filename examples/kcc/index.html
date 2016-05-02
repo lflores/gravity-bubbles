@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<!-- BASED on http://jsfiddle.net/Y2zue/-->
+<!--http://www.stator-afm.com/tutorial/d3-js-mouse-events/-->
+<html>
+
+<head>
+    <title>GravityBubbles Example</title>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <script src="../js/lineargauge.min.js"></script>
+    <link rel="stylesheet" href="../css/linear-gauge.css"></link>
+<!--    <script src="https://rawgit.com/lflores/gravity-bubbles/master/dist/gravity-bubbles.min.js"></script>-->
+    <!--<script src="../../dist/gravity-bubbles.min.js"></script>-->
+<script src="../../src/js/gravity-bubbles.js"></script>
+    <link rel="stylesheet" href="../css/gravity-bubbles.css"></link>
+    <link rel="stylesheet" href="../css/basic-styles.css"></link>
+    <link rel="stylesheet" href="css/flare.css"></link>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+
+<body>
+    <div id="container" class="container">
+        <header>
+            <form style="display: none;">
+                <h5>Color Scheme:</h5>
+                <label>
+                    <input type="radio" name="color-scheme" value="blue" checked>Default
+                </label>
+                <label>
+                    <input type="radio" name="color-scheme" value="green">Green
+                </label>
+                <label>
+                    <input type="radio" name="color-scheme" value="greenred">Jim
+                </label>
+                <label>
+                    <input type="radio" name="color-scheme" value="brown">Brown
+                </label>
+                <div id="gauge"></div>
+            </form>
+
+            <form style="display: none;">
+                <h5>Resize:</h5>
+                <div id="size" class="btn-group">
+                    <a href="#" id="mini" class="btn btn-sm">Mini</a>
+                    <a href="#" id="medium" class="btn btn-sm">Medium</a>
+                    <a href="#" id="max" class="btn btn-sm active">Large</a>
+                </div>
+            </form>
+            <form>
+                <h5>Group By:</h5>
+                <div id="group" class="btn-group">
+                    <a href="#" id="all" class="btn btn-sm active">All</a>
+                    <a href="#" id="color" class="btn btn-sm">Color</a>
+                    <a href="#" id="[0COMP_CODE__0COUNTRY]" class="btn btn-sm">Country</a>
+                    <a href="#" id="user" class="btn btn-sm" style="display: none;">User</a>
+                </div>
+            </form>
+            <ol class="breadcrumb" style="display: none;">
+                <!--<li class="active"><a href="#">flare</a></li>-->
+            </ol>
+        </header>
+        <div id="main" role="main">
+            <div id="description">
+                <p>Based on common tree data "flare", and using <a href="http://www.d3js.org">D3js</a> library, this example shows bubbles grouped in center (force), like earth gravity, with distinct sizes and colors.</p>
+                <p>The <b>size of bubbles</b> is the <b>size of each node</b>, and <b>color</b> is the <b>percentage of total</b> that cover this node. If you <b>click in a bubble</b>, you can do a <b>drilldown</b> and dive into data tree</p>
+                <p>Also, you have a breadcrumb to drill up data</p>
+            </div>
+            <div id="vis"></div>
+        </div>
+        <footer>
+            <p>A demonstration of animated bubble charts in D3.js, based on next examples and ideas</p>
+            <p><a href="http://vallandingham.me/bubble_charts_in_d3.html" target="_blank">Jim Vallandingham Blog Post</a> | <a href="http://www.nytimes.com/interactive/2012/02/13/us/politics/2013-budget-proposal-graphic.html?_r=0" target="_blank">Obama’s 2013 Budget Proposal</a> | <a href="http://projects.delimited.io/experiments/force-bubbles/radial.html" target="_blank">Automobile Force</a></p>
+        </footer>
+    </div>
+
+    <script type="text/javascript" src="js/flare.js"></script>
+    <!--[if lt IE 7 ]>
+    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+    <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+  <![endif]-->
+
+</body>
+
+</html>

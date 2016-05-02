@@ -28,21 +28,24 @@ module.exports = function (grunt) {
         concat: {
             vanilla: {
                 src: [
-					'<%= dirs.src %>/js/renderer/canvas.js',
+					'<%= dirs.src %>/js/utils.js',
+                    '<%= dirs.src %>/js/custom-tooltip.js',
 					'<%= dirs.src %>/js/<%= cfg.filename %>.js'
 				],
                 dest: '<%= dirs.tmp %>/<%= cfg.filename %>.js'
             },
             jquery: {
                 src: [
+                    '<%= dirs.src %>/js/utils.js',
+                    '<%= dirs.src %>/js/custom-tooltip.js',
 					'<%= dirs.src %>/js/<%= cfg.filename %>.js'
 				],
                 dest: '<%= dirs.tmp %>/jquery.<%= cfg.filename %>.js'
             },
             angular: {
                 src: [
-					'<%= dirs.src %>/angular.directive.js',
-					'<%= dirs.src %>/renderer/canvas.js',
+					'<%= dirs.src %>/js/utils.js',
+                    '<%= dirs.src %>/js/custom-tooltip.js',
 					'<%= dirs.src %>/js/<%= cfg.filename %>.js'
 				],
                 dest: '<%= dirs.tmp %>/angular.<%= cfg.filename %>.js'
@@ -120,7 +123,7 @@ module.exports = function (grunt) {
         },
 
         karma: {
-			unit: {
+            unit: {
                 configFile: 'karma.conf.js'
             }
         },
@@ -129,7 +132,7 @@ module.exports = function (grunt) {
             demo: {
                 files: {
                     '<%= dirs.demo %>/css/gravity-bubbles.css': ['<%= dirs.src %>/css/gravity-bubbles.css'],
-					'<%= dirs.dest %>/css/gravity-bubbles.css': ['<%= dirs.src %>/css/gravity-bubbles.css']
+                    '<%= dirs.dest %>/css/gravity-bubbles.css': ['<%= dirs.src %>/css/gravity-bubbles.css']
                 }
             }
         },
@@ -185,7 +188,7 @@ module.exports = function (grunt) {
 		'umd:vanilla',
 		'usebanner',
 		'uglify',
-		//'clean:tmp',
+		'clean:tmp',
 		'readme', 'less'
 	]);
 
