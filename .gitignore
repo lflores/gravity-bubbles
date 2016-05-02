@@ -5,4 +5,4 @@ node_modules/**
 tmp/*
 
 #ejemplo de kcc
-examples/kcc/*
+examples/kcc/**
