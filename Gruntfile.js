@@ -40,7 +40,7 @@ module.exports = function (grunt) {
                     '<%= dirs.src %>/js/custom-tooltip.js',
 					'<%= dirs.src %>/js/<%= cfg.filename %>.js'
 				],
-                dest: '<%= dirs.tmp %>/jquery.<%= cfg.filename %>.js'
+                dest: '<%= dirs.tmp %>/js/query.<%= cfg.filename %>.js'
             },
             angular: {
                 src: [
@@ -48,7 +48,7 @@ module.exports = function (grunt) {
                     '<%= dirs.src %>/js/custom-tooltip.js',
 					'<%= dirs.src %>/js/<%= cfg.filename %>.js'
 				],
-                dest: '<%= dirs.tmp %>/angular.<%= cfg.filename %>.js'
+                dest: '<%= dirs.tmp %>/js/angular.<%= cfg.filename %>.js'
             }
         },
 
@@ -66,7 +66,7 @@ module.exports = function (grunt) {
             },
             files: {
                 src: [
-					'<%= dirs.dest %>/<%= cfg.filename %>.js'
+					'<%= dirs.dest %>/js/<%= cfg.filename %>.js'
 					//'<%= dirs.dest %>/jquery.<%= cfg.filename %>.js',
 					//'<%= dirs.dest %>/angular.<%= cfg.filename %>.js'
 				]
@@ -80,7 +80,7 @@ module.exports = function (grunt) {
                     preserveComments: 'some'
                 },
                 files: {
-                    'dist/<%= cfg.filename %>.min.js': ['dist/<%= cfg.filename %>.js']
+                    'dist/js/<%= cfg.filename %>.min.js': ['dist/js/<%= cfg.filename %>.js']
                         //'dist/jquery.<%= cfg.filename %>.min.js': ['dist/jquery.<%= cfg.filename %>.js'],
                         //'dist/angular.<%= cfg.filename %>.min.js': ['dist/angular.<%= cfg.filename %>.js']
                 }
@@ -140,13 +140,13 @@ module.exports = function (grunt) {
         umd: {
             vanilla: {
                 src: '<%= dirs.tmp %>/<%= cfg.filename %>.js',
-                dest: '<%= dirs.dest %>/<%= cfg.filename %>.js',
+                dest: '<%= dirs.dest %>/js/<%= cfg.filename %>.js',
                 objectToExport: '<%= cfg.vanillaExportName %>',
                 globalAlias: '<%= cfg.vanillaExportName %>'
             },
             jquery: {
                 src: '<%= dirs.tmp %>/jquery.<%= cfg.filename %>.js',
-                dest: '<%= dirs.dest %>/jquery.<%= cfg.filename %>.js',
+                dest: '<%= dirs.dest %>/js/jquery.<%= cfg.filename %>.js',
                 deps: {
                     'default': ['$'],
                     amd: ['jquery'],
@@ -156,7 +156,7 @@ module.exports = function (grunt) {
             },
             angular: {
                 src: '<%= dirs.tmp %>/angular.<%= cfg.filename %>.js',
-                dest: '<%= dirs.dest %>/angular.<%= cfg.filename %>.js',
+                dest: '<%= dirs.dest %>/js/angular.<%= cfg.filename %>.js',
                 deps: {
                     'default': ['angular'],
                     amd: ['angular'],
@@ -188,7 +188,7 @@ module.exports = function (grunt) {
 		'umd:vanilla',
 		'usebanner',
 		'uglify',
-		'clean:tmp',
+		//'clean:tmp',
 		'readme', 'less'
 	]);
 

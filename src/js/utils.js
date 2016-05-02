@@ -1,26 +1,48 @@
 /**
 jQuery extends replacemement
 */
-Object.prototype.extends = function (out) {
-    out = out || {};
+//Object.prototype.extends = function (out) {
+//    out = out || {};
+//
+//    for (var i = 0; i < arguments.length; i++) {
+//        var obj = arguments[i];
+//        if (!obj) {
+//            continue;
+//        }
+//
+//        for (var key in obj) {
+//            if (obj.hasOwnProperty(key)) {
+//                if (typeof obj[key] === 'object' && typeof this[key] != 'undefined')
+//                    this[key].extends(obj[key]);
+//                else
+//                    this[key] = obj[key];
+//            }
+//        }
+//    }
+//    return this;
+//};
 
-    for (var i = 0; i < arguments.length; i++) {
-        var obj = arguments[i];
-        if (!obj) {
-            continue;
+if (typeof String.replaceParams === 'undefined') {
+    /**
+    Retorna una string con los parametros reemplazados 
+    Por ej. {0} será reemplazado por el primer valor de los parámetros
+    */
+    String.prototype.replaceParams = function (params) {
+        if (typeof params === 'undefined') {
+            return this;
         }
-
-        for (var key in obj) {
-            if (obj.hasOwnProperty(key)) {
-                if (typeof obj[key] === 'object' && typeof this[key] != 'undefined')
-                    this[key].extends(obj[key]);
-                else
-                    this[key] = obj[key];
-            }
+        //Si el parametro es un string lo hago array
+        if (typeof params === 'string') {
+            params = [params];
         }
+        //Reviso todos 
+        var _ret = this.replace(/^\s+|\s+$/g, "");
+        for (var i = 0; i < params.length; i++) {
+            _ret = _ret.replace("\{" + i + "\}", params[i]).replace("\{" + i + "\}", params[i]);
+        }
+        return _ret;
     }
-    return this;
-};
+}
 
 /**
 Text cutter, using char sequence
