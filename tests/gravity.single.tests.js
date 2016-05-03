@@ -123,48 +123,69 @@ describe("GravityBubbles tests", function () {
             container: _cont,
             sizeById: "size",
             colorById: "perc",
-            groupById: "all",
+            groupById: "country",
             data: {
                 tooltip: {
                     template: "<b>{name}</b><br>Size: {size}<br>{perc}%"
+                },
+                label: {
+                    template: "{name}\nSize: {size}\n{perc}%",
+                    autofit: true
                 }
             }
         });
         chart.data([{
-                "name": "flare",
+                "name": "flare1",
                 "size": 2020200,
                 "perc": 100,
+                "category": "small",
+                "country": "AR - Argentina",
                 "children": []
 		},
             {
-                "name": "flare",
+                "name": "flare2",
                 "size": 20200,
                 "perc": 10,
+                "category": "medium",
+                "country": "BR - Brazil",
+                "children": []
+		},
+            {
+                "name": "flare3",
+                "size": 20020,
+                "perc": 10,
+                "category": "large",
+                "country": "UY - Uruguay",
                 "children": []
 		}
 		]);
+        //chart.groupById("category");
         expect(chart.container).toBeDefined();
         var svg = chart.container.select("svg");
         expect(svg).toBeDefined();;
         expect(svg.attr("class")).toBe("gravity-container");
         //Selected groups that ends with layer
-        var groups = svg.selectAll("g[id$=layer]");
-        expect(d3.select(groups[0][0]).attr("id")).toBe("groups_layer");
-        expect(d3.select(groups[0][1]).attr("id")).toBe("bubbles_layer");
-        expect(d3.select(groups[0][2]).attr("id")).toBe("legend_layer");
-        expect(d3.select(groups[0][3]).attr("id")).toBe("groups_title_layer");
+        var layers = svg.selectAll("g[id$=layer]");
+        expect(d3.select(layers[0][0]).attr("id")).toBe("groups_layer");
+        expect(d3.select(layers[0][1]).attr("id")).toBe("bubbles_layer");
+        expect(d3.select(layers[0][2]).attr("id")).toBe("legend_layer");
+        expect(d3.select(layers[0][3]).attr("id")).toBe("groups_title_layer");
 
         //check that rect class of group is group
-        var _rect = d3.select(groups[0][0]).select("rect");
+        var _rect = d3.select(layers[0][0]).select("rect");
         expect(d3.select(_rect[0][0]).classed("group")).toBe(true);
 
-        var circles = d3.select(groups[0][1]).selectAll("circle");
-        var circles_texts = d3.select(groups[0][1]).selectAll("text");
+        var circles = d3.select(layers[0][1]).selectAll("circle");
+        var circles_texts = d3.select(layers[0][1]).selectAll("text");
 
-        var legend_circles = d3.select(groups[0][2]).selectAll("circle");
-        var legend_texts = d3.select(groups[0][2]).selectAll("text");
+        var circles = d3.select(layers[0][1]).selectAll("circle");
+        var circles_texts = d3.select(layers[0][1]).selectAll("text");
+
+        var legend_circles = d3.select(layers[0][2]).selectAll("circle");
+        var legend_texts = d3.select(layers[0][2]).selectAll("text");
 
         //I don't know why jasmine catch an error of d3, when I try to inspect attr class
+        //Maybe is that svg nodes has not same attributes that DOM
         //According documentation attr must to return result from first node that matches
         //https://github.com/mbostock/d3/wiki/Selections#attr
         //TODO: Received error is:

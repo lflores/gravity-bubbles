@@ -595,13 +595,15 @@ GravityBubbles.prototype._draw_groups = function () {
 Metodo encargado de dibujar el texto que dependiendo de criterio de 
 agrupamiento, cambia
 */
-GravityBubbles.prototype._draw_group_text = function (d, _this) {
+GravityBubbles.prototype._draw_group_text = function (text, _this) {
+    text.text("");
     if (_this._config.groupById === 'all') {
-        this.text("");
         return;
     }
-    if (_this._config.groupById === 'color') {
-        this.text(function (d) {
+    //Si son colores o groupBy tienen la misma logica
+    text.each(function (d) {
+        var tspans = [];
+        if (_this._config.groupById === 'color') {
             var _range = _this._color_ranges.invertExtent(parseInt(d.key));
             var _ret = ["<"];
             if (_range[0]) {
@@ -610,32 +612,45 @@ GravityBubbles.prototype._draw_group_text = function (d, _this) {
             if (_range[1]) {
                 _ret.push(Math.round(_range[1]));
             }
-            return _ret.join(" ");
-        });
-        return;
-    }
-
-    if (
-        _this._config.data.group && _this._config.data.group.label && typeof _this._config.data.group.label === 'function') {
-        this.text(function (d) {
-            return _this._config.data.group.label.call(_this, d, _this);
-        });
-    }
+            _tspans = [_ret.join(" ")];
+        } else if (
+            _this._config.data.group && _this._config.data.group.label && typeof _this._config.data.group.label === 'function') {
+            var _text = _this._config.data.group.label.call(_this, d, _this);
+            _tspans = _text.splitMultiple().reverse();
+        }
+        var line = _tspans.pop();
+        var lineNumber = 0;
+        do {
+            var tspan = d3.select(this).append("tspan");
+            tspan
+                .attr("dy", ".8em")
+                .text(line);
+            lineNumber++;
+            line = _tspans.pop();
+        } while (line);
+        //Cuando tiene varias lineas, las alinea centradas
+        var _width = this.getBBox().width;
+        var nodes = Array.prototype.slice.call(this.childNodes, 0);
+        nodes
+            .forEach(function (node) {
+                var _span_width = node.getComputedTextLength();
+                d3.select(node).attr("x", d.cx - (_span_width / 2));
+            });
+    });
 };
 
-GravityBubbles.prototype._draw_group_position = function (d, _this) {
-    this
-        .attr("x", function (d) {
-            //No se si esta bueno hacerlo aca
-            if (_this._config.groupById != 'all' && _this._config.groupById != 'color' && this.getComputedTextLength() > d.dx) {
-                var _text = this.innerHTML.split("-");
-                this.innerHTML = _text[0];
-            }
-            //------------
-            return d.x + (d.dx / 2) - (this.getComputedTextLength() / 2);
-        }).attr("y", function (d) {
-            return d.y + 15;
-        });
+GravityBubbles.prototype._draw_group_position = function (text, _this) {
+    text.each(function (d) {
+        //copio el margen superior y un poco de "aire"
+        d3.select(this).attr("y", _this.margin.top + 2);
+        //Alineo cada tspan segun el centro
+        var nodes = Array.prototype.slice.call(this.childNodes, 0);
+        nodes
+            .forEach(function (node) {
+                var _span_width = node.getComputedTextLength();
+                d3.select(node).attr("x", d.cx - (_span_width / 2));
+            });
+    });
 };
 
 GravityBubbles.prototype._label_text = function (d, _this) {
@@ -657,26 +672,27 @@ GravityBubbles.prototype._draw_text = function (text, that) {
         var text = d3.select(this),
             //lines = _text.split(/\n+/).reverse(),
             lines = _text.splitMultiple().reverse(),
-            line = [],
+            line = lines.pop(),
             lineNumber = 0,
-            lineHeight = 1.1, // ems
+            lineHeight = 0.7, // ems
             x = text.attr("x"),
             y = text.attr("y"),
             dy = d.dy - 4,
             data = text.data(0);
 
-        while (line = lines.pop()) {
+        do {
             tspan = text
                 .append("tspan")
                 .attr("x", 0)
                 .attr("y", y)
-                .attr("dy", lineHeight + "em")
+                .attr("dy", "1em")
                 .classed("head", function (d) {
                     return lineNumber === 0;
                 })
                 .text(line);
             lineNumber++;
-        }
+            line = lines.pop();
+        } while (line);
         //Cuando tiene varias lineas, las alinea centradas
         var _width = this.getBBox().width;
         var nodes = Array.prototype.slice.call(this.childNodes, 0);

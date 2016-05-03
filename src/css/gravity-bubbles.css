@@ -66,7 +66,7 @@ Gravity Bubbles
 }
 
 .gravity-container text.label {
-    font-size: 0.8em;
+    font-size: 10pt;
     /*stroke: #1f1f1f;*/
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -75,6 +75,7 @@ Gravity Bubbles
 }
 
 .gravity-container text.label tspan {
+    font-size: 0.6em;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
@@ -82,8 +83,8 @@ Gravity Bubbles
 }
 
 .gravity-container text.label tspan.head {
-    stroke: #1f1f1f;
-    font-size: 1.1em;
+    /*    stroke: #1f1f1f;*/
+/*    font-size: 1.2em;*/
 }
 
 .gravity-tooltip {
