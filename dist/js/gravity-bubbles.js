@@ -861,9 +861,6 @@ GravityBubbles.prototype._draw_text = function (text, that) {
                 .attr("x", 0)
                 .attr("y", y)
                 .attr("dy", "1em")
-                //                .attr("dy", function (d) {
-                //                    return lineNumber === 0 ? "1.4em" : lineHeight + "em";
-                //                })
                 .classed("head", function (d) {
                     return lineNumber === 0;
                 })
