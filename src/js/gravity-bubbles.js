@@ -84,13 +84,15 @@ GravityBubbles.prototype.create = function () {
         this.container = d3.select("#" + this._config.id);
     }
     this.container.style("overflow", "hidden");
-    this._config.width = typeof this._config.width === 'undefined' ? this.container[0][0].clientWidth + this.margin.left + this.margin.right : this._config.width;
-    this._config.height = typeof this._config.height === 'undefined' ? this.container[0][0].clientHeight + this.margin.top + this.margin.bottom : this._config.height;
+    this._config.width = typeof this._config.width === 'undefined' ? this.container[0][0].clientWidth - this.margin.left - this.margin.right : this._config.width;
+    this._config.height = typeof this._config.height === 'undefined' ? this.container[0][0].clientHeight - this.margin.top - this.margin.bottom : this._config.height;
 
     this.svg = this.container.append("svg")
         .attr("class", "gravity-container")
-        .attr("width", this._config.width)
-        .attr("height", this._config.height);
+        .style("margin-top", this.margin.top)
+        .style("margin-left", this.margin.left)
+        .style("width", this._config.width)
+        .style("height", this._config.height);
 
     //En SVG es importante el orden de los objetos
     //El que se creo primero, sera tapado 
@@ -127,10 +129,11 @@ GravityBubbles.prototype.create = function () {
 GravityBubbles.prototype.config = function (config) {
     this._config = $.extend(true, this._config, config);
     this._update_colors();
-
     this.svg
-        .attr("width", this._config.width)
-        .attr("height", this._config.height);
+        .style("margin-left", this.margin.left)
+        .style("margin-top", this.margin.top)
+        .style("width", this._config.width - this.margin.left - this.margin.right)
+        .style("height", this._config.height - this.margin.top - this.margin.bottom);
 
     if (this.force) {
         this.force.size([this._config.width, this._config.height]);
@@ -363,13 +366,6 @@ GravityBubbles.prototype._calculate_groups = function () {
         })(this));
     }
 };
-
-/**
-Calcula el diametro que ocupara el conjunto de burbujas
-*/
-GravityBubbles.prototype._calculate_max_radius = function () {
-
-}
 
 /**
 Calcula el diametro que ocupara el conjunto de burbujas

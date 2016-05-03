@@ -47,7 +47,6 @@ var deepExtend = function (out) {
     return out;
 };
 
-
 if (typeof String.replaceParams === 'undefined') {
     /**
     Retorna una string con los parametros reemplazados 
@@ -67,7 +66,7 @@ if (typeof String.replaceParams === 'undefined') {
             _ret = _ret.replace("\{" + i + "\}", params[i]).replace("\{" + i + "\}", params[i]);
         }
         return _ret;
-    }
+    };
 }
 
 /**

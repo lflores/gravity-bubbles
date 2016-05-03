@@ -14,7 +14,7 @@ describe("GravityBubbles tests", function () {
         $child.css("height", 300);
         $child.css("width", 600);
         $child.css("border", "1px gray solid");
-		$child.css("border-radius", "5px");
+        $child.css("border-radius", "5px");
         $("body").append($child);
         return $child[0];
     }
@@ -62,5 +62,5 @@ describe("GravityBubbles tests", function () {
         expect(groups_title_layer.selectAll(".group_text")).toEqual(0);
     });
 
-    it("check classes", function () {});
+
 });
