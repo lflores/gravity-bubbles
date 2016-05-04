@@ -202,8 +202,11 @@ GravityBubbles = function (config) {
     this.firstTime = false;
     var _defaults = {
         sticky: false,
+        damper: 0.102,
+        gravity: -0.01,
         _height: 600,
         _width: 350,
+        transition: "medium",
         minRadius: 5,
         maxRadius: 20,
         debug: false,
@@ -281,9 +284,9 @@ GravityBubbles.prototype.create = function () {
         y: this._config.height / 2
     };
 
-    this.layout_gravity = -0.01;
+    //this.layout_gravity = -0.01;
 
-    this.damper = 0.1;
+    //this.damper = 0.102;
     this.nodes = [];
     this.force = null;
     this.circles = null;
@@ -605,7 +608,7 @@ GravityBubbles.prototype.data = function (data) {
         //.chargeDistance(280)
         .gravity((function (_this) {
             return function (d) {
-                return _this.layout_gravity;
+                return _this._config.gravity;
             };
         })(this))
         .charge((function (_this) {
@@ -650,8 +653,10 @@ GravityBubbles.prototype.move_towards_center = function (alpha) {
         return function (d) {
             var target = _this._get_target(d, _this);
             if (target) {
-                d.x = d.x + (target.cx - d.x) * (_this.damper + 0.02) * alpha * 1.1;
-                d.y = d.y + (target.cy - d.y) * (_this.damper + 0.02) * alpha * 1.1;
+                //d.x = d.x + (target.cx - d.x) * (_this.damper + 0.02) * alpha * 1.1;
+                d.x = d.x + (target.cx - d.x) * _this._config.damper * alpha * 1.1;
+                //d.y = d.y + (target.cy - d.y) * (_this.damper + 0.02) * alpha * 1.1;
+                d.y = d.y + (target.cy - d.y) * _this._config.damper * alpha * 1.1;
                 return d.y;
             }
             return 0;
@@ -884,7 +889,7 @@ GravityBubbles.prototype._draw_text = function (text, that) {
 GravityBubbles.prototype._label_position = function (text, that) {
     text
     //.transition()
-    //.duration(10)
+    //.duration(that._get_transition())
         .attr("transform", function (_this) {
             return function (d) {
                 var box = this.getBBox();
@@ -1035,7 +1040,8 @@ GravityBubbles.prototype._draw_legends = function () {
                     return 0;
                 }
                 //Tomo el ancho del mas grande
-                return _this._config.width - _this.radius_scale(_this.legend_scale[2]) - _this.margin.right;
+                //pongo el doble del margen porque agregue el margen al costado del canvas
+                return _this._config.width - _this.radius_scale(_this.legend_scale[2]) - _this.margin.right - _this.margin.left;
             };
         })(this))
         .attr("cy", (function (_this) {
@@ -1044,13 +1050,14 @@ GravityBubbles.prototype._draw_legends = function () {
                     return 0;
                 }
                 //Tomo el alto y le resto el radio para obtener el centro
-                return _this._config.height - _this.radius_scale(d) - _this.margin.bottom;
+                //agrego el doble del margen porque agregue el margen al costado del canvas
+                return _this._config.height - _this.radius_scale(d) - _this.margin.bottom - _this.margin.top;
             };
         })(this));
 
     this.legends
         .transition()
-        .duration(1000)
+        .duration(this._get_transition())
         .attr("r", (function (_this) {
             return function (d) {
                 if (!_this.legend_scale || _this.legend_scale.length === 0) {
@@ -1065,7 +1072,7 @@ GravityBubbles.prototype._draw_legends = function () {
                     return 0;
                 }
                 //Tomo el ancho del mas grande
-                return _this._config.width - _this.radius_scale(_this.legend_scale[2]) - _this.margin.right;
+                return _this._config.width - _this.radius_scale(_this.legend_scale[2]) - _this.margin.right - _this.margin.left;
             };
         })(this))
         .attr("cy", (function (_this) {
@@ -1074,7 +1081,7 @@ GravityBubbles.prototype._draw_legends = function () {
                     return 0;
                 }
                 //Tomo el alto y le resto el diametro para obtener el centro
-                return _this._config.height - _this.radius_scale(d) - _this.margin.bottom;
+                return _this._config.height - _this.radius_scale(d) - _this.margin.bottom - _this.margin.top;
             };
         })(this));
 
@@ -1110,6 +1117,7 @@ Calcula y ubica el texto de la leyenda
 GravityBubbles.prototype._legend_text_position = function (text, _this) {
     this
         .transition()
+        //.duration(_this._get_transition())
         .attr("x", function (d) {
             var _text_width = this.getComputedTextLength();
             return _this._config.width - _this.radius_scale(_this.legend_scale[2]) - (_text_width / 2) - _this.margin.right;
@@ -1194,7 +1202,7 @@ GravityBubbles.prototype._draw_circles = function () {
     this.circles = bubbles_layer.selectAll(".bubble").data(this.nodes);
     this.circles
         .transition()
-        .duration(500)
+        .duration(this._get_transition())
         .ease("ease-in-out")
         .attr("r", function (d) {
             return _this._radius_by(d);
@@ -1217,6 +1225,21 @@ GravityBubbles.prototype._draw_circles = function () {
     this.labels.exit().remove();
 
     this.bubbles.exit().remove();
+};
+
+GravityBubbles.prototype._get_transition = function () {
+    var _transition = 500;
+    switch (this._config.transition) {
+        case "slow":
+            _transition = 1000;
+            break;
+        case "quick":
+            _transition = 100;
+            break;
+        default:
+            _transition = 500;
+    }
+    return _transition;
 };
 
 GravityBubbles.prototype._get_target = function (d, _this) {

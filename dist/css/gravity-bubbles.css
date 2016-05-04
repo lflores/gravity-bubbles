@@ -55,7 +55,7 @@ Gravity Bubbles
   -ms-user-select: none;
 }
 .gravity-container text.label {
-  font-size: 8pt;
+  font-size: 10pt;
   /*stroke: #1f1f1f;*/
   -webkit-user-select: none;
   -khtml-user-select: none;

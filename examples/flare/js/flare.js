@@ -176,7 +176,7 @@ $(document).ready(function () {
             user(data);
             //console.log(_data);
             chart.data(data.children);
-            console.log(data.children);
+            //console.log(data.children);
             loaded_data = data;
             nodes.push(data);
             breadcrumb();
