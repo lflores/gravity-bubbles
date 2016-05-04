@@ -4,7 +4,7 @@
  *
  * @license 
  * @author triad <flores.leonardo@gmail.com> (http://github.com/lflores)
- * @version 1.0.1
+ * @version 1.0.2
  **/
 
 (function (root, factory) {
@@ -224,6 +224,9 @@ GravityBubbles = function (config) {
                 template: "<b>{name}</b>",
                 formatter: d3.format(",.2f")
             },
+            label: {
+                show: false
+            },
             group: {
                 label: function (d, _this) {
                     if (_this._config.groupById == 'all') {
@@ -262,15 +265,15 @@ GravityBubbles.prototype.create = function () {
         this.container = d3.select("#" + this._config.id);
     }
     this.container.style("overflow", "hidden");
-    this._config.width = typeof this._config.width === 'undefined' ? this.container[0][0].clientWidth - this.margin.left - this.margin.right : this._config.width;
-    this._config.height = typeof this._config.height === 'undefined' ? this.container[0][0].clientHeight - this.margin.top - this.margin.bottom : this._config.height;
+    this._config.width = typeof this._config.width === 'undefined' ? this.container[0][0].clientWidth : this._config.width;
+    this._config.height = typeof this._config.height === 'undefined' ? this.container[0][0].clientHeight : this._config.height;
 
     this.svg = this.container.append("svg")
         .attr("class", "gravity-container")
         .style("margin-top", this.margin.top)
         .style("margin-left", this.margin.left)
-        .style("width", this._config.width)
-        .style("height", this._config.height);
+        .style("width", this._config.width - this.margin.left - this.margin.right)
+        .style("height", this._config.height - this.margin.top - this.margin.bottom);
 
     //En SVG es importante el orden de los objetos
     //El que se creo primero, sera tapado 
@@ -727,10 +730,10 @@ GravityBubbles.prototype._draw_groups = function () {
             return d.y;
         })
         .attr("width", function (d) {
-            return d.dx;
+            return d.dx > 0 ? d.dx : 1;
         })
         .attr("height", function (d) {
-            return d.dy;
+            return d.dy > 0 ? d.dy : 1;
         });
 
     groups
@@ -747,10 +750,10 @@ GravityBubbles.prototype._draw_groups = function () {
             return d.y;
         })
         .attr("width", function (d) {
-            return d.dx;
+            return d.dx > 0 ? d.dx : 1;
         })
         .attr("height", function (d) {
-            return d.dy;
+            return d.dy > 0 ? d.dy : 1;
         });
 
     groups.exit().remove();
@@ -919,10 +922,10 @@ GravityBubbles.prototype._label_position = function (text, that) {
             return function (d) {
                 var box = this.getBBox();
                 var _radius = _this._radius_by(d);
-                if (box.width > 0 && box.height > 0 && box.width <= _radius) {
+                if (box.width > 0 && box.height > 0 && box.width <= _radius && _this._config.data.label.show) {
                     return "visible";
                 }
-                if (_this._config.data.label && _this._config.data.label.hasOwnProperty("autofit") && _this._config.data.label.autofit) {
+                if (_this._config.data.label && _this._config.data.label.hasOwnProperty("autofit") && _this._config.data.label.autofit && _this._config.data.label.show) {
                     return "visible";
                 }
                 return "hidden";
@@ -949,6 +952,7 @@ GravityBubbles.prototype._update_radius = function () {
     } else {
         this._config.maxRadius = width * 0.1;
     }
+    this._config.maxRadius = this._config.maxRadius < this._config.minRadius ? this._config.minRadius + 1 : this._config.maxRadius;
 
     this.radius_scale.range([this._config.minRadius, this._config.maxRadius]);
     this.radius_scale
