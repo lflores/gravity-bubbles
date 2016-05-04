@@ -2,7 +2,7 @@
 
 > This component, using d3js API, draw animated bubbles chart with gravity
 
-![Version](http://img.shields.io/version/1.0.1.png?color=green)
+![Version](http://img.shields.io/version/1.0.2.png?color=green)
 
 
 ## Features
