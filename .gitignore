@@ -3,3 +3,6 @@ node_modules/**
 
 #temporary files
 tmp/*
+
+#ejemplo de kcc
+examples/kcc/**

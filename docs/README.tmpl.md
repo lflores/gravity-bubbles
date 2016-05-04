@@ -22,6 +22,9 @@
 ## Plugin api
 {%= _.doc("plugin-api.md") %}
 
+## Testing (New)
+{%= _.doc("testing.md") %}
+
 ## Browser Support
 {%= _.doc("browser-support.md") %}
 

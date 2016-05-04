@@ -24,6 +24,156 @@
 }(this, function () {
 
 /**
+jQuery extends replacemement
+TODO: Resolve jQuery conflict
+*/
+//Object.prototype.extends = function (out) {
+//    out = out || {};
+//
+//    for (var i = 0; i < arguments.length; i++) {
+//        var obj = arguments[i];
+//        if (!obj) {
+//            continue;
+//        }
+//
+//        for (var key in obj) {
+//            if (obj.hasOwnProperty(key)) {
+//                if (typeof obj[key] === 'object' && typeof this[key] != 'undefined')
+//                    this[key].extends(obj[key]);
+//                else
+//                    this[key] = obj[key];
+//            }
+//        }
+//    }
+//    return this;
+//};
+
+/**
+jQuery extend replacement
+*/
+var deepExtend = function (out) {
+    out = out || {};
+
+    for (var i = 1; i < arguments.length; i++) {
+        var obj = arguments[i];
+        if (!obj) {
+            continue;
+        }
+
+        for (var key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                if (typeof obj[key] === 'object')
+                    out[key] = deepExtend(out[key], obj[key]);
+                else
+                    out[key] = obj[key];
+            }
+        }
+    }
+    return out;
+};
+
+if (typeof String.replaceParams === 'undefined') {
+    /**
+    Retorna una string con los parametros reemplazados 
+    Por ej. {0} será reemplazado por el primer valor de los parámetros
+    */
+    String.prototype.replaceParams = function (params) {
+        if (typeof params === 'undefined') {
+            return this;
+        }
+        //Si el parametro es un string lo hago array
+        if (typeof params === 'string') {
+            params = [params];
+        }
+        //Reviso todos 
+        var _ret = this.replace(/^\s+|\s+$/g, "");
+        for (var i = 0; i < params.length; i++) {
+            _ret = _ret.replace("\{" + i + "\}", params[i]).replace("\{" + i + "\}", params[i]);
+        }
+        return _ret;
+    };
+}
+
+/**
+Text cutter, using char sequence
+*/
+String.prototype.splitMultiple = function (chars) {
+    if (typeof chars === 'undefined') {
+        chars = "\n-";
+    }
+    var _chars = chars.split("");
+    var _lines = this.split(_chars[0]);
+    _chars.splice(0, 1);
+    if (_chars.length === 0) {
+        return _lines.map(function (elem) {
+            return elem.trim();
+        });
+    }
+    var _newlines = [];
+    for (var i = 0; i < _lines.length; i++) {
+        var _line = _lines[i].splitMultiple(_chars.join(""));
+        if (_line.length > 1) {
+            _newlines = _newlines.concat(_line);
+        } else {
+            _newlines.push(_line[0]);
+        }
+    }
+    return _newlines;
+};
+
+CustomTooltip = function (tooltipId, width) {
+    if ($("#" + tooltipId).length === 0) {
+        $("body").append("<div class=\"gravity-tooltip\" id=\"" + tooltipId + "\"></div>");
+    }
+
+    if (width) {
+        $("#" + tooltipId).css("width", width);
+    }
+
+    hideTooltip();
+
+    function showTooltip(content, event) {
+        var parsed = content.splitMultiple();
+        $("#" + tooltipId).html(parsed.join("<br>"));
+        $("#" + tooltipId).show();
+
+        updatePosition(event);
+    }
+
+    function hideTooltip() {
+        $("#" + tooltipId).hide();
+    }
+
+    function updatePosition(event) {
+        var ttid = "#" + tooltipId;
+        var xOffset = 20;
+        var yOffset = 10;
+
+        var ttw = $(ttid).width();
+        var tth = $(ttid).height();
+        var wscrY = $(window).scrollTop();
+        var wscrX = $(window).scrollLeft();
+        var curX = (document.all) ? event.clientX + wscrX : event.pageX;
+        var curY = (document.all) ? event.clientY + wscrY : event.pageY;
+        var ttleft = ((curX - wscrX + xOffset * 2 + ttw) > $(window).width()) ? curX - ttw - xOffset * 2 : curX + xOffset;
+        if (ttleft < wscrX + xOffset) {
+            ttleft = wscrX + xOffset;
+        }
+        var tttop = ((curY - wscrY + yOffset * 2 + tth) > $(window).height()) ? curY - tth - yOffset * 2 : curY + yOffset;
+        if (tttop < wscrY + yOffset) {
+            tttop = curY + yOffset;
+        }
+        $(ttid).css('top', tttop + 'px').css('left', ttleft + 'px');
+    }
+
+    return {
+        showTooltip: showTooltip,
+        hideTooltip: hideTooltip,
+        updatePosition: updatePosition
+    };
+};
+
+/**
 This component based on d3js API draw a chart with floating bubbles, with gravity
 <ul>
     <li>config is an object with properties to config chart
@@ -52,10 +202,13 @@ GravityBubbles = function (config) {
     this.firstTime = false;
     var _defaults = {
         sticky: false,
-        height: 600,
-        width: 350,
+        damper: 0.102,
+        gravity: -0.01,
+        _height: 600,
+        _width: 350,
+        transition: "medium",
         minRadius: 5,
-        maxRadius: 40,
+        maxRadius: 20,
         debug: false,
         //cuando calcula los grupos es la cantidad maxima de columnas
         lanes: 4,
@@ -68,7 +221,7 @@ GravityBubbles = function (config) {
         groupById: "all",
         data: {
             tooltip: {
-                template: "<b>{name} - {description}</b><br><b>GP %:</b>{gp_brl} <br><b>GTN %:</b> {gtn_brl}<br><b>NS:</b> {ns_brl}",
+                template: "<b>{name}</b>",
                 formatter: d3.format(",.2f")
             },
             group: {
@@ -103,14 +256,21 @@ GravityBubbles = function (config) {
 
 GravityBubbles.prototype.create = function () {
     var that = this;
-
-    this.container = d3.select("#" + this._config.id);
+    if (this._config.container) {
+        this.container = d3.select(this._config.container);
+    } else {
+        this.container = d3.select("#" + this._config.id);
+    }
     this.container.style("overflow", "hidden");
+    this._config.width = typeof this._config.width === 'undefined' ? this.container[0][0].clientWidth - this.margin.left - this.margin.right : this._config.width;
+    this._config.height = typeof this._config.height === 'undefined' ? this.container[0][0].clientHeight - this.margin.top - this.margin.bottom : this._config.height;
 
     this.svg = this.container.append("svg")
         .attr("class", "gravity-container")
-        .attr("width", this._config.width)
-        .attr("height", this._config.height);
+        .style("margin-top", this.margin.top)
+        .style("margin-left", this.margin.left)
+        .style("width", this._config.width)
+        .style("height", this._config.height);
 
     //En SVG es importante el orden de los objetos
     //El que se creo primero, sera tapado 
@@ -124,9 +284,9 @@ GravityBubbles.prototype.create = function () {
         y: this._config.height / 2
     };
 
-    this.layout_gravity = -0.01;
+    //this.layout_gravity = -0.01;
 
-    this.damper = 0.1;
+    //this.damper = 0.102;
     this.nodes = [];
     this.force = null;
     this.circles = null;
@@ -147,10 +307,11 @@ GravityBubbles.prototype.create = function () {
 GravityBubbles.prototype.config = function (config) {
     this._config = $.extend(true, this._config, config);
     this._update_colors();
-
     this.svg
-        .attr("width", this._config.width)
-        .attr("height", this._config.height);
+        .style("margin-left", this.margin.left)
+        .style("margin-top", this.margin.top)
+        .style("width", this._config.width - this.margin.left - this.margin.right)
+        .style("height", this._config.height - this.margin.top - this.margin.bottom);
 
     if (this.force) {
         this.force.size([this._config.width, this._config.height]);
@@ -366,8 +527,6 @@ GravityBubbles.prototype._calculate_groups = function () {
     var width = this._config.width * 0.9 / numCols;
     var height = this._config.height / Math.ceil(this._config.groups.length / numCols) - 2;
 
-    this._config.maxRadius = width - 3;
-    this.radius_scale.range([this._config.minRadius, this._config.maxRadius]);
 
 
     if (this._config.groups) {
@@ -426,9 +585,6 @@ GravityBubbles.prototype.data = function (data) {
         return Number(d[that._config.sizeById]);
     });
 
-    this.radius_scale
-        .domain([this.min_amount, this.max_amount])
-        .range([this._config.minRadius, this._config.maxRadius]);
 
     this.legend_scale = [
                 this.min_amount,
@@ -439,6 +595,10 @@ GravityBubbles.prototype.data = function (data) {
     this.create_nodes();
 
     this._calculate_groups();
+    //Despues de calcular los grupos
+    this.radius_scale
+        .domain([this.min_amount, this.max_amount])
+        .range([this._config.minRadius, this._config.maxRadius]);
 
     this.force = d3.layout.force()
         .nodes(this.nodes)
@@ -448,7 +608,7 @@ GravityBubbles.prototype.data = function (data) {
         //.chargeDistance(280)
         .gravity((function (_this) {
             return function (d) {
-                return _this.layout_gravity;
+                return _this._config.gravity;
             };
         })(this))
         .charge((function (_this) {
@@ -493,8 +653,10 @@ GravityBubbles.prototype.move_towards_center = function (alpha) {
         return function (d) {
             var target = _this._get_target(d, _this);
             if (target) {
-                d.x = d.x + (target.cx - d.x) * (_this.damper + 0.02) * alpha * 1.1;
-                d.y = d.y + (target.cy - d.y) * (_this.damper + 0.02) * alpha * 1.1;
+                //d.x = d.x + (target.cx - d.x) * (_this.damper + 0.02) * alpha * 1.1;
+                d.x = d.x + (target.cx - d.x) * _this._config.damper * alpha * 1.1;
+                //d.y = d.y + (target.cy - d.y) * (_this.damper + 0.02) * alpha * 1.1;
+                d.y = d.y + (target.cy - d.y) * _this._config.damper * alpha * 1.1;
                 return d.y;
             }
             return 0;
@@ -613,13 +775,15 @@ GravityBubbles.prototype._draw_groups = function () {
 Metodo encargado de dibujar el texto que dependiendo de criterio de 
 agrupamiento, cambia
 */
-GravityBubbles.prototype._draw_group_text = function (d, _this) {
+GravityBubbles.prototype._draw_group_text = function (text, _this) {
+    text.text("");
     if (_this._config.groupById === 'all') {
-        this.text("");
         return;
     }
-    if (_this._config.groupById === 'color') {
-        this.text(function (d) {
+    //Si son colores o groupBy tienen la misma logica
+    text.each(function (d) {
+        var tspans = [];
+        if (_this._config.groupById === 'color') {
             var _range = _this._color_ranges.invertExtent(parseInt(d.key));
             var _ret = ["<"];
             if (_range[0]) {
@@ -628,32 +792,45 @@ GravityBubbles.prototype._draw_group_text = function (d, _this) {
             if (_range[1]) {
                 _ret.push(Math.round(_range[1]));
             }
-            return _ret.join(" ");
-        });
-        return;
-    }
-
-    if (
-        _this._config.data.group && _this._config.data.group.label && typeof _this._config.data.group.label === 'function') {
-        this.text(function (d) {
-            return _this._config.data.group.label.call(_this, d, _this);
-        });
-    }
+            _tspans = [_ret.join(" ")];
+        } else if (
+            _this._config.data.group && _this._config.data.group.label && typeof _this._config.data.group.label === 'function') {
+            var _text = _this._config.data.group.label.call(_this, d, _this);
+            _tspans = _text.splitMultiple().reverse();
+        }
+        var line = _tspans.pop();
+        var lineNumber = 0;
+        do {
+            var tspan = d3.select(this).append("tspan");
+            tspan
+                .attr("dy", ".8em")
+                .text(line);
+            lineNumber++;
+            line = _tspans.pop();
+        } while (line);
+        //Cuando tiene varias lineas, las alinea centradas
+        var _width = this.getBBox().width;
+        var nodes = Array.prototype.slice.call(this.childNodes, 0);
+        nodes
+            .forEach(function (node) {
+                var _span_width = node.getComputedTextLength();
+                d3.select(node).attr("x", d.cx - (_span_width / 2));
+            });
+    });
 };
 
-GravityBubbles.prototype._draw_group_position = function (d, _this) {
-    this
-        .attr("x", function (d) {
-            //No se si esta bueno hacerlo aca
-            if (_this._config.groupById != 'all' && _this._config.groupById != 'color' && this.getComputedTextLength() > d.dx) {
-                var _text = this.innerHTML.split("-");
-                this.innerHTML = _text[0];
-            }
-            //------------
-            return d.x + (d.dx / 2) - (this.getComputedTextLength() / 2);
-        }).attr("y", function (d) {
-            return d.y + 15;
-        });
+GravityBubbles.prototype._draw_group_position = function (text, _this) {
+    text.each(function (d) {
+        //copio el margen superior y un poco de "aire"
+        d3.select(this).attr("y", _this.margin.top + 2);
+        //Alineo cada tspan segun el centro
+        var nodes = Array.prototype.slice.call(this.childNodes, 0);
+        nodes
+            .forEach(function (node) {
+                var _span_width = node.getComputedTextLength();
+                d3.select(node).attr("x", d.cx - (_span_width / 2));
+            });
+    });
 };
 
 GravityBubbles.prototype._label_text = function (d, _this) {
@@ -673,42 +850,29 @@ GravityBubbles.prototype._draw_text = function (text, that) {
             return;
         }
         var text = d3.select(this),
-            lines = _text.split(/\n+/).reverse(),
-            line = [],
+            //lines = _text.split(/\n+/).reverse(),
+            lines = _text.splitMultiple().reverse(),
+            line = lines.pop(),
             lineNumber = 0,
-            lineHeight = 1.1, // ems
+            lineHeight = 0.7, // ems
             x = text.attr("x"),
             y = text.attr("y"),
             dy = d.dy - 4,
             data = text.data(0);
 
-        while (line = lines.pop()) {
+        do {
             tspan = text
                 .append("tspan")
                 .attr("x", 0)
                 .attr("y", y)
-                .attr("dy", lineHeight + "em")
+                .attr("dy", "1em")
+                .classed("head", function (d) {
+                    return lineNumber === 0;
+                })
                 .text(line);
-
-            var loop = 0;
-            while (tspan.node().getComputedTextLength() > d.dx && loop++ < 5) {
-                var _textSpan = tspan.text();
-                _splited = _textSpan.split("-");
-                if (_splited.length === 1) {
-                    _splited = _text.split(" ");
-                }
-                //Agrego el primer resultado
-                tspan.text(_splited[0].trim());
-                if (_splited.length > 1) {
-                    tspan = text
-                        .append("tspan")
-                        .attr("x", 0)
-                        .attr("y", y)
-                        .attr("dy", lineHeight + "em")
-                        .text(_splited[1].trim());
-                }
-            }
-        }
+            lineNumber++;
+            line = lines.pop();
+        } while (line);
         //Cuando tiene varias lineas, las alinea centradas
         var _width = this.getBBox().width;
         var nodes = Array.prototype.slice.call(this.childNodes, 0);
@@ -725,7 +889,7 @@ GravityBubbles.prototype._draw_text = function (text, that) {
 GravityBubbles.prototype._label_position = function (text, that) {
     text
     //.transition()
-    //.duration(10)
+    //.duration(that._get_transition())
         .attr("transform", function (_this) {
             return function (d) {
                 var box = this.getBBox();
@@ -741,8 +905,12 @@ GravityBubbles.prototype._label_position = function (text, that) {
                     var _hyp = Math.sqrt(Math.pow(box.width, 2) + Math.pow(box.height, 2));
                     var _perc = Number(_radius / (_hyp / 2));
                     var _diff = Number((_hyp / 2) / _radius);
-
-                    return "translate(" + (cx - (box.width / 2 * _perc)) + "," + (cy - (box.height / 2 * _perc)) + "),scale(" + _perc + "," + _perc + ")";
+                    var tx = _hyp === 0 ? cx : cx - (box.width / 2 * _perc);
+                    var ty = _hyp === 0 ? cy : cy - (box.height / 2 * _perc);
+                    _perc = _hyp === 0 ? 1 : _perc;
+                    var _trans = "translate({0},{1}),scale({2},{2})";
+                    return _trans.replaceParams([tx, ty, _perc]);
+                    //return "translate(" + tx + "," + ty + "),scale(" + _perc + "," + _perc + ")";
                 }
                 return "translate(" + (cx - box.width / 2) + "," + (cy - box.height / 2) + ")";
             };
@@ -767,6 +935,22 @@ GravityBubbles.prototype._label_position = function (text, that) {
 Actualiza el rango de valores del radio de las burbujas
 */
 GravityBubbles.prototype._update_radius = function () {
+    //Si agrupo por color, hago barras verticales 
+    //entonces lanes es igual a la cantidad de thredsholds
+    var lanes = this._config.groupById === 'color' ? this._config.groups.length : this._config.lanes;
+
+    var numCols = this._config.groups.length > lanes ? lanes : this._config.groups.length;
+
+    var width = this._config.width * 0.9 / numCols;
+    if (this._config.groupById === "all") {
+        var _radio = this._data.length > 0 ? this._calculate_boundary(this._data) : 0.1;
+        var _max = _radio > 0 ? (this._config.height / 2) * this._config.maxRadius / _radio : 0.1;
+        this._config.maxRadius = _max * 0.9;
+    } else {
+        this._config.maxRadius = width * 0.1;
+    }
+
+    this.radius_scale.range([this._config.minRadius, this._config.maxRadius]);
     this.radius_scale
         .domain([this.min_amount, this.max_amount])
         .range([this._config.minRadius, this._config.maxRadius]);
@@ -778,13 +962,16 @@ Toma todas las actualizaciones y las refleja en el grafico
 GravityBubbles.prototype.refresh = function () {
     //Acciones de refresh
     var _that = this;
-    if (this._config.groupById === "all") {
-        var _radio = this._data.length > 0 ? this._calculate_boundary(this._data) : 0.1;
-        var _max = _radio > 0 ? (this._config.height / 2) * this._config.maxRadius / _radio : 0.1;
-        this._config.maxRadius = _max * 0.8;
-    } else {
-        this._config.maxRadius = 65;
-    }
+    //    if (this._config.groupById === "all") {
+    //        var _radio = this._data.length > 0 ? this._calculate_boundary(this._data) : 0.1;
+    //        var _max = _radio > 0 ? (this._config.height / 2) * this._config.maxRadius / _radio : 0.1;
+    //        this._config.maxRadius = _max * 0.8;
+    //    } else {
+    //        //this._config.maxRadius = 25;
+    //    }
+    this._config.width = typeof this._config.width === 'undefined' ? this.container[0][0].clientWidth : this._config.width;
+    this._config.height = typeof this._config.height === 'undefined' ? this.container[0][0].clientHeight : this._config.height;
+
     this._draw_groups();
     this._update_radius();
     this._draw_circles();
@@ -853,7 +1040,8 @@ GravityBubbles.prototype._draw_legends = function () {
                     return 0;
                 }
                 //Tomo el ancho del mas grande
-                return _this._config.width - _this.radius_scale(_this.legend_scale[2]) - _this.margin.right;
+                //pongo el doble del margen porque agregue el margen al costado del canvas
+                return _this._config.width - _this.radius_scale(_this.legend_scale[2]) - _this.margin.right - _this.margin.left;
             };
         })(this))
         .attr("cy", (function (_this) {
@@ -862,13 +1050,14 @@ GravityBubbles.prototype._draw_legends = function () {
                     return 0;
                 }
                 //Tomo el alto y le resto el radio para obtener el centro
-                return _this._config.height - _this.radius_scale(d) - _this.margin.bottom;
+                //agrego el doble del margen porque agregue el margen al costado del canvas
+                return _this._config.height - _this.radius_scale(d) - _this.margin.bottom - _this.margin.top;
             };
         })(this));
 
     this.legends
         .transition()
-        .duration(1000)
+        .duration(this._get_transition())
         .attr("r", (function (_this) {
             return function (d) {
                 if (!_this.legend_scale || _this.legend_scale.length === 0) {
@@ -883,7 +1072,7 @@ GravityBubbles.prototype._draw_legends = function () {
                     return 0;
                 }
                 //Tomo el ancho del mas grande
-                return _this._config.width - _this.radius_scale(_this.legend_scale[2]) - _this.margin.right;
+                return _this._config.width - _this.radius_scale(_this.legend_scale[2]) - _this.margin.right - _this.margin.left;
             };
         })(this))
         .attr("cy", (function (_this) {
@@ -892,7 +1081,7 @@ GravityBubbles.prototype._draw_legends = function () {
                     return 0;
                 }
                 //Tomo el alto y le resto el diametro para obtener el centro
-                return _this._config.height - _this.radius_scale(d) - _this.margin.bottom;
+                return _this._config.height - _this.radius_scale(d) - _this.margin.bottom - _this.margin.top;
             };
         })(this));
 
@@ -928,6 +1117,7 @@ Calcula y ubica el texto de la leyenda
 GravityBubbles.prototype._legend_text_position = function (text, _this) {
     this
         .transition()
+        //.duration(_this._get_transition())
         .attr("x", function (d) {
             var _text_width = this.getComputedTextLength();
             return _this._config.width - _this.radius_scale(_this.legend_scale[2]) - (_text_width / 2) - _this.margin.right;
@@ -1012,7 +1202,7 @@ GravityBubbles.prototype._draw_circles = function () {
     this.circles = bubbles_layer.selectAll(".bubble").data(this.nodes);
     this.circles
         .transition()
-        .duration(500)
+        .duration(this._get_transition())
         .ease("ease-in-out")
         .attr("r", function (d) {
             return _this._radius_by(d);
@@ -1035,6 +1225,21 @@ GravityBubbles.prototype._draw_circles = function () {
     this.labels.exit().remove();
 
     this.bubbles.exit().remove();
+};
+
+GravityBubbles.prototype._get_transition = function () {
+    var _transition = 500;
+    switch (this._config.transition) {
+        case "slow":
+            _transition = 1000;
+            break;
+        case "quick":
+            _transition = 100;
+            break;
+        default:
+            _transition = 500;
+    }
+    return _transition;
 };
 
 GravityBubbles.prototype._get_target = function (d, _this) {
@@ -1116,57 +1321,6 @@ GravityBubbles.prototype.resize = function () {
         this._calculate_groups();
         this.refresh();
     }
-};
-
-CustomTooltip = function (tooltipId, width) {
-    if ($("#" + tooltipId).length === 0) {
-        $("body").append("<div class='tooltip' id='" + tooltipId + "'></div>");
-    }
-
-    if (width) {
-        $("#" + tooltipId).css("width", width);
-    }
-
-    hideTooltip();
-
-    function showTooltip(content, event) {
-        $("#" + tooltipId).html(content);
-        $("#" + tooltipId).show();
-
-        updatePosition(event);
-    }
-
-    function hideTooltip() {
-        $("#" + tooltipId).hide();
-    }
-
-    function updatePosition(event) {
-        var ttid = "#" + tooltipId;
-        var xOffset = 20;
-        var yOffset = 10;
-
-        var ttw = $(ttid).width();
-        var tth = $(ttid).height();
-        var wscrY = $(window).scrollTop();
-        var wscrX = $(window).scrollLeft();
-        var curX = (document.all) ? event.clientX + wscrX : event.pageX;
-        var curY = (document.all) ? event.clientY + wscrY : event.pageY;
-        var ttleft = ((curX - wscrX + xOffset * 2 + ttw) > $(window).width()) ? curX - ttw - xOffset * 2 : curX + xOffset;
-        if (ttleft < wscrX + xOffset) {
-            ttleft = wscrX + xOffset;
-        }
-        var tttop = ((curY - wscrY + yOffset * 2 + tth) > $(window).height()) ? curY - tth - yOffset * 2 : curY + yOffset;
-        if (tttop < wscrY + yOffset) {
-            tttop = curY + yOffset;
-        }
-        $(ttid).css('top', tttop + 'px').css('left', ttleft + 'px');
-    }
-
-    return {
-        showTooltip: showTooltip,
-        hideTooltip: hideTooltip,
-        updatePosition: updatePosition
-    };
 };
 
 return GravityBubbles;
