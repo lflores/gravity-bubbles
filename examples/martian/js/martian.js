@@ -168,7 +168,7 @@ $(document).ready(function () {
         chart.data(data.children);
         loaded_data = data;
         console.log("data: ", data);
-        forceChannelNames(data);
+        //forceChannelNames(data);
         nodes.push(data);
         breadcrumb();
         updateViewports();
