@@ -650,7 +650,8 @@ GravityBubbles.prototype._draw_group_text = function (text, _this) {
 GravityBubbles.prototype._draw_group_position = function (text, _this) {
     text.each(function (d) {
         //copio el margen superior y un poco de "aire"
-        d3.select(this).attr("y", _this.margin.top + 2);
+        //d3.select(this).attr("y", _this.margin.top + 2);
+        d3.select(this).attr("y", d.y + 2);
         //Alineo cada tspan segun el centro
         var nodes = Array.prototype.slice.call(this.childNodes, 0);
         nodes
@@ -662,8 +663,13 @@ GravityBubbles.prototype._draw_group_position = function (text, _this) {
 };
 
 GravityBubbles.prototype._label_text = function (d, _this) {
-    if (_this._config.data && _this._config.data.label && _this._config.data.label.template) {
+    //Obtain label using an string template
+    if (_this._config.data && _this._config.data.label && _this._config.data.label.template && typeof _this._config.data.label.template === 'string') {
         return _this._data_replace(d, _this._config.data.label.template, _this._config.data.label.formatter);
+        //Template also can be a function, then firts gets 
+    } else if (_this._config.data && _this._config.data.label && _this._config.data.label.template && typeof _this._config.data.label.template === 'function') {
+        var _template = _this._config.data.label.template.call(_this, [d]);
+        return _this._data_replace(d, _template, _this._config.data.label.formatter);
     }
     return null;
 };
