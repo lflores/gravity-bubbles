@@ -34,6 +34,7 @@ GravityBubbles = function (config) {
         transition: "medium",
         minRadius: 5,
         maxRadius: 20,
+		zeroBased: false,
         debug: false,
         //cuando calcula los grupos es la cantidad maxima de columnas
         lanes: 4,
@@ -99,9 +100,9 @@ GravityBubbles.prototype.create = function () {
 
     //En SVG es importante el orden de los objetos
     //El que se creo primero, sera tapado 
+	this.svg.append("g").attr("id", "legend_layer");
     this.svg.append("g").attr("id", "groups_layer");
     this.svg.append("g").attr("id", "bubbles_layer");
-    this.svg.append("g").attr("id", "legend_layer");
     this.svg.append("g").attr("id", "groups_title_layer");
 
     this.center = {
@@ -124,6 +125,7 @@ GravityBubbles.prototype.create = function () {
         .domain(this._config.points)
         .range(this._config.colors);
 
+	//this.radius_scale = d3.scale.linear().range([this._config.minRadius, this._config.maxRadius]);
     this.radius_scale = d3.scale.pow()
         .exponent(0.5)
         .range([this._config.minRadius, this._config.maxRadius]);
@@ -260,6 +262,10 @@ GravityBubbles.prototype.sizeById = function (byId) {
     this.min_amount = d3.min(this._data, function (d) {
         return Number(d[that._config.sizeById]);
     });
+	if ((this._config.zeroBased == true) && (this.min_amount > 0))
+	{
+		this.min_amount = 0;
+	}
     this.max_amount = d3.max(this._data, function (d) {
         return Number(d[that._config.sizeById]);
     });
@@ -421,6 +427,18 @@ GravityBubbles.prototype.data = function (data) {
 
     this._calculate_groups();
     //Despues de calcular los grupos
+	
+	if (this.min_amount == this.max_amount)
+	{
+		this.min_amount -= 1;
+		this.max_amount += 1;
+	}
+	
+	if ((this._config.zeroBased == true) && (this.min_amount > 0))
+	{
+		this.min_amount = 0;
+	}
+	
     this.radius_scale
         .domain([this.min_amount, this.max_amount])
         .range([this._config.minRadius, this._config.maxRadius]);
@@ -775,6 +793,10 @@ GravityBubbles.prototype._update_radius = function () {
         this._config.maxRadius = width * 0.1;
     }
 
+	if ((this._config.zeroBased == true) && (this.min_amount > 0))
+	{
+		this.min_amount = 0;
+	}
     this.radius_scale.range([this._config.minRadius, this._config.maxRadius]);
     this.radius_scale
         .domain([this.min_amount, this.max_amount])
@@ -1129,7 +1151,8 @@ GravityBubbles.prototype._fill_color_by = function (d) {
 
 GravityBubbles.prototype._radius_by = function (d) {
     if (d.hasOwnProperty(this._config.sizeById) && !isNaN(d[this._config.sizeById])) {
-        return this.radius_scale(d[this._config.sizeById]);
+        var scl = this.radius_scale(d[this._config.sizeById]);
+		return scl;
     }
     return 0;
 };
