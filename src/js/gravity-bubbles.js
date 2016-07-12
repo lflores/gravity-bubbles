@@ -1150,7 +1150,8 @@ GravityBubbles.prototype._fill_color_by = function (d) {
 
 GravityBubbles.prototype._radius_by = function (d) {
     if (d.hasOwnProperty(this._config.sizeById) && !isNaN(d[this._config.sizeById])) {
-        return this.radius_scale(d[this._config.sizeById]);
+        var scl = this.radius_scale(d[this._config.sizeById]);
+		return scl;
     }
     return 0;
 };
