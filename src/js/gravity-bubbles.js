@@ -261,7 +261,7 @@ GravityBubbles.prototype.sizeById = function (byId) {
     this.min_amount = d3.min(this._data, function (d) {
         return Number(d[that._config.sizeById]);
     });
-	if ((this._config.zeroBased == true) && (this.min_amount > 0))
+	if ((this._config.zeroBased === true) && (this.min_amount > 0))
 	{
 		this.min_amount = 0;
 	}
@@ -433,7 +433,7 @@ GravityBubbles.prototype.data = function (data) {
 		this.max_amount += 1;
 	}
 	
-	if ((this._config.zeroBased == true) && (this.min_amount > 0))
+	if ((this._config.zeroBased === true) && (this.min_amount > 0))
 	{
 		this.min_amount = 0;
 	}
@@ -703,6 +703,7 @@ GravityBubbles.prototype._draw_text = function (text, that) {
             data = text.data(0);
 
         do {
+			/*jshint -W083 */
             tspan = text
                 .append("tspan")
                 .attr("x", 0)
@@ -760,7 +761,7 @@ GravityBubbles.prototype._label_position = function (text, that) {
         .attr("visibility", function (_this) {
             return function (d) {
                 var box = this.getBBox();
-                var _radius = _this._radius_by(d);
+                var _radius = _this._radius_by(d)*1.9;
                 if (box.width > 0 && box.height > 0 && box.width <= _radius) {
                     return "visible";
                 }
@@ -792,7 +793,7 @@ GravityBubbles.prototype._update_radius = function () {
         this._config.maxRadius = width * 0.1;
     }
 
-	if ((this._config.zeroBased == true) && (this.min_amount > 0))
+	if ((this._config.zeroBased === true) && (this.min_amount > 0))
 	{
 		this.min_amount = 0;
 	}

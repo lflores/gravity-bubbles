@@ -4,7 +4,7 @@
  *
  * @license 
  * @author triad <flores.leonardo@gmail.com> (http://github.com/lflores)
- * @version 1.0.1
+ * @version 1.0.2
  **/
 
 (function (root, factory) {
@@ -186,7 +186,6 @@ This component based on d3js API draw a chart with floating bubbles, with gravit
         <li>colorById: Id of property that will be used to render color. It must be in range of points</li> 
         <li>sizeById: Id of property that will be used to render size of bubbles</li>
         <li>groupById: Id of property that will be used to group bubbles."all" will draw a unique group with center in center of chart, "color" will group by range of colors, and another id must to be a property that can group data, such as, name, region, country, etc</li>
-        <
     </ul>
     </li>
 </ul>
@@ -209,6 +208,7 @@ GravityBubbles = function (config) {
         transition: "medium",
         minRadius: 5,
         maxRadius: 20,
+		zeroBased: false,
         debug: false,
         //cuando calcula los grupos es la cantidad maxima de columnas
         lanes: 4,
@@ -274,9 +274,9 @@ GravityBubbles.prototype.create = function () {
 
     //En SVG es importante el orden de los objetos
     //El que se creo primero, sera tapado 
+	this.svg.append("g").attr("id", "legend_layer");
     this.svg.append("g").attr("id", "groups_layer");
     this.svg.append("g").attr("id", "bubbles_layer");
-    this.svg.append("g").attr("id", "legend_layer");
     this.svg.append("g").attr("id", "groups_title_layer");
 
     this.center = {
@@ -299,6 +299,7 @@ GravityBubbles.prototype.create = function () {
         .domain(this._config.points)
         .range(this._config.colors);
 
+	//this.radius_scale = d3.scale.linear().range([this._config.minRadius, this._config.maxRadius]);
     this.radius_scale = d3.scale.pow()
         .exponent(0.5)
         .range([this._config.minRadius, this._config.maxRadius]);
@@ -435,6 +436,10 @@ GravityBubbles.prototype.sizeById = function (byId) {
     this.min_amount = d3.min(this._data, function (d) {
         return Number(d[that._config.sizeById]);
     });
+	if ((this._config.zeroBased === true) && (this.min_amount > 0))
+	{
+		this.min_amount = 0;
+	}
     this.max_amount = d3.max(this._data, function (d) {
         return Number(d[that._config.sizeById]);
     });
@@ -596,6 +601,18 @@ GravityBubbles.prototype.data = function (data) {
 
     this._calculate_groups();
     //Despues de calcular los grupos
+	
+	if (this.min_amount == this.max_amount)
+	{
+		this.min_amount -= 1;
+		this.max_amount += 1;
+	}
+	
+	if ((this._config.zeroBased === true) && (this.min_amount > 0))
+	{
+		this.min_amount = 0;
+	}
+	
     this.radius_scale
         .domain([this.min_amount, this.max_amount])
         .range([this._config.minRadius, this._config.maxRadius]);
@@ -861,6 +878,7 @@ GravityBubbles.prototype._draw_text = function (text, that) {
             data = text.data(0);
 
         do {
+			/*jshint -W083 */
             tspan = text
                 .append("tspan")
                 .attr("x", 0)
@@ -918,7 +936,7 @@ GravityBubbles.prototype._label_position = function (text, that) {
         .attr("visibility", function (_this) {
             return function (d) {
                 var box = this.getBBox();
-                var _radius = _this._radius_by(d);
+                var _radius = _this._radius_by(d)*1.9;
                 if (box.width > 0 && box.height > 0 && box.width <= _radius) {
                     return "visible";
                 }
@@ -950,6 +968,10 @@ GravityBubbles.prototype._update_radius = function () {
         this._config.maxRadius = width * 0.1;
     }
 
+	if ((this._config.zeroBased === true) && (this.min_amount > 0))
+	{
+		this.min_amount = 0;
+	}
     this.radius_scale.range([this._config.minRadius, this._config.maxRadius]);
     this.radius_scale
         .domain([this.min_amount, this.max_amount])
@@ -1304,7 +1326,8 @@ GravityBubbles.prototype._fill_color_by = function (d) {
 
 GravityBubbles.prototype._radius_by = function (d) {
     if (d.hasOwnProperty(this._config.sizeById) && !isNaN(d[this._config.sizeById])) {
-        return this.radius_scale(d[this._config.sizeById]);
+        var scl = this.radius_scale(d[this._config.sizeById]);
+		return scl;
     }
     return 0;
 };
