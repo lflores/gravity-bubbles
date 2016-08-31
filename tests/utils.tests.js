@@ -1,3 +1,4 @@
+/*
 function getContainer(id) {
     var $child = $("<div id=\"" + id + "\"></div>");
     $child.css("height", 300);
@@ -6,7 +7,7 @@ function getContainer(id) {
     $child.css("border-radius", "5px");
     $("body").append($child);
     return $child[0];
-}
+}*/
 
 
 describe('objects tests', function () {
@@ -36,7 +37,7 @@ describe('objects tests', function () {
                 }
             }
         };
-        var container = getContainer("lala")
+        var container = $("body").container("lala");
         var bubbles = new GravityBubbles({
             id: "lala"
         });
