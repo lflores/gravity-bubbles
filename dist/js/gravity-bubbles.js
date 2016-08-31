@@ -946,7 +946,7 @@ GravityBubbles.prototype._label_position = function (text, that) {
                 if (box.width > 0 && box.height > 0 && box.width <= _radius && _this._config.data.label.show) {
                     return "visible";
                 }
-                if (_this._config.data.label && _this._config.data.label.hasOwnProperty("autofit") && _this._config.data.label.autofit && _this._config.data.label.show) {
+                if (_this._config.data.label && _this._config.data.label.hasOwnProperty("autofit") && _this._config.data.label.autofit) {
                     return "visible";
                 }
                 return "hidden";
