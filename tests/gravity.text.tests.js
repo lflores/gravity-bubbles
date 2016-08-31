@@ -71,7 +71,7 @@ describe('text split', function () {
 		}, {
                 "id": "45425235254523",
                 "name": "SCHIAVONE JULIAN ERNESTO",
-                "size": 15100,
+                "size": 10100,
                 "perc": 10,
                 "children": []
 		}
