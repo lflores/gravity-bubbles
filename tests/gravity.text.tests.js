@@ -12,8 +12,7 @@ describe('text split', function () {
                 },
                 label: {
                     template: "{id} - {name} - Size: {size} - Perc: {perc}%",
-                    autofit: true,
-                    show: true
+                    autofit: true
                 }
             }
         });
