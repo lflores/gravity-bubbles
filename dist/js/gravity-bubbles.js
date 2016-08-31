@@ -225,6 +225,7 @@ GravityBubbles = function (config) {
                 formatter: d3.format(",.2f")
             },
             label: {
+                template: "",
                 show: true
             },
             group: {

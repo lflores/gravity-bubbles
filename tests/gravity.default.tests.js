@@ -53,5 +53,14 @@ describe("GravityBubbles default tests", function () {
         expect(groups_title_layer.selectAll(".group_text")).toEqual(0);
     });
 
-
+    it("check config values", function () {
+        var container = $("body").container();
+        var chart = new GravityBubbles({
+            container: container
+        });
+        expect(chart._config.label).not.toBeNull();
+        dump(JSON.stringify(chart._config.data.label.show));
+        expect(chart._config.data.label.show).not.toBeNull();
+        expect(chart._config.data.label.show);
+    })
 });

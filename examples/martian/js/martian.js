@@ -118,6 +118,7 @@ $(document).ready(function () {
             },
             label: {
                 template: "{name}\n{perc}%\n{channel}",
+                //show: false,
                 autofit: true
             },
             onclick: function (d, circle) {
