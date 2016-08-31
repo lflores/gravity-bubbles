@@ -25,6 +25,9 @@ describe("GravityBubbles single tests", function () {
             data: {
                 tooltip: {
                     template: "<b>{name}</b><br>Size: {size}<br>{perc}%"
+                },
+                label: {
+                    template: "{name}\nSize: {size}\n{perc}%"
                 }
             }
         });

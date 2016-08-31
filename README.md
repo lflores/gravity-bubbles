@@ -120,8 +120,9 @@ You can pass these options to the initialize function to set a custom look and f
         <td>It has three optional parameter, they are template,formatter and autofit.
         <ul>
         <li>template: It's an string that show label values using wildcards such as {name}, that try to lockup a property called name</li>
+        <li>show: Force to show label. Default value is true</li>
         <li>formatter: It's waiting a function to format numbers, 00.00 or 00. Tested with <a href="https://github.com/mbostock/d3/wiki/Formatting">d3js formatter</a></li>
-        <li>Autofit: This property make the label as scalable label, and if the bubble space is not enough, scale it, to do it visible. </li>
+        <li>autofit: This property make the label as scalable label, and if the bubble space is not enough, scale it, to do it visible. </li>
         </ul>
         </td>
     </tr>
