@@ -943,7 +943,7 @@ GravityBubbles.prototype._label_position = function (text, that) {
             return function (d) {
                 var box = this.getBBox();
                 var _radius = _this._radius_by(d);
-                if (box.width > 0 && box.height > 0 && box.width <= _radius && _this._config.data.label.show) {
+                if (box.width > 0 && box.height > 0 && box.width <= (_radius * 2) && _this._config.data.label.show) {
                     return "visible";
                 }
                 if (_this._config.data.label && _this._config.data.label.hasOwnProperty("autofit") && _this._config.data.label.autofit) {
