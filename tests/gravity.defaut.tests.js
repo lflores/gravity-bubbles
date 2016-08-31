@@ -3,21 +3,12 @@
 This tests build components with minimun parameters and checks
 that don't trows errors
 */
-describe("GravityBubbles tests", function () {
+describe("GravityBubbles default tests", function () {
     var chart;
     var voidSelectorEquality = function (selector, result) {
         return selector.length == result || selector[0].length === result ? true : false;
     }
 
-    function getContainer(id) {
-        var $child = $("<div id=\"" + id + "\"></div>");
-        $child.css("height", 300);
-        $child.css("width", 600);
-        $child.css("border", "1px gray solid");
-        $child.css("border-radius", "5px");
-        $("body").append($child);
-        return $child[0];
-    }
 
     beforeEach(function () {
         jasmine.addCustomEqualityTester(voidSelectorEquality);
@@ -26,7 +17,7 @@ describe("GravityBubbles tests", function () {
     afterEach(function () {});
 
     it("default values", function () {
-        var container = getContainer("default");
+        var container = $("body").container();
         var chart = new GravityBubbles({
             container: container
         });
@@ -36,7 +27,7 @@ describe("GravityBubbles tests", function () {
     });
 
     it("check builded layers", function () {
-        var container = getContainer("default1");
+        var container = $("body").container();
         var chart = new GravityBubbles({
             container: container
         });

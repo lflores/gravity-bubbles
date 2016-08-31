@@ -1,22 +1,11 @@
 /**
 This test check single questions of componente such as objects created.
 */
-describe("GravityBubbles tests", function () {
+describe("GravityBubbles single tests", function () {
     //var chart;
     var voidSelectorEquality = function (selector, result) {
         return selector.length === result || selector[0].length === result ? true : false;
     }
-
-    function getContainer(id) {
-        var $child = $("<div id=\"" + id + "\"></div>");
-        $child.css("height", 300);
-        $child.css("width", 600);
-        $child.css("border", "1px gray solid");
-        $child.css("border-radius", "5px");
-        $("body").append($child);
-        return $child[0];
-    }
-
 
     beforeEach(function () {
         jasmine.addCustomEqualityTester(voidSelectorEquality);
@@ -27,9 +16,8 @@ describe("GravityBubbles tests", function () {
     });
 
     it("flare node test", function () {
-        var container = getContainer("flare")
+        var container = $("body").container();
         var chart = new GravityBubbles({
-            id: "flare",
             container: container,
             sizeById: "size",
             colorById: "perc",
@@ -64,9 +52,9 @@ describe("GravityBubbles tests", function () {
     });
 
     it("check builded layers", function () {
-        var container = getContainer("flare1")
+        var container = $("body").container();
         chart = new GravityBubbles({
-            id: "flare1",
+            container: container,
             sizeById: "size",
             colorById: "perc",
             groupById: "all",
@@ -106,11 +94,11 @@ describe("GravityBubbles tests", function () {
         var bubbles_layer = svg.selectAll("#bubbles_layer");
         expect(bubbles_layer).toBeDefined();
         //it doesn't have bubbles
-        //expect(bubbles_layer.selectAll(".circles")).toEqual(0);
+        expect(bubbles_layer.selectAll(".circles")).toEqual(0);
 
         var legend_layer = svg.selectAll("#legend_layer");
         expect(legend_layer).toBeDefined();
-        //expect(legend_layer.selectAll(".legend-circle")).toEqual(0);
+        expect(legend_layer.selectAll(".legend-circle")).toEqual(3);
 
         var groups_title_layer = svg.selectAll("#groups_title_layer");
         expect(groups_title_layer).toBeDefined();
@@ -118,7 +106,7 @@ describe("GravityBubbles tests", function () {
     });
 
     it("check used classes", function () {
-        var _cont = getContainer("check-classes");
+        var _cont = $("body").container();
         chart = new GravityBubbles({
             container: _cont,
             sizeById: "size",
@@ -166,13 +154,13 @@ describe("GravityBubbles tests", function () {
         expect(svg.attr("class")).toBe("gravity-container");
         //Selected groups that ends with layer
         var layers = svg.selectAll("g[id$=layer]");
-        expect(d3.select(layers[0][0]).attr("id")).toBe("groups_layer");
-        expect(d3.select(layers[0][1]).attr("id")).toBe("bubbles_layer");
-        expect(d3.select(layers[0][2]).attr("id")).toBe("legend_layer");
+        expect(d3.select(layers[0][0]).attr("id")).toBe("legend_layer");
+        expect(d3.select(layers[0][1]).attr("id")).toBe("groups_layer");
+        expect(d3.select(layers[0][2]).attr("id")).toBe("bubbles_layer");
         expect(d3.select(layers[0][3]).attr("id")).toBe("groups_title_layer");
 
         //check that rect class of group is group
-        var _rect = d3.select(layers[0][0]).select("rect");
+        var _rect = d3.select(layers[0][1]).select("rect");
         expect(d3.select(_rect[0][0]).classed("group")).toBe(true);
 
         var circles = d3.select(layers[0][1]).selectAll("circle");

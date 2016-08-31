@@ -1,18 +1,8 @@
 "use strict";
 
-function getContainer(id) {
-    var $child = $("<div id=\"" + id + "\"></div>");
-    $child.css("height", 300);
-    $child.css("width", 600);
-    $child.css("border", "1px gray solid");
-    $child.css("border-radius", "5px");
-    $("body").append($child);
-    return $child[0];
-}
-
 describe('text split', function () {
     it('should be loaded', function () {
-        var cont = getContainer("gb");
+        var cont = $("body").container();
         var chart = new GravityBubbles({
             container: cont,
             data: {
@@ -22,7 +12,7 @@ describe('text split', function () {
                 },
                 label: {
                     template: "{id} - {name} - Size: {size} - Perc: {perc}%",
-                    autofit: false
+                    autofit: true
                 }
             }
         });

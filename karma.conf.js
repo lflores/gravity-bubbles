@@ -22,6 +22,7 @@ module.exports = function (config) {
             './src/js/gravity-bubbles.js',
 			'./tests/libs/*.js',
 			'./tests/*.tests.js',
+            //'./tests/gravity.text.tests.js'
 
         ],
 
