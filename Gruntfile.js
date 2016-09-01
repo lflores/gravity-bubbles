@@ -132,7 +132,7 @@ module.exports = function (grunt) {
             demo: {
                 files: {
                     '<%= dirs.demo %>/css/gravity-bubbles.css': ['<%= dirs.src %>/css/gravity-bubbles.css'],
-                    '<%= dirs.dest %>/css/gravity-bubbles.css': ['<%= dirs.src %>/css/gravity-bubbles.css']
+                    '<%= dirs.dest %>/css/gravity-bubbles.css': ['<%= dirs.src %>/css/gravity-bubbles.css'],
                 }
             }
         },
@@ -173,12 +173,21 @@ module.exports = function (grunt) {
             'meteor-publish': {
                 command: 'meteor publish'
             }
-        }
+        },
+        copy: {
+            main: {
+                expand: true,
+                cwd: '<%= dirs.dest %>/js/',
+                src: '<%= cfg.filename %>.min.js',
+                dest: '<%= dirs.demo %>/js/',
+            },
+        },
     });
 
     // load all installed grunt tasks
     require('load-grunt-tasks')(grunt);
     grunt.loadNpmTasks('grunt-exec');
+    grunt.loadNpmTasks('grunt-contrib-copy');
 
     // task definitions
     grunt.registerTask('default', [
@@ -189,7 +198,7 @@ module.exports = function (grunt) {
 		'usebanner',
 		'uglify',
 		//'clean:tmp',
-		'readme', 'less'
+		'readme', 'less', 'copy'
 	]);
 
     grunt.registerTask('test', ['karma:unit']);
