@@ -6,9 +6,8 @@ that don't trows errors
 describe("GravityBubbles default tests", function () {
     var chart;
     var voidSelectorEquality = function (selector, result) {
-        return selector.length == result || selector[0].length === result ? true : false;
-    }
-
+        return selector.length === result || selector[0].length === result ? true : false;
+    };
 
     beforeEach(function () {
         jasmine.addCustomEqualityTester(voidSelectorEquality);
