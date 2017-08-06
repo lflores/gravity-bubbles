@@ -31,11 +31,11 @@ Also the component include 3 views:
 
 
 ## Examples
-####Default:
+#### Default:
 ![Gravity Bubbles ungruped](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-default.png)
-####Grouping by color:
+#### Grouping by color:
 ![Gravity Bubbles Color groups](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-group-color.png)
-####Grouping by category:
+#### Grouping by category:
 ![Gravity Bubbles Category groups](http://rawgit.com/lflores/gravity-bubbles/master/src/images/gravity-bubbles-group-category.png)
 
 #### [Flare Example](http://lflores.github.com/flare/)
