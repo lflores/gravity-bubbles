@@ -6,3 +6,5 @@ tmp/*
 
 #ejemplo de kcc
 examples/kcc/**
+
+/.idea/**
