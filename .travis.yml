@@ -4,4 +4,4 @@ node_js:
 #before_install: npm install -g grunt-cli
 install: npm install
 #before_script: grunt
-script: npm test
+script: npm install
