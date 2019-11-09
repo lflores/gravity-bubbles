@@ -2,7 +2,7 @@
 
 // Karma configuration
 // Generated on Sat Dec 16 2017 16:32:55 GMT+0600 (Bangladesh Standard Time)
-module.exports = function(config) {
+module.exports = function (config) {
     config.set({
 
         // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -11,30 +11,28 @@ module.exports = function(config) {
 
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-        frameworks: ['jasmine','browserify'],
-
+        frameworks: ['jasmine', 'browserify'],
 
 
         // list of files / patterns to load in the browser
         files: [
+            'src/js/utils.js',
             // 'test/**/*.js',
-
-            'test/**/*.[sS]pec.js',
-            // 'dist/*.js',
+            'tests/libs/*.*',
+            'tests/**/*.[sS]pec.js',
+            'dist/js/*.js',
         ],
 
 
         // list of files to exclude
-        exclude: [
-
-        ],
+        exclude: [],
 
 
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
             'dist/*.js': ['coverage'],
-            'test/**/*.[sS]pec.js': ['browserify'],
+            'tests/**/*.[sS]pec.js': ['browserify'],
         },
         // test results reporter to use
         // possible values: 'dots', 'progress'
@@ -62,8 +60,13 @@ module.exports = function(config) {
         // start these browsers
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
         browsers: ['Chrome'],
-
-
+        customLaunchers: {
+            // tell TravisCI to use chromium when testing
+            Chrome_travis_ci: {
+                base: 'Chrome',
+                flags: ['--no-sandbox']
+            }
+        },
         // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits
         singleRun: false,
@@ -74,9 +77,22 @@ module.exports = function(config) {
         coverageReporter: {
             dir: './coverage',
             reporters: [
-                { type: 'lcov', subdir: '.' },
-                { type: 'text-summary' }
+                {type: 'lcov', subdir: '.'},
+                {type: 'text-summary'}
             ]
-        }
-    })
+        },
+        coverageIstanbulReporter: {
+            reports: [ 'html', 'lcovonly', 'text-summary', 'cobertura' ],
+            fixWebpackSourcePaths: true,
+            thresholds: {
+                statements: 100,
+                lines: 100,
+                branches: 100,
+                functions: 100
+            }
+        },
+    });
+    if (process.env.TRAVIS) {
+        configuration.browsers = ['Chrome_travis_ci'];
+    }
 }

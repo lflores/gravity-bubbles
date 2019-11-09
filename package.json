@@ -29,7 +29,8 @@
     }
   ],
   "scripts": {
-    "unit": "karma start karma.conf.js ",
+    "single": "karma start karma.conf.js --single-run",
+    "unit": "karma start karma.conf.js",
     "test": "npm run unit"
   },
   "repository": {
