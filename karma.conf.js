@@ -3,12 +3,9 @@
 // Karma configuration
 // Generated on Sat Dec 16 2017 16:32:55 GMT+0600 (Bangladesh Standard Time)
 module.exports = function (config) {
-    config.set({
-
+    let configuration = {
         // base path that will be used to resolve all patterns (eg. files, exclude)
         basePath: '',
-
-
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
         frameworks: ['jasmine', 'browserify'],
@@ -91,7 +88,9 @@ module.exports = function (config) {
                 functions: 100
             }
         },
-    });
+    };
+    config.set(configuration);
+
     if (process.env.TRAVIS) {
         configuration.browsers = ['Chrome_travis_ci'];
     }
