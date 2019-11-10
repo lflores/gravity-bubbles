@@ -61,13 +61,17 @@ module.exports = function (config) {
         customLaunchers: {
             // tell TravisCI to use chromium when testing
             Chrome_travis_ci: {
-                base: 'Chrome',
-                flags: ['--no-sandbox']
+                base: "Chrome",
+                flags: [
+                    "--headless",
+                    "--disable-gpu",
+                    "--remote-debugging-port-9222"
+                ]
             }
         },
         // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits
-        singleRun: false,
+        singleRun: true,
 
         // Concurrency level
         // how many browser should be started simultaneous
