@@ -1,6 +1,8 @@
 language: node_js
 node_js:
   - "8"
+addons:
+  chrome: stable
 #before_install:
 #  # https://stackoverflow.com/questions/57895013/how-to-run-karma-with-chrome-on-travisci-ubuntu-16-04-xenial
 #  - export CHROME_BIN=/usr/bin/google-chrome
