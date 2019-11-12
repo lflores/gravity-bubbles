@@ -31,7 +31,7 @@
   "scripts": {
     "single": "karma start --single-run --browsers PhantomJS",
     "unit": "karma start karma.conf.js",
-    "test": "npm run unit"
+    "test": "npm run single"
   },
   "repository": {
     "type": "git",
