@@ -29,7 +29,7 @@
     }
   ],
   "scripts": {
-    "single": "karma start karma.conf.js --single-run",
+    "single": "karma start --single-run --browsers PhantomJS",
     "unit": "karma start karma.conf.js",
     "test": "npm run unit"
   },
