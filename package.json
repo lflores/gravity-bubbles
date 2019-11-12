@@ -37,7 +37,9 @@
     "type": "git",
     "url": "https://github.com/lflores/gravity-bubbles.git"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "karma": "~0.12"
+  },
   "dependencies": {
     "browserify": "^16.5.0",
     "jasmine-core": "^3.5.0",
